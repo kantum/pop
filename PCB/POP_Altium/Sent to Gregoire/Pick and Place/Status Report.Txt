@@ -1,0 +1,14 @@
+Project Outputs Generation Report
+---------------------------------
+Start Output Generation At 10:37:52 PM On 6/27/2018
+
+Output: Generates pick and place files
+Type  : Pick Place
+From  : Variant [[No Variations]] of PCB Document [ultratron_PCB.PcbDoc]
+   Generated File[Pick_and_Place.csv]
+
+
+Files Generated   : 1
+Documents Printed : 0
+
+Finished Output Generation At 10:37:53 PM On 6/27/2018
