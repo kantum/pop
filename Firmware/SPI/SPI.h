@@ -1,43 +1,41 @@
 /* 
- * File:   FAT32.h
- * Author: bocal
+ * File:   SPI.h
+ * Author: nburcion@student.42.fr
  *
- * Created on April 26, 2018, 8:40 AM
+ * Created on April 2018
  */
 
-#ifndef FAT32_H
-#define	FAT32_H
+#ifndef SPI_H
+#define	SPI_H
 
-bool FAT32_mount(void);
-bool FAT32_mounted(void);
-
-
-typedef struct  file_s {
-   unsigned int cluster;
-   unsigned int size;
-   byte         attributes;
-   unsigned int cursor;
-   unsigned int cursor_sector;
-}               file_t;
+#include "types.h"
 
 
-file_t			FAT32_ROOT_DIRECTORY;
+#define SPI_BUFF_SIZE	550		// SPI TX and RX buffer size
+
+#define SPI_NONE    0x0         // Modes to use in the function SPI_select_slave
+#define SPI_SD      0x1
+
+#define SPI_SS_TRIS_SD   TRISFbits.TRISF1   // The 'TRIS' bit of the SD
+#define SPI_SS_LAT_SD    LATFbits.LATF1     // The 'LAT' bit of the SD
 
 
-
-bool            FAT32_mount(void);
-bool			FAT32_fopen(file_t directory_cluster, char *filename, file_t *file);
-bool            FAT32_fgetc(file_t *file, char *c);
-unsigned int    FAT32_fsize(file_t *file);
-bool			FAT32_fseek(file_t *file, unsigned int position);
-unsigned int    FAT32_fpos(file_t *file);
-bool			FAT32_filename_matches(file_t directory_cluster, char *filename);
-bool            FAT32_mounted(void);
-unsigned int	FAT32_cluster_to_sector(unsigned int cluster);
-unsigned int	FAT32_cread_byte(unsigned int cluster, unsigned int relative_address, char *b);
-unsigned int	FAT32_cread_bytes(unsigned int cluster, unsigned int start_rel_address, size_t bytes, char *b);
-void			FAT32_setup_file(file_t directory, file_t *file);
+void    SPI_init(void);
+void	SPI_slave_select(byte slave);
+bool	SPI_started(void);
+bool	SPI_get_byte(byte *b);
+bool	SPI_queue_byte(byte b, bool discard);
+bool	SPI_queue(byte b);
+void	SPI_send(void);
+bool	SPI_read(size_t bytes, byte dummy);
 
 
-#endif	/* FAT32_H */
+// [INTERNAL]
+bool	SPI_sending(void);
+bool	SPI_available(void);
+size_t  SPI_misaligned_bits(byte b, bool sleeping_bit);
+byte    SPI_align_bits(size_t displacement, byte b1, byte b2);
+bool	SPI_get_response(size_t response_size, size_t wait_bytes, byte dummy, bool sleeping_bit, byte *response);
+
+#endif	/* SPI_H */
 
