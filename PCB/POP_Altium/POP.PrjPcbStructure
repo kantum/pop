@@ -1,0 +1,6 @@
+Record=TopLevelDocument|FileName=Root.SchDoc
+Record=SheetSymbol|SourceDocument=Root.SchDoc|Designator= |SchDesignator= |FileName=Screen.SchDoc|SymbolType=Normal|RawFileName=Screen.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=SheetSymbol|SourceDocument=Root.SchDoc|Designator= |SchDesignator= |FileName=POWER.SchDoc|SymbolType=Normal|RawFileName=POWER.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=SheetSymbol|SourceDocument=Root.SchDoc|Designator= |SchDesignator= |FileName=PIC.SchDoc|SymbolType=Normal|RawFileName=PIC.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=SheetSymbol|SourceDocument=Root.SchDoc|Designator= |SchDesignator= |FileName=MISC.SchDoc|SymbolType=Normal|RawFileName=MISC.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 
+Record=SheetSymbol|SourceDocument=Root.SchDoc|Designator= |SchDesignator= |FileName=ESP8862.SchDoc|SymbolType=Normal|RawFileName=ESP8862.SchDoc|DesignItemId= |SourceLibraryName= |ObjectKind=Sheet Symbol|RevisionGUID= |ItemGUID= |VaultGUID= 

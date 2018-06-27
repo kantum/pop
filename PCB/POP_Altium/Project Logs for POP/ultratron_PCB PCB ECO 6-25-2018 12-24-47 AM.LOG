@@ -1,0 +1,51 @@
+Change Component Footprint: Designator=L2 Old Footprint=CAPC2012X135N New Footprint=ME3220 Inductor
+Change Component Footprint: Designator=L1 Old Footprint=sdr1005 New Footprint=SD43 Inductor
+Change Component Comment : Designator=L1 Old Comment=22uH New Comment=18uH
+Change Component Designator: OldDesignator=C12 NewDesignator=C13
+Change Component Designator: OldDesignator=C13 NewDesignator=C14
+Change Component Designator: OldDesignator=C14 NewDesignator=C12
+Change Component Designator: OldDesignator=R20 NewDesignator=R21
+Change Component Designator: OldDesignator=R21 NewDesignator=R22
+Change Component Designator: OldDesignator=R22 NewDesignator=R23
+Change Component Designator: OldDesignator=R23 NewDesignator=R24
+Change Component Designator: OldDesignator=R24 NewDesignator=R25
+Change Component Designator: OldDesignator=R25 NewDesignator=R26
+Change Component Designator: OldDesignator=R26 NewDesignator=R27
+Change Component Designator: OldDesignator=R27 NewDesignator=R28
+Change Component Designator: OldDesignator=R28 NewDesignator=R29
+Change Component Designator: OldDesignator=R29 NewDesignator=R30
+Change Component Designator: OldDesignator=R30 NewDesignator=R31
+Change Component Designator: OldDesignator=R31 NewDesignator=R32
+Change component parameters: Designator = "L1"; Footprint = "SD43 Inductor"; UniqueID = "\GYFSXREA\CENPAQDM"
+Change component parameters. Clean all parameters for all variants
+Change component parameters (AddParameter): Name = "Fabricant"; Value = "COILCRAFT"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Fabricant_REF"; Value = "SD43-183MLB"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Fournisseur"; Value = "Farnell"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Fournisseur_REF"; Value = "2526954"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Precision"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "0.921"; VariantName = "[No Variations]"
+Change component parameters: Designator = "L2"; Footprint = "ME3220 Inductor"; UniqueID = "\GYFSXREA\YFXVAGBI"
+Change component parameters. Clean all parameters for all variants
+Change component parameters (AddParameter): Name = "Fabricant"; Value = "COILCRAFT"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Fabricant_REF"; Value = "ME3220-223KLB"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Fournisseur"; Value = "Farnell"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Fournisseur_REF"; Value = "2287928"; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Precision"; Value = ""; VariantName = "[No Variations]"
+Change component parameters (AddParameter): Name = "Price"; Value = "0.661"; VariantName = "[No Variations]"
+Added Component: Designator=R20(RESC1608X55N)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageDescription"; Value = "Axial Device, Thru-Hole; 2 Leads; 0.3 in Pin Spacing"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PackageReference"; Value = "AXIAL-0.3"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Published"; Value = "8-Jun-2000"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "1K"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=R20-1
+Change Net Name : Old Net Name=NetR20_1 New Net Name=NetR21_1
+Change Net Name : Old Net Name=NetR21_1 New Net Name=NetR22_1
+Change Net Name : Old Net Name=NetR25_1 New Net Name=NetR26_1
+Change Net Name : Old Net Name=NetR26_1 New Net Name=NetR27_1
+Added Pin To Net: NetName=NetR20_2 Pin=R20-2
+Added Pin To Net: NetName=NetR20_2 Pin=U5-16
+Added Net: Name=NetR20_2
