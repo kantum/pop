@@ -1,3 +1,0 @@
-# Delivery folder
-
-## Deliverable Folders

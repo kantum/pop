@@ -1,3 +1,0 @@
-# Docs folder
-
-## Block Diagram

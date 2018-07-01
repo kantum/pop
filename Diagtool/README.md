@@ -1,3 +1,0 @@
-# Diagtool folder
-
-## Test tools
