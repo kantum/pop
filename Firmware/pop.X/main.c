@@ -51,7 +51,7 @@ void wheel_event(byte event) {
 
 void	init(void)
 {
-	//delay_init();
+	delay_init();
 	shiftreg_init();
 	shiftreg_set(PIN_PHOTODIODE, LOW);
 	//led_init();
@@ -129,9 +129,25 @@ void	main(void) {
 	num2 = convert_arr_to_long(rsp);
 	
 	
+	struct listItem nw;
+	
+	nw.flag = 0xFF;
+	nw.id = 0xACABAD00;
+	nw.name[0] = 'N';
+	nw.name[1] = 'e';
+	nw.name[2] = 'w';
+	nw.name[3] = 'l';
+	nw.name[4] = 'o';
+	nw.name[5] = 'w';
+	nw.name[6] = 0x00;
+	nw.flag = 0x88;
+	list_set_item(1, nw);
+	list_clear();
+	nw.flag = 0xFF;
+	list_add_item(nw);
 	
 	struct listItem rndm;
-	list_get_item(0, &rndm);
+	list_get_item(1, &rndm);
 	
 	while(1)
 		WDTCONbits.WDTCLR = 1;	// Clear the watchdog

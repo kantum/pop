@@ -51,7 +51,7 @@
 #define ACMD51  51  // SEND_SCR
 
 
-#define GRACE_BYTES 42  // The extra "grace" bytes that are given for SD commands and operations (This is because now our clock goes so fast we have to give the SD a nice extra time to prepare)
+#define GRACE_BYTES 75  // The extra "grace" bytes that are given for SD commands and operations (This is because now our clock goes so fast we have to give the SD a nice extra time to prepare)
 
 
 bool	SD_init(void);

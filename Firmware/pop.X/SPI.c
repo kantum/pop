@@ -91,7 +91,7 @@ bool	SPI_queue(byte b) {
 void	SPI_send(void) {
 	SPI_TX_i = 0;				// Release the 'lock' (Read SPI_queue_byte comments)
 	IFS0bits.SPI1RXIF = 1;		// If it's the first byte activate the "domino" effect by setting the flag and in consequence call the interrupt function;
-	while (SPI_sending());		// As the function is synchronous, wait for the bytes to be sent to return
+	while (SPI_sending()) delay_us(1); // As the function is synchronous, wait for the bytes to be sent to return
 }
 
 // SPI_read: Sends 'bytes' times the dummy byte and stores the response in SPI_RX
@@ -104,14 +104,9 @@ bool	SPI_read(size_t bytes, byte dummy) {
 
 bool	SPI_get_response(size_t response_size, size_t wait_bytes, byte dummy, bool sleeping_bit, byte *response) {
 
-
-	if (wait_bytes > 60)
-		sleeping_bit = 0x0;
 	if (!SPI_read(wait_bytes, dummy)) {
 		return (false);
 	}	// Something went wrong with the reading
-	if (wait_bytes > 60)
-		sleeping_bit = 1;
 	
 	byte sleeping_byte = 0xff;							// A whole "sleeping" byte (0b11111111)
 	if (!sleeping_bit) { sleeping_byte = 0x0; }			// Change to 0b00000000 if sleeping bit is 0

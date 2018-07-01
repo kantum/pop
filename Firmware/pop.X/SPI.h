@@ -11,7 +11,7 @@
 #include "types.h"
 #include "shiftreg.h"
 
-#define SPI_BUFF_SIZE	575		// SPI TX and RX buffer size
+#define SPI_BUFF_SIZE	650		// SPI TX and RX buffer size
 
 #define SPI_NONE    0x0         // Modes to use in the function SPI_select_slave
 #define SPI_SD      0x1
