@@ -1,10 +1,12 @@
 #include "types.h"
 #include "delay.h"
+#include "wheel.h"	// TODO change the interrupt place to avoid this include
 
 #define PR_MS	(SYSCLOCK / 8000 - 1)
 #define PR_US	(SYSCLOCK / 800000 - 1)
 
 uint16_t slp = 0;
+byte guess;
 
 void    __ISR (_TIMER_1_VECTOR, IPL7SRS) T1_Interrupt(void)
 {
@@ -13,6 +15,11 @@ void    __ISR (_TIMER_1_VECTOR, IPL7SRS) T1_Interrupt(void)
 		--slp;
 	else
 		delay_ms(0);
+	if (guess != WHEEL_NONE)
+	{
+		wheel_event(guess);
+		guess = WHEEL_NONE;
+	}
 }
 
 void	delay_init()

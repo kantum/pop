@@ -5,117 +5,146 @@
  * Created on May 23, 2018, 6:26 PM
  */
 
-#include <p32xxxx.h>
 #include "wheel.h"
+#include <p32xxxx.h>
 
-byte wheel_status = HIGH;
+bool	A;		// Right
+bool	B;		// Left
+bool	state;
+bool	last;
 
-void wheel_rst(void) {
-	if (WHEEL_R_PORT == WHEEL_L_PORT) {
-		if (WHEEL_R_PORT == LOW) {
-			INTCONbits.INT3EP = RISING_EDGE;		// Swap the detecting edge
-			INTCONbits.INT2EP = RISING_EDGE;		// Swap the detecting edge
-		} else {
-			INTCONbits.INT3EP = FALLING_EDGE;		// Swap the detecting edge
-			INTCONbits.INT2EP = FALLING_EDGE;		// Swap the detecting edge
-		}
-		wheel_status = LOW;
-	} else {
-		wheel_event(WHEEL_PRESS);
-	}
-}
-
-void    __ISR (_EXTERNAL_2_VECTOR, IPL6SRS) encoderRight(void)
+void __ISR(_EXTERNAL_2_VECTOR, IPL6SRS) encoderRight(void)	// A
 {
-    IFS0bits.INT2IF = 0;        // External Interrupt flag reset
-	if (wheel_status == HIGH) {
-		wheel_status = LOW;
-		wheel_event(WHEEL_TURN_RIGHT);
-		INTCONbits.INT3EP ^= 1;		// Swap the detecting edge
-		INTCONbits.INT2EP ^= 1;		// Swap the detecting edge
-    } else {
-		wheel_rst();
+	IFS0bits.INT2IF = 0;    // External Interrupt flag reset
+//	INTCONbits.INT2EP ^= 1; // Switch Polarity
+
+	if (WHEEL_R_PORT == HIGH)
+	{
+		if (WHEEL_L_PORT == LOW)
+			OLED_scroll(UP);
+		else
+			OLED_scroll(DOWN);
+	}
+	else
+	{
+		if (WHEEL_L_PORT == HIGH)
+			OLED_scroll(UP);
+		else
+			OLED_scroll(DOWN);
 	}
 
+//
+//	if (state == 1 && WHEEL_L_PORT == 1)
+//	{
+//		OLED_scroll(UP);
+//	}
+//	else if (state == 1 && WHEEL_L_PORT == 0)
+//	{
+//		state = 0;
+//		OLED_scroll(DOWN);
+//	}
+//	else if (state == 0 && WHEEL_L_PORT == 1)
+//	{
+//		state = 1;
+//		OLED_scroll(DOWN);
+//	}
+//	else if (state == 0 && WHEEL_L_PORT == 0)
+//	{
+//		OLED_scroll(UP);
+//	}
+//	while (!(WHEEL_R_PORT == WHEEL_L_PORT));
 }
 
-void    __ISR (_EXTERNAL_3_VECTOR, IPL6SRS) encoderLeft(void)
+void __ISR(_EXTERNAL_3_VECTOR, IPL6SRS) encoderLeft(void)	// B
 {
-    IFS0bits.INT3IF = 0;        // External Interrupt flag reset
-	if (wheel_status == HIGH) {
-		wheel_status = LOW;
-		wheel_event(WHEEL_TURN_LEFT);
-		INTCONbits.INT3EP ^= 1;		// Swap the detecting edge
-		INTCONbits.INT2EP ^= 1;		// Swap the detecting edge
-    } else {
-		wheel_rst();
+	IFS0bits.INT3IF = 0;    // External Interrupt flag reset
+//	INTCONbits.INT3EP ^= 1; // Switch Polarity
+
+	if (WHEEL_L_PORT == HIGH)
+	{
+		if (WHEEL_R_PORT == HIGH)
+			OLED_scroll(UP);
+		else
+			OLED_scroll(DOWN);
 	}
+	else
+	{
+		if (WHEEL_R_PORT == LOW)
+			OLED_scroll(UP);
+		else
+			OLED_scroll(DOWN);
+	}
+
+//	if (state == 1 && WHEEL_R_PORT == 1)
+//	{
+//		OLED_scroll(DOWN);
+//	}
+//	else if (state == 1 && WHEEL_R_PORT == 0)
+//	{
+//		state = 0;
+//		OLED_scroll(UP);
+//	}
+//	else if (state == 0 && WHEEL_R_PORT == 1)
+//	{
+//		state = 1;
+//		OLED_scroll(UP);
+//	}
+//	else if (state == 0 && WHEEL_R_PORT == 0)
+//	{
+//		OLED_scroll(DOWN);
+//	}
+//	while (!(WHEEL_R_PORT == WHEEL_L_PORT));
 }
 
-void    __ISR (_EXTERNAL_4_VECTOR, IPL6SRS) encoderPush(void)
+void __ISR(_EXTERNAL_4_VECTOR, IPL6SRS) encoderPush(void)
 {
-    IFS0bits.INT4IF = 0;        // External Interrupt flag reset
-	wheel_event(WHEEL_PRESS);
+	IFS0bits.INT4IF = 0; // External Interrupt flag reset
+	//  INTCONbits.INT4EP   ^= 1; // Set Ext. Interrupt 4 Polarity to Falling
+	//  Edge
+	guess = WHEEL_PRESS;
 }
 
-
-void    __ISR (_TIMER_2_VECTOR, IPL7SRS) mainTimerInterrupt(void)
-{
-	IFS0bits.T2IF = 0;
-	//INTCONbits.INT3EP ^= 1;		// Swap the detecting edge
-	//INTCONbits.INT2EP ^= 1;		// Swap the detecting edge
-	T2CONbits.TON = false;		// Disable Timer 2
-
-}
+//void __ISR(_TIMER_2_VECTOR, IPL7SRS) mainTimerInterrupt(void)
+//{
+//	IFS0bits.T2IF = 0;
+//	if (guess != WHEEL_NONE)
+//	{
+//		wheel_event(guess);
+//		guess = WHEEL_NONE;
+//	}
+//}
 
 void wheel_init(void)
 {
-    __builtin_disable_interrupts();        // Globally disable interrupts
+	A		= 1;
+	B		= 1;
+	state	= 1;
 
-    /* Input / Output Configuration */
+	__builtin_disable_interrupts(); // Globally disable interrupts
 
-
-
+	/* Input / Output Configuration */
 	WHEEL_R_TRIS = INPUT;
-    WHEEL_L_TRIS = INPUT;
+	WHEEL_L_TRIS = INPUT;
 	WHEEL_P_TRIS = INPUT;
-
-
-     /* Rotate Right Interrupt Configuration */
-    IPC2bits.INT2IP     = 6;            // Ext. Interrupt 2 Priority
-    INTCONbits.INT2EP   = FALLING_EDGE;  // Set Ext. Interrupt 2 Polarity to Falling Edge
-    IFS0bits.INT2IF     = 0;            // External Interrupt 2 flag reset
-    IEC0bits.INT2IE     = 1;            // Interrupt Enable for Ext. Interrupt 2
-
-    /* Rotate Left Interrupt Configuration */
-    IPC3bits.INT3IP     = 6;            // Ext. Interrupt 1 Priority
-    INTCONbits.INT3EP   = FALLING_EDGE; // Set Ext. Interrupt 1 Polarity to Falling Edge
-    IFS0bits.INT3IF     = 0;            // External Interrupt 1 flag reset
-    IEC0bits.INT3IE     = 1;            // Interrupt Enable for Ext. Interrupt 1
-
+	/* Rotate Right Interrupt Configuration */
+	IPC2bits.INT2IP   = 6;            // Ext. Interrupt 2 Priority
+	INTCONbits.INT2EP = FALLING_EDGE; // Set Ext. Interrupt 2 Polarity to
+	                                  // Falling Edge
+	IFS0bits.INT2IF = 0;              // External Interrupt 2 flag reset
+	IEC0bits.INT2IE = 1;              // Interrupt Enable for Ext. Interrupt 2
 	/* Rotate Left Interrupt Configuration */
-    IPC4bits.INT4IP     = 6;            // Ext. Interrupt 1 Priority
-    INTCONbits.INT4EP   = FALLING_EDGE; // Set Ext. Interrupt 1 Polarity to Falling Edge
-    IFS0bits.INT4IF     = 0;            // External Interrupt 1 flag reset
-    IEC0bits.INT4IE     = 1;            // Interrupt Enable for Ext. Interrupt 1
+	IPC3bits.INT3IP   = 6;            // Ext. Interrupt 3 Priority
+	INTCONbits.INT3EP = FALLING_EDGE; // Set Ext. Interrupt 3 Polarity to
+	                                  // Falling Edge
+	IFS0bits.INT3IF = 0;              // External Interrupt 3 flag reset
+	IEC0bits.INT3IE = 1;              // Interrupt Enable for Ext. Interrupt 3
 
-	wheel_rst();
-	
-	
-    /* Main Timer Configuration */
-    T2CONbits.TCKPS = 0x7;		// Set pre-scale to 32
-    PR2 = 9000;			// Set Timer 2 period
-    TMR2 = 0;				// Clear counter
-    T2CONbits.TON = false;		// Enable Timer 2
+	/* Push Interrupt Configuration */
+	IPC4bits.INT4IP   = 6;            // Ext. Interrupt 4 Priority
+	INTCONbits.INT4EP = FALLING_EDGE; // Set Ext. Interrupt 4 Polarity to
+	                                  // Falling Edge
+	IFS0bits.INT4IF = 0;              // External Interrupt 4 flag reset
+	IEC0bits.INT4IE = 1;              // Interrupt Enable for Ext. Interrupt 4
 
-    /* Main Timer Interrupt Configuration */
-    IPC2bits.T2IP = 7;			// Interrupt Priority
-    IFS0bits.T2IF = 0;			// Timer 2 interrupt flag reset
-    IEC0bits.T2IE = 1;			// Interrupt Enable for timer 2
-
-    /* Set Interrupt Controller for multi-vector mode */
-
-    INTCONSET = _INTCON_MVEC_MASK;
-
-    __builtin_enable_interrupts();  /* Globally enable interrupts */
+	__builtin_enable_interrupts(); /* Globally enable interrupts */
 }

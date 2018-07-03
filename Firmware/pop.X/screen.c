@@ -127,7 +127,7 @@ void	OLED_run(void)
 	uint8_t	size;
 
 	j = scroll;
-	char	*tab[] = {
+	char	*tab[] = {			//TODO no english
 		"Hello my name is POP",
 		"00000000000000000001",
 		"00000000000000000002",

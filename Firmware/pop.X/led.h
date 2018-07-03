@@ -18,7 +18,7 @@
 #define LED_WHITE   4
 #define LED_YELLOW  5
 #define LED_PURPLE  6
-#define LED_AQUA   7
+#define LED_AQUA  	7
 
 void led_init(void);
 void led_set(char status);

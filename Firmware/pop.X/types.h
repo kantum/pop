@@ -9,7 +9,7 @@
 #define	TYPES_H
 
 typedef unsigned char byte;
-//typedef unsigned char bool;
+
 #include <xc.h>				// PIC32 Mandatory Include
 #include <stdbool.h>		// Contains bool type
 #include <stdint.h>			// Contains uint_8 uint_16...

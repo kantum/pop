@@ -1,4 +1,4 @@
-#include "type.h"
+#include "types.h"
 #include <p32xxxx.h>		// contains device specific defines
 #include <sys/attribs.h>	// contains __ISR() Macros
 
@@ -19,11 +19,6 @@ void    __ISR (_TIMER_1_VECTOR, IPL7SRS) T1_Interrupt(void)
 	if (note_len && ! --note_len)
 		stop_note();
 }
-
-//void    __ISR (_TIMER_3_VECTOR, IPL7SRS) T3_Interrupt(void)
-//{
-//	IFS0bits.T3IF = 0;				// Reset interrupt flag
-//}
 
 void	play_note(u16 freq, uint16_t len)
 {
@@ -50,47 +45,4 @@ void	stop_note(void)
 	T2CONbits.ON = 0;					// Turn off Timer2
 	OC1CON = 0x0000;					// Turn off OC1
 	buzz_on = 0;
-}
-
-void	delay_ms(uint32_t ms)
-{
-	slp_ms = ms;
-	while (slp_ms);
-}
-
-void	init(void)
-{
-	__builtin_disable_interrupts();		// Globally disable interrupts
-	
-	/* Set Interrupt Controller for multi-vector mode */
-	INTCONSET = _INTCON_MVEC_MASK;
-
-	T1CONbits.ON = 0;					// Turn off Timer1
-	T1CONbits.TCKPS = 1;				// Set prescaler to 8
-	PR1 = (SYSCLOCK / 1000) - 1;		// Set the PR1 to match 1 ms (1000hz)
-	T1CONbits.ON = 1;					// Turn on Timer1
-
-	IPC1bits.T1IP = 7;					// Interrupt Priority
-	IFS0bits.T1IF = 0;					// Timer 1 interrupt flag reset
-	IEC0bits.T1IE = 1;					// Interrupt Enable for timer 1
-
-	__builtin_enable_interrupts();		/* Globally enable interrupts */
-}
-	
-void	main(void)
-{
-	int note;
-	init();
-	while (42)
-	{
-		note = 3000;
-		while ((note -= 100) >= 2500)
-		{
-			delay_ms(1000);
-			play_note(note, 500);
-			WDTCONbits.WDTCLR = 1;			// Clear the watchdog
-		}
-		if (note <= 2500)
-			note = 3000;
-	};
 }

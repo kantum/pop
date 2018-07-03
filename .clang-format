@@ -25,7 +25,7 @@ MaxEmptyLinesToKeep: '1'
 PenaltyBreakComment: '2'
 PenaltyExcessCharacter: '2'
 ReflowComments: 'true'
-SortIncludes: 'true'
+SortIncludes: 'false'
 SpaceAfterCStyleCast: 'false'
 SpaceBeforeAssignmentOperators: 'true'
 SpaceBeforeParens: ControlStatements

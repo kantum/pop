@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   wheel.h
  * Author: nburcion@student.42.fr
  *
@@ -6,20 +6,19 @@
  */
 
 #ifndef WHEEL_H
-#define	WHEEL_H
+#define WHEEL_H
 
 #include "types.h"
 #include "pins.h"
 
-
 void wheel_init(void);
 void wheel_event(byte event);
 
+extern byte guess;
 
-#define WHEEL_TURN_RIGHT  1
-#define WHEEL_TURN_LEFT   2
-#define WHEEL_PRESS       3
+#define WHEEL_NONE 0
+#define WHEEL_TURN_RIGHT 1
+#define WHEEL_TURN_LEFT 2
+#define WHEEL_PRESS 3
 
-
-#endif	/* WHEEL_H */
-
+#endif /* WHEEL_H */
