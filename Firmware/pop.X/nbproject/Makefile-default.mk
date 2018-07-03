@@ -19,7 +19,7 @@ endif
 endif
 
 # Environment
-MKDIR=gnumkdir -p
+MKDIR=mkdir -p
 RM=rm -f 
 MV=mv 
 CP=cp 
@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c FAT32.c SD.c SPI.c configbits.c shiftreg.c wheel.c led.c screen.c delay.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c FAT32.c SD.c SPI.c configbits.c shiftreg.c wheel.c led.c screen.c delay.c piezo.c wifi.c UART.c settings.c convert.c list.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/FAT32.o ${OBJECTDIR}/SD.o ${OBJECTDIR}/SPI.o ${OBJECTDIR}/configbits.o ${OBJECTDIR}/shiftreg.o ${OBJECTDIR}/wheel.o ${OBJECTDIR}/led.o ${OBJECTDIR}/screen.o ${OBJECTDIR}/delay.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/FAT32.o.d ${OBJECTDIR}/SD.o.d ${OBJECTDIR}/SPI.o.d ${OBJECTDIR}/configbits.o.d ${OBJECTDIR}/shiftreg.o.d ${OBJECTDIR}/wheel.o.d ${OBJECTDIR}/led.o.d ${OBJECTDIR}/screen.o.d ${OBJECTDIR}/delay.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/FAT32.o ${OBJECTDIR}/SD.o ${OBJECTDIR}/SPI.o ${OBJECTDIR}/configbits.o ${OBJECTDIR}/shiftreg.o ${OBJECTDIR}/wheel.o ${OBJECTDIR}/led.o ${OBJECTDIR}/screen.o ${OBJECTDIR}/delay.o ${OBJECTDIR}/piezo.o ${OBJECTDIR}/wifi.o ${OBJECTDIR}/UART.o ${OBJECTDIR}/settings.o ${OBJECTDIR}/convert.o ${OBJECTDIR}/list.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/FAT32.o.d ${OBJECTDIR}/SD.o.d ${OBJECTDIR}/SPI.o.d ${OBJECTDIR}/configbits.o.d ${OBJECTDIR}/shiftreg.o.d ${OBJECTDIR}/wheel.o.d ${OBJECTDIR}/led.o.d ${OBJECTDIR}/screen.o.d ${OBJECTDIR}/delay.o.d ${OBJECTDIR}/piezo.o.d ${OBJECTDIR}/wifi.o.d ${OBJECTDIR}/UART.o.d ${OBJECTDIR}/settings.o.d ${OBJECTDIR}/convert.o.d ${OBJECTDIR}/list.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/FAT32.o ${OBJECTDIR}/SD.o ${OBJECTDIR}/SPI.o ${OBJECTDIR}/configbits.o ${OBJECTDIR}/shiftreg.o ${OBJECTDIR}/wheel.o ${OBJECTDIR}/led.o ${OBJECTDIR}/screen.o ${OBJECTDIR}/delay.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/FAT32.o ${OBJECTDIR}/SD.o ${OBJECTDIR}/SPI.o ${OBJECTDIR}/configbits.o ${OBJECTDIR}/shiftreg.o ${OBJECTDIR}/wheel.o ${OBJECTDIR}/led.o ${OBJECTDIR}/screen.o ${OBJECTDIR}/delay.o ${OBJECTDIR}/piezo.o ${OBJECTDIR}/wifi.o ${OBJECTDIR}/UART.o ${OBJECTDIR}/settings.o ${OBJECTDIR}/convert.o ${OBJECTDIR}/list.o
 
 # Source Files
-SOURCEFILES=main.c FAT32.c SD.c SPI.c configbits.c shiftreg.c wheel.c led.c screen.c delay.c
+SOURCEFILES=main.c FAT32.c SD.c SPI.c configbits.c shiftreg.c wheel.c led.c screen.c delay.c piezo.c wifi.c UART.c settings.c convert.c list.c
 
 
 CFLAGS=
@@ -166,6 +166,42 @@ ${OBJECTDIR}/delay.o: delay.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/delay.o 
 	@${FIXDEPS} "${OBJECTDIR}/delay.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DICD3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/delay.o.d" -o ${OBJECTDIR}/delay.o delay.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
+${OBJECTDIR}/piezo.o: piezo.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/piezo.o.d 
+	@${RM} ${OBJECTDIR}/piezo.o 
+	@${FIXDEPS} "${OBJECTDIR}/piezo.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DICD3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/piezo.o.d" -o ${OBJECTDIR}/piezo.o piezo.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/wifi.o: wifi.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/wifi.o.d 
+	@${RM} ${OBJECTDIR}/wifi.o 
+	@${FIXDEPS} "${OBJECTDIR}/wifi.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DICD3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/wifi.o.d" -o ${OBJECTDIR}/wifi.o wifi.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/UART.o: UART.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/UART.o.d 
+	@${RM} ${OBJECTDIR}/UART.o 
+	@${FIXDEPS} "${OBJECTDIR}/UART.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DICD3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/UART.o.d" -o ${OBJECTDIR}/UART.o UART.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/settings.o: settings.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/settings.o.d 
+	@${RM} ${OBJECTDIR}/settings.o 
+	@${FIXDEPS} "${OBJECTDIR}/settings.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DICD3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/settings.o.d" -o ${OBJECTDIR}/settings.o settings.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/convert.o: convert.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/convert.o.d 
+	@${RM} ${OBJECTDIR}/convert.o 
+	@${FIXDEPS} "${OBJECTDIR}/convert.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DICD3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/convert.o.d" -o ${OBJECTDIR}/convert.o convert.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/list.o: list.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/list.o.d 
+	@${RM} ${OBJECTDIR}/list.o 
+	@${FIXDEPS} "${OBJECTDIR}/list.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DICD3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/list.o.d" -o ${OBJECTDIR}/list.o list.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
 else
 ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
@@ -227,6 +263,42 @@ ${OBJECTDIR}/delay.o: delay.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/delay.o 
 	@${FIXDEPS} "${OBJECTDIR}/delay.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/delay.o.d" -o ${OBJECTDIR}/delay.o delay.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
+${OBJECTDIR}/piezo.o: piezo.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/piezo.o.d 
+	@${RM} ${OBJECTDIR}/piezo.o 
+	@${FIXDEPS} "${OBJECTDIR}/piezo.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/piezo.o.d" -o ${OBJECTDIR}/piezo.o piezo.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/wifi.o: wifi.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/wifi.o.d 
+	@${RM} ${OBJECTDIR}/wifi.o 
+	@${FIXDEPS} "${OBJECTDIR}/wifi.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/wifi.o.d" -o ${OBJECTDIR}/wifi.o wifi.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/UART.o: UART.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/UART.o.d 
+	@${RM} ${OBJECTDIR}/UART.o 
+	@${FIXDEPS} "${OBJECTDIR}/UART.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/UART.o.d" -o ${OBJECTDIR}/UART.o UART.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/settings.o: settings.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/settings.o.d 
+	@${RM} ${OBJECTDIR}/settings.o 
+	@${FIXDEPS} "${OBJECTDIR}/settings.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/settings.o.d" -o ${OBJECTDIR}/settings.o settings.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/convert.o: convert.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/convert.o.d 
+	@${RM} ${OBJECTDIR}/convert.o 
+	@${FIXDEPS} "${OBJECTDIR}/convert.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/convert.o.d" -o ${OBJECTDIR}/convert.o convert.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/list.o: list.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/list.o.d 
+	@${RM} ${OBJECTDIR}/list.o 
+	@${FIXDEPS} "${OBJECTDIR}/list.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/list.o.d" -o ${OBJECTDIR}/list.o list.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
 endif
 
 # ------------------------------------------------------------------------------------
@@ -246,7 +318,7 @@ else
 dist/${CND_CONF}/${IMAGE_TYPE}/pop.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
 	${MP_CC} $(MP_EXTRA_LD_PRE)  -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/pop.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}          -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--no-code-in-dinit,--no-dinit-in-serial-mem,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml
-	${MP_CC_DIR}\\xc32-bin2hex dist/${CND_CONF}/${IMAGE_TYPE}/pop.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} 
+	${MP_CC_DIR}/xc32-bin2hex dist/${CND_CONF}/${IMAGE_TYPE}/pop.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} 
 endif
 
 
@@ -265,7 +337,7 @@ endif
 # Enable dependency checking
 .dep.inc: .depcheck-impl
 
-DEPFILES=$(shell mplabwildcard ${POSSIBLE_DEPFILES})
+DEPFILES=$(shell "${PATH_TO_IDE_BIN}"mplabwildcard ${POSSIBLE_DEPFILES})
 ifneq (${DEPFILES},)
 include ${DEPFILES}
 endif
