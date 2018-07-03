@@ -6,5 +6,6 @@ PCB/POP_Altium/Project Outputs for POP
 Firmware/pop.X/build
 Firmware/pop.X/debug
 Firmware/pop.X/dist
+*.un~
 
 
