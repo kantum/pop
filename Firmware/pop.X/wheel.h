@@ -15,7 +15,7 @@
 void wheel_init(void);
 void wheel_event(byte event);
 
-
+#define WHEEL_NONE        0
 #define WHEEL_TURN_RIGHT  1
 #define WHEEL_TURN_LEFT   2
 #define WHEEL_PRESS       3
