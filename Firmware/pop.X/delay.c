@@ -51,5 +51,6 @@ void	delay_ms(uint32_t ms)
 
 	slp = ms;
 	IEC0bits.T1IE = 1;				// Interrupt Enable for timer 1
+
  	while (slp);
 }

@@ -8,6 +8,9 @@
 #ifndef WHEEL_H
 #define	WHEEL_H
 
+#include "types.h"
+#include "pins.h"
+
 
 void wheel_init(void);
 void wheel_event(byte event);

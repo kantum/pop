@@ -35,5 +35,16 @@
 #define LED_B_TRIS                  TRISDbits.TRISD4
 /* [leds]  */
 
+/* [wheel]  */
+#define WHEEL_R_PORT                PORTDbits.RD9
+#define WHEEL_R_TRIS                TRISDbits.TRISD9
+
+#define WHEEL_L_PORT                PORTDbits.RD10
+#define WHEEL_L_TRIS                TRISDbits.TRISD10
+
+#define WHEEL_P_PORT                PORTDbits.RD11
+#define WHEEL_P_TRIS                TRISDbits.TRISD11
+/* [wheel]  */
+
 #endif	/* PINS_H */
 

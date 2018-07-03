@@ -4,31 +4,6 @@
 #include "delay.h"
 #include "shiftreg.h"
 
-
-#define COMMAND LOW
-#define DATA	HIGH
-#define OLED_SPI(x) SPI_queue_byte(x, 1)
-
-#define OLED_RES_TRIS TRISDbits.TRISD5
-#define OLED_D_C_TRIS TRISDbits.TRISD6
-#define OLED_VCC_TRIS TRISDbits.TRISD7
-#define OLED_RES_LAT LATDbits.LATD5
-#define OLED_D_C_LAT LATDbits.LATD6
-#define OLED_VCC_LAT LATDbits.LATD7
-
-void    __ISR (_TIMER_1_VECTOR, IPL7SRS) T1_Interrupt(void)
-{
-	IFS0bits.T1IF = 0;				// Timer 1 interrupt flag reset
-	if (slp)
-		--slp;
-	else
-		delay_ms(0);
-}
-
-#define COMMAND LOW
-#define DATA	HIGH
-#define OLED_SPI(x) SPI_queue_byte(x, 1)
-
 void	OLED_init(void)
 {
 	/* Assuming VDD is on */
@@ -49,7 +24,7 @@ void	OLED_init(void)
 	OLED_SPI(0x10);		// Set high column address
 	OLED_SPI(0x40);		// Set start line address
 	OLED_SPI(0x81);		// Set contrast control register
-	OLED_SPI(128);  	// 0-256
+	OLED_SPI(CONTRAST);	// 0-256
 	OLED_SPI(0xA1);		// Set segment re-map left 0 to right 127
 	OLED_SPI(0xA6);		// Set normal/inverse  display
 	OLED_SPI(0xA8);		// Set multiplex ratio
@@ -80,19 +55,17 @@ void	OLED_fill(uint8_t color)
 	
 	shiftreg_set(PIN_OLED_DC, COMMAND);
 	OLED_SPI(0x20);		// Memory Adressing Mode
-	OLED_SPI(0b01);		// Vertical adressing Mode
+	OLED_SPI(0x01);		// Vertical adressing Mode
 	OLED_SPI(0x21);		// Set Column Address
-	OLED_SPI(0);		// From	0 
-	OLED_SPI(127);		// To	127 
+	OLED_SPI(0);		// From	0
+	OLED_SPI(127);		// To	127
 	OLED_SPI(0x22);		// Set Page Address
 	OLED_SPI(0);		// From 0
 	OLED_SPI(7);		// To	7
+
 	SPI_send();
 	shiftreg_set(PIN_OLED_DC, DATA);
-	for (i = 0; i <= 512; i++)
-		OLED_SPI(color);
-	SPI_send();
-	for (i = 0; i <= 512; i++)
+	for (i = 0; i <= 1024; i++)
 		OLED_SPI(color);
 	SPI_send();
 }
@@ -101,38 +74,91 @@ void	OLED_putstr_init(void)
 {
 	shiftreg_set(PIN_OLED_DC, COMMAND);
 	OLED_SPI(0x20);		// Memory Adressing Mode
-	OLED_SPI(0b00);		// Horizontal adressing Mode
+	OLED_SPI(0x00);		// Horizontal adressing Mode
 	OLED_SPI(0x21);		// Set Column Address
-	OLED_SPI(0);		// From	0 
-	OLED_SPI(127);		// To	127 
+	OLED_SPI(0);		// From	0
+	OLED_SPI(127);		// To	127
 	OLED_SPI(0x22);		// Set Page Address
 	OLED_SPI(0);		// From 0
 	OLED_SPI(7);		// To	7
 	OLED_SPI(0x40);		// Set Display Start Line
+
 	SPI_send();
 }
 
-void	OLED_putstr(uint8_t *str, uint16_t offset, uint8_t spacing)
+void	OLED_putstr(uint8_t *str, uint8_t offset)
 {
 	uint8_t		buf[1024];
 	uint8_t		tmp;
-	uint16_t	j = 0;
+	uint8_t		j;
 	uint8_t		i;
 
-	OLED_putstr_init();
+	j = -1;
 	shiftreg_set(PIN_OLED_DC, DATA);
-	while (str[j])
+	for(i = 0; i < offset; i++)
+		OLED_SPI(0x0);
+	while (str[++j])
     {
-		if (j + (j * spacing) >= 64)// Check if the SPI buffer is full (512B / 8)
-			SPI_send();
 		tmp = (str[j] - 32);		
 		for(i = 0; i < 5; i++)
 			OLED_SPI(OLED_characters2[tmp * 5 + i]);
-		for(i = 0; i < spacing; i++)
 		OLED_SPI(0x0);
-		j++;
 	}
+	for(i = 0; i < 128 - (j * 6) - offset; i++)
+		OLED_SPI(0x0);
 	SPI_send();
+}
+
+uint8_t	scroll = 8;
+
+void	OLED_scroll(uint8_t dir)
+{
+	if (dir)
+		scroll++;
+	else
+		scroll--;
+	OLED_run();
+}
+
+void	OLED_run(void)
+{
+	uint8_t	i;
+	uint8_t	j;
+	uint8_t	size;
+
+	j = scroll;
+	char	*tab[] = {
+		"Hello my name is POP",
+		"00000000000000000001",
+		"00000000000000000002",
+		"00000000000000000003",
+		"00000000000000000004",
+		"00000000000000000005",
+		"00000000000000000006",
+		"00000000000000000007",
+		"00000000000000000008",
+		"00000000000000000009",
+		"00000000000000000010",
+		"00000000000000000011",
+		"00000000000000000012",
+		"00000000000000000013",
+		"00000000000000000014",
+		"00000000000000000099",
+		"Bye my name is POP",
+		NULL,
+	};
+
+	OLED_wake();
+	OLED_fill(0x0);
+	OLED_putstr_init();
+	for (size = 0; tab[size]; size++);
+	for (i = 0; i < 8; i++)
+	{
+		if (i + j > size || i + j < 8)
+			OLED_putstr("", 1);
+		else
+			OLED_putstr(tab[i + j - 8], 5);
+	}
 }
 
 void	OLED_wake(void)

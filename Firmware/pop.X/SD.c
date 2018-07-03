@@ -203,6 +203,7 @@ static void	SD_send_command(byte command, byte arg1, byte arg2, byte arg3, byte 
 // [INTERNAL] SD_read_sector: Loads a sector in a buffer
 static bool	SD_read_sector(unsigned int sector)
 {	
+	SPI_slave_select(SPI_SD);
 	SD_current_sector = sector;
 	SD_good_sector = true; // Let's assume everything goes fine and in case any irregularity is detected mark the sector as bad
 	
@@ -240,6 +241,8 @@ static bool	SD_read_sector(unsigned int sector)
 
 bool SD_write_sector(unsigned int sector, char *buffer)
 {
+	SPI_slave_select(SPI_SD);
+
 	byte r1_response;
 	byte r2_response[2];
 	// Split the sector number in the 4 arguments needed by SD_send_command
@@ -271,7 +274,7 @@ bool SD_write_sector(unsigned int sector, char *buffer)
 	/*===============================[CMD13]==============================*/
 		SD_send_command(CMD13, 0x0, 0x0, 0x0, 0x0, 0xff);
 
-		if	(!SPI_get_response(2, GRACE_BYTES+2, 0xff, 1, r2_response) || true) {
+		if	(!SPI_get_response(2, GRACE_BYTES+2, 0xff, 1, r2_response) && r2_response[0] == 0x00 && r2_response[1] == 0x00) {
 			/* NON USABLE CARD */
 			return (false);
 		} else {

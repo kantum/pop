@@ -22,7 +22,7 @@ typedef struct  file_s {
 
 
 file_t			FAT32_ROOT_DIRECTORY;
-
+byte            FAT32_BUFFER[512];
 
 
 bool            FAT32_mount(void);

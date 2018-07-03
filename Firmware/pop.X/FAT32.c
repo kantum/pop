@@ -1,23 +1,7 @@
-/* 
- * File:   FAT32.c
- * Author: nburcion@student.42.fr
- *
- * Created on April 2018
- * 
- * 
- * Useful resources:
- * https://www.pjrc.com/tech/8051/ide/fat32.html
- */
-
-
 #include <p32xxxx.h>
-
 #include "types.h"
 #include "SD.h"
 #include "FAT32.h"
-
-
-
 
 unsigned int	FAT32_MBR_sector = 0;		// Sector of the 1st partition
 unsigned int	FAT32_Data_sector = 0;

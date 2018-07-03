@@ -6,47 +6,50 @@
  */
 
 #include <p32xxxx.h>
-#include "types.h"
 #include "wheel.h"
 
-/*
- *
- */
+byte wheel_status = HIGH;
 
-
-byte wheel_turning = false;
+void wheel_rst(void) {
+	if (WHEEL_R_PORT == WHEEL_L_PORT) {
+		if (WHEEL_R_PORT == LOW) {
+			INTCONbits.INT3EP = RISING_EDGE;		// Swap the detecting edge
+			INTCONbits.INT2EP = RISING_EDGE;		// Swap the detecting edge
+		} else {
+			INTCONbits.INT3EP = FALLING_EDGE;		// Swap the detecting edge
+			INTCONbits.INT2EP = FALLING_EDGE;		// Swap the detecting edge
+		}
+		wheel_status = LOW;
+	} else {
+		wheel_event(WHEEL_PRESS);
+	}
+}
 
 void    __ISR (_EXTERNAL_2_VECTOR, IPL6SRS) encoderRight(void)
 {
     IFS0bits.INT2IF = 0;        // External Interrupt flag reset
-    if (wheel_turning == WHEEL_TURN_LEFT) {
+	if (wheel_status == HIGH) {
+		wheel_status = LOW;
+		wheel_event(WHEEL_TURN_RIGHT);
 		INTCONbits.INT3EP ^= 1;		// Swap the detecting edge
 		INTCONbits.INT2EP ^= 1;		// Swap the detecting edge
-		wheel_turning = false;
-		T2CONbits.TON = false;		// Disable Timer 2
-		wheel_event(WHEEL_TURN_LEFT);
     } else {
-		wheel_turning = WHEEL_TURN_RIGHT;
-        TMR2 = 0;				// Clear counter
-		T2CONbits.TON = true;		// Enable Timer 2
-    }
+		wheel_rst();
+	}
 
 }
 
 void    __ISR (_EXTERNAL_3_VECTOR, IPL6SRS) encoderLeft(void)
 {
     IFS0bits.INT3IF = 0;        // External Interrupt flag reset
-    if (wheel_turning == WHEEL_TURN_RIGHT) {
+	if (wheel_status == HIGH) {
+		wheel_status = LOW;
+		wheel_event(WHEEL_TURN_LEFT);
 		INTCONbits.INT3EP ^= 1;		// Swap the detecting edge
 		INTCONbits.INT2EP ^= 1;		// Swap the detecting edge
-		wheel_turning = false;
-		T2CONbits.TON = false;		// Disable Timer 2
-		wheel_event(WHEEL_TURN_RIGHT);
     } else {
-		wheel_turning = WHEEL_TURN_LEFT;
-        TMR2 = 0;				// Clear counter
-		T2CONbits.TON = true;		// Enable Timer 2
-    }
+		wheel_rst();
+	}
 }
 
 void    __ISR (_EXTERNAL_4_VECTOR, IPL6SRS) encoderPush(void)
@@ -61,7 +64,6 @@ void    __ISR (_TIMER_2_VECTOR, IPL7SRS) mainTimerInterrupt(void)
 	IFS0bits.T2IF = 0;
 	//INTCONbits.INT3EP ^= 1;		// Swap the detecting edge
 	//INTCONbits.INT2EP ^= 1;		// Swap the detecting edge
-	wheel_turning = false;
 	T2CONbits.TON = false;		// Disable Timer 2
 
 }
@@ -72,14 +74,11 @@ void wheel_init(void)
 
     /* Input / Output Configuration */
 
-    TRISFbits.TRISF1 = OUTPUT;            // Set LED to output
-    TRISDbits.TRISD7 = OUTPUT;            // Set LED to output
-    LATFbits.LATF1   = LOW;                // Set LED OFF
-    LATDbits.LATD7   = LOW;                // Set LED OFF
 
-    TRISDbits.TRISD9 = INPUT;
-    TRISDbits.TRISD10 = INPUT;
-	TRISDbits.TRISD11 = INPUT;
+
+	WHEEL_R_TRIS = INPUT;
+    WHEEL_L_TRIS = INPUT;
+	WHEEL_P_TRIS = INPUT;
 
 
      /* Rotate Right Interrupt Configuration */
@@ -100,6 +99,8 @@ void wheel_init(void)
     IFS0bits.INT4IF     = 0;            // External Interrupt 1 flag reset
     IEC0bits.INT4IE     = 1;            // Interrupt Enable for Ext. Interrupt 1
 
+	wheel_rst();
+	
 	
     /* Main Timer Configuration */
     T2CONbits.TCKPS = 0x7;		// Set pre-scale to 32
