@@ -63,9 +63,9 @@ bool list_add_item(struct listItem item) {
 	
 	if (!FAT32_fopen(FAT32_ROOT_DIRECTORY, "list.txt", &file))
 		return (false);
-	byte status = 0x1;
+	byte status = 0xFF;
 	size_t i = 0;
-	while(status) {
+	while(status == 0xFF) {
 		if (!FAT32_fseek(&file, 512 * i))
 			return (false);
 		if (!FAT32_fgetc(&file, &status))

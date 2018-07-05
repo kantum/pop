@@ -83,10 +83,10 @@ bool wifi_update(void) {
 			if (rsp[i] == '\n') { break; }
 			itm.name[sz++] = rsp[i++];
 		}
-		itm.name[sz] = 0x00;
+		itm.name[sz - 1] = 0x00;
 		itm.id = atol(num);
 		if (!list_add_item(itm)) return (false);
-		wifi_update();
+		return (wifi_update());
 	}
 	return (false);
 }

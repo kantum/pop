@@ -123,15 +123,15 @@ byte OLED_extend_char(byte b, byte mask) {
 	if (mask == OLED_FONT_NORMAL) return (b);
 	while (pos < 4) {
 		if (mask & b) {
-			out += 0x01;
 			out <<= 1;
 			out += 0x01;
 			out <<= 1;
+			out += 0x01;
 		} else {
-			out += 0x00;
 			out <<= 1;
 			out += 0x00;
 			out <<= 1;
+			out += 0x00;
 		}
 		mask >>= 1;
 		pos++;
