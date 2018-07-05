@@ -16,11 +16,21 @@
 #define	BLACK		0x0
 #define	CONTRAST	128
 
+
+
+#define OLED_CHAR_TOP       0b00001000
+#define OLED_CHAR_BOTTOM    0b10000000
+
+#define OLED_FONT_NORMAL    0x00
+#define OLED_FONT_DOUBLE    0xDD
+
 void	OLED_refresh(void);
 void	OLED_fill(uint8_t color);
 void	OLED_wake(void);
 void	OLED_run(void);
 void	OLED_run(void);
+void	OLED_putstr(uint8_t *str, byte font, uint8_t offset);
+byte OLED_extend_char(byte b, byte lvl);
 
 static const unsigned char OLED_img1[] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,

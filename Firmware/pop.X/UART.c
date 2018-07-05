@@ -38,6 +38,10 @@ void UART_init(unsigned int baud_rate)
 	U1MODE = 0x8000;	//Enable Uart for 8-bit data
 						//no parity, 1 STOP bit (BRGH = 0 (High Baud Enable Bit))
 	U1STASET = 0x1400;	//Enable Transmit and Receive
+	size_t i = 0;
+	while (i < UART_BUFF_SIZE) {
+		UART_RX[i++] = 0;
+	}
 }
 
 void UART_send(byte c)

@@ -50,6 +50,7 @@ void	OLED_init(void)
 
 void	OLED_fill(uint8_t color)
 {
+	SPI_slave_select(SPI_OLED);
 	uint16_t	i;
 	uint8_t		screen[1024];
 	
@@ -72,6 +73,7 @@ void	OLED_fill(uint8_t color)
 
 void	OLED_putstr_init(void)
 {
+	SPI_slave_select(SPI_OLED);
 	shiftreg_set(PIN_OLED_DC, COMMAND);
 	OLED_SPI(0x20);		// Memory Adressing Mode
 	OLED_SPI(0x00);		// Horizontal adressing Mode
@@ -86,13 +88,19 @@ void	OLED_putstr_init(void)
 	SPI_send();
 }
 
-void	OLED_putstr(uint8_t *str, uint8_t offset)
+void	OLED_putstr(uint8_t *str, byte font, uint8_t offset)
 {
 	uint8_t		buf[1024];
 	uint8_t		tmp;
 	uint8_t		j;
 	uint8_t		i;
 
+	if (font == OLED_FONT_DOUBLE) {
+		OLED_putstr(str, OLED_CHAR_TOP, offset);
+		OLED_putstr(str, OLED_CHAR_BOTTOM, offset);
+		return;
+	}
+	
 	j = -1;
 	shiftreg_set(PIN_OLED_DC, DATA);
 	for(i = 0; i < offset; i++)
@@ -101,7 +109,7 @@ void	OLED_putstr(uint8_t *str, uint8_t offset)
     {
 		tmp = (str[j] - 32);		
 		for(i = 0; i < 5; i++)
-			OLED_SPI(OLED_characters2[tmp * 5 + i]);
+			OLED_SPI(OLED_extend_char(OLED_characters2[tmp * 5 + i], font));
 		OLED_SPI(0x0);
 	}
 	for(i = 0; i < 128 - (j * 6) - offset; i++)
@@ -109,60 +117,31 @@ void	OLED_putstr(uint8_t *str, uint8_t offset)
 	SPI_send();
 }
 
-uint8_t	scroll = 8;
-
-void	OLED_scroll(uint8_t dir)
-{
-	if (dir)
-		scroll++;
-	else
-		scroll--;
-	OLED_run();
-}
-
-void	OLED_run(void)
-{
-	uint8_t	i;
-	uint8_t	j;
-	uint8_t	size;
-
-	j = scroll;
-	char	*tab[] = {			//TODO no english
-		"Hello my name is POP",
-		"00000000000000000001",
-		"00000000000000000002",
-		"00000000000000000003",
-		"00000000000000000004",
-		"00000000000000000005",
-		"00000000000000000006",
-		"00000000000000000007",
-		"00000000000000000008",
-		"00000000000000000009",
-		"00000000000000000010",
-		"00000000000000000011",
-		"00000000000000000012",
-		"00000000000000000013",
-		"00000000000000000014",
-		"00000000000000000099",
-		"Bye my name is POP",
-		NULL,
-	};
-
-	OLED_wake();
-	OLED_fill(0x0);
-	OLED_putstr_init();
-	for (size = 0; tab[size]; size++);
-	for (i = 0; i < 8; i++)
-	{
-		if (i + j > size || i + j < 8)
-			OLED_putstr("", 1);
-		else
-			OLED_putstr(tab[i + j - 8], 5);
+byte OLED_extend_char(byte b, byte mask) {
+	byte pos = 0;
+	byte out = 0x00;
+	if (mask == OLED_FONT_NORMAL) return (b);
+	while (pos < 4) {
+		if (mask & b) {
+			out += 0x01;
+			out <<= 1;
+			out += 0x01;
+			out <<= 1;
+		} else {
+			out += 0x00;
+			out <<= 1;
+			out += 0x00;
+			out <<= 1;
+		}
+		mask >>= 1;
+		pos++;
 	}
+	return (out);
 }
 
 void	OLED_wake(void)
 {
+	SPI_slave_select(SPI_OLED);
 	shiftreg_set(PIN_OLED_DC, COMMAND);
 	OLED_SPI(0xAF);
 	SPI_send();
@@ -170,6 +149,7 @@ void	OLED_wake(void)
 
 void	OLED_sleep(void)
 {
+	SPI_slave_select(SPI_OLED);
 	shiftreg_set(PIN_OLED_DC, COMMAND);
 	OLED_SPI(0xAE);
 	SPI_send();

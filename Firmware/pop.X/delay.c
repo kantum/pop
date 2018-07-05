@@ -6,7 +6,6 @@
 #define PR_US	(SYSCLOCK / 800000 - 1)
 
 uint16_t slp = 0;
-byte guess;
 
 void    __ISR (_TIMER_1_VECTOR, IPL7SRS) T1_Interrupt(void)
 {
@@ -15,10 +14,13 @@ void    __ISR (_TIMER_1_VECTOR, IPL7SRS) T1_Interrupt(void)
 		--slp;
 	else
 		delay_ms(0);
-	if (guess != WHEEL_NONE)
+	if (!--int2_slp)
 	{
-		wheel_event(guess);
-		guess = WHEEL_NONE;
+		IEC0bits.INT2IE = 1;    // Interrupt Enable for Ext. Interrupt 2
+	}
+	if (!--int3_slp)
+	{
+		IEC0bits.INT3IE = 1;    // Interrupt Enable for Ext. Interrupt 3
 	}
 }
 

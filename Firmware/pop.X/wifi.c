@@ -12,14 +12,18 @@ char wifi_response[100];
 bool wifi_init(void)
 {
 	UART_init(115200);
+	delay_ms(4000);
+	wifi_flush_uart();
 }
 
 bool wifi_prepare(void) {
 	byte r = 0x00;
 	while (r != 'O') {
 		UART_send_str("!!!S");
-		UART_wait_response(1);
-		UART_read(&r);
+		delay_ms(100);
+		if (UART_available()) {
+			UART_read(&r);
+		}
 		delay_ms(100);
 	}
 }

@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c FAT32.c SD.c SPI.c configbits.c shiftreg.c wheel.c led.c screen.c delay.c piezo.c wifi.c UART.c settings.c convert.c list.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c FAT32.c SD.c SPI.c configbits.c shiftreg.c wheel.c led.c screen.c delay.c piezo.c wifi.c UART.c settings.c convert.c list.c UI.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/FAT32.o ${OBJECTDIR}/SD.o ${OBJECTDIR}/SPI.o ${OBJECTDIR}/configbits.o ${OBJECTDIR}/shiftreg.o ${OBJECTDIR}/wheel.o ${OBJECTDIR}/led.o ${OBJECTDIR}/screen.o ${OBJECTDIR}/delay.o ${OBJECTDIR}/piezo.o ${OBJECTDIR}/wifi.o ${OBJECTDIR}/UART.o ${OBJECTDIR}/settings.o ${OBJECTDIR}/convert.o ${OBJECTDIR}/list.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/FAT32.o.d ${OBJECTDIR}/SD.o.d ${OBJECTDIR}/SPI.o.d ${OBJECTDIR}/configbits.o.d ${OBJECTDIR}/shiftreg.o.d ${OBJECTDIR}/wheel.o.d ${OBJECTDIR}/led.o.d ${OBJECTDIR}/screen.o.d ${OBJECTDIR}/delay.o.d ${OBJECTDIR}/piezo.o.d ${OBJECTDIR}/wifi.o.d ${OBJECTDIR}/UART.o.d ${OBJECTDIR}/settings.o.d ${OBJECTDIR}/convert.o.d ${OBJECTDIR}/list.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/FAT32.o ${OBJECTDIR}/SD.o ${OBJECTDIR}/SPI.o ${OBJECTDIR}/configbits.o ${OBJECTDIR}/shiftreg.o ${OBJECTDIR}/wheel.o ${OBJECTDIR}/led.o ${OBJECTDIR}/screen.o ${OBJECTDIR}/delay.o ${OBJECTDIR}/piezo.o ${OBJECTDIR}/wifi.o ${OBJECTDIR}/UART.o ${OBJECTDIR}/settings.o ${OBJECTDIR}/convert.o ${OBJECTDIR}/list.o ${OBJECTDIR}/UI.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/FAT32.o.d ${OBJECTDIR}/SD.o.d ${OBJECTDIR}/SPI.o.d ${OBJECTDIR}/configbits.o.d ${OBJECTDIR}/shiftreg.o.d ${OBJECTDIR}/wheel.o.d ${OBJECTDIR}/led.o.d ${OBJECTDIR}/screen.o.d ${OBJECTDIR}/delay.o.d ${OBJECTDIR}/piezo.o.d ${OBJECTDIR}/wifi.o.d ${OBJECTDIR}/UART.o.d ${OBJECTDIR}/settings.o.d ${OBJECTDIR}/convert.o.d ${OBJECTDIR}/list.o.d ${OBJECTDIR}/UI.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/FAT32.o ${OBJECTDIR}/SD.o ${OBJECTDIR}/SPI.o ${OBJECTDIR}/configbits.o ${OBJECTDIR}/shiftreg.o ${OBJECTDIR}/wheel.o ${OBJECTDIR}/led.o ${OBJECTDIR}/screen.o ${OBJECTDIR}/delay.o ${OBJECTDIR}/piezo.o ${OBJECTDIR}/wifi.o ${OBJECTDIR}/UART.o ${OBJECTDIR}/settings.o ${OBJECTDIR}/convert.o ${OBJECTDIR}/list.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/FAT32.o ${OBJECTDIR}/SD.o ${OBJECTDIR}/SPI.o ${OBJECTDIR}/configbits.o ${OBJECTDIR}/shiftreg.o ${OBJECTDIR}/wheel.o ${OBJECTDIR}/led.o ${OBJECTDIR}/screen.o ${OBJECTDIR}/delay.o ${OBJECTDIR}/piezo.o ${OBJECTDIR}/wifi.o ${OBJECTDIR}/UART.o ${OBJECTDIR}/settings.o ${OBJECTDIR}/convert.o ${OBJECTDIR}/list.o ${OBJECTDIR}/UI.o
 
 # Source Files
-SOURCEFILES=main.c FAT32.c SD.c SPI.c configbits.c shiftreg.c wheel.c led.c screen.c delay.c piezo.c wifi.c UART.c settings.c convert.c list.c
+SOURCEFILES=main.c FAT32.c SD.c SPI.c configbits.c shiftreg.c wheel.c led.c screen.c delay.c piezo.c wifi.c UART.c settings.c convert.c list.c UI.c
 
 
 CFLAGS=
@@ -202,6 +202,12 @@ ${OBJECTDIR}/list.o: list.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/list.o 
 	@${FIXDEPS} "${OBJECTDIR}/list.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DICD3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/list.o.d" -o ${OBJECTDIR}/list.o list.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
+${OBJECTDIR}/UI.o: UI.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/UI.o.d 
+	@${RM} ${OBJECTDIR}/UI.o 
+	@${FIXDEPS} "${OBJECTDIR}/UI.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DICD3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/UI.o.d" -o ${OBJECTDIR}/UI.o UI.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
 else
 ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
@@ -298,6 +304,12 @@ ${OBJECTDIR}/list.o: list.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/list.o.d 
 	@${RM} ${OBJECTDIR}/list.o 
 	@${FIXDEPS} "${OBJECTDIR}/list.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/list.o.d" -o ${OBJECTDIR}/list.o list.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/UI.o: UI.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/UI.o.d 
+	@${RM} ${OBJECTDIR}/UI.o 
+	@${FIXDEPS} "${OBJECTDIR}/UI.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/UI.o.d" -o ${OBJECTDIR}/UI.o UI.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
 endif
 

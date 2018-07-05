@@ -14,25 +14,9 @@
 /* [SD] */
 
 /* [shiftreg]  */
-#define ShiftRegisterLatch_LAT      LATEbits.LATE2
-#define ShiftRegisterLatch_TRIS     TRISEbits.TRISE2
-
-#define ShiftRegisterData_LAT       LATEbits.LATE3
-#define ShiftRegisterData_TRIS      TRISEbits.TRISE3
-
-#define ShiftRegisterClock_LAT      LATEbits.LATE4
-#define ShiftRegisterClock_TRIS     TRISEbits.TRISE4
 /* [shiftreg] */
 
 /* [leds]  */
-#define LED_R_LAT                   LATDbits.LATD2
-#define LED_R_TRIS                  TRISDbits.TRISD2
-
-#define LED_G_LAT                   LATDbits.LATD3
-#define LED_G_TRIS                  TRISDbits.TRISD3
-
-#define LED_B_LAT                   LATDbits.LATD4
-#define LED_B_TRIS                  TRISDbits.TRISD4
 /* [leds]  */
 
 /* [wheel]  */

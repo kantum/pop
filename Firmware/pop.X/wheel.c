@@ -6,51 +6,54 @@
  */
 
 #include "wheel.h"
+#include "UI.h"
 #include <p32xxxx.h>
 
 bool	A;		// Right
 bool	B;		// Left
 bool	state;
-bool	last;
+bool	first;
+byte	event = WHEEL_NONE;
+byte	event_cw = 0;
+byte	event_ccw = 0;
+//byte	int_slp1;
+//byte	int_slp2;
 
 void __ISR(_EXTERNAL_2_VECTOR, IPL6SRS) encoderRight(void)	// A
 {
 	IFS0bits.INT2IF = 0;    // External Interrupt flag reset
-//	INTCONbits.INT2EP ^= 1; // Switch Polarity
+	INTCONbits.INT2EP ^= 1; // Switch Polarity
+//	state ^= 1;
+	IEC0bits.INT2IE = 0;    // Stop Interrupt
+	int2_slp = 2;			// For 1 millisecond
 
-	if (WHEEL_R_PORT == HIGH)
+	if (first)
 	{
-		if (WHEEL_L_PORT == LOW)
-			OLED_scroll(UP);
-		else
-			OLED_scroll(DOWN);
+		//event = WHEEL_TURN_LEFT;
+		++event_cw;
+		first = 0;
 	}
 	else
 	{
-		if (WHEEL_L_PORT == HIGH)
-			OLED_scroll(UP);
-		else
-			OLED_scroll(DOWN);
+		first = 1;
 	}
-
-//
 //	if (state == 1 && WHEEL_L_PORT == 1)
 //	{
-//		OLED_scroll(UP);
+//		event = WHEEL_TURN_RIGHT;
 //	}
 //	else if (state == 1 && WHEEL_L_PORT == 0)
 //	{
 //		state = 0;
-//		OLED_scroll(DOWN);
+//		event = WHEEL_TURN_LEFT;
 //	}
 //	else if (state == 0 && WHEEL_L_PORT == 1)
 //	{
 //		state = 1;
-//		OLED_scroll(DOWN);
+//		event = WHEEL_TURN_LEFT;
 //	}
 //	else if (state == 0 && WHEEL_L_PORT == 0)
 //	{
-//		OLED_scroll(UP);
+//		event = WHEEL_TURN_RIGHT;
 //	}
 //	while (!(WHEEL_R_PORT == WHEEL_L_PORT));
 }
@@ -58,40 +61,38 @@ void __ISR(_EXTERNAL_2_VECTOR, IPL6SRS) encoderRight(void)	// A
 void __ISR(_EXTERNAL_3_VECTOR, IPL6SRS) encoderLeft(void)	// B
 {
 	IFS0bits.INT3IF = 0;    // External Interrupt flag reset
-//	INTCONbits.INT3EP ^= 1; // Switch Polarity
+	INTCONbits.INT3EP ^= 1; // Switch Polarity
+//	state ^= 1;
+	IEC0bits.INT3IE = 0;    // Stop Interrupt
+	int3_slp = 2;
 
-	if (WHEEL_L_PORT == HIGH)
+	if (first)
 	{
-		if (WHEEL_R_PORT == HIGH)
-			OLED_scroll(UP);
-		else
-			OLED_scroll(DOWN);
+		//event = WHEEL_TURN_RIGHT;
+		++event_ccw;
+		first = 0;
 	}
 	else
 	{
-		if (WHEEL_R_PORT == LOW)
-			OLED_scroll(UP);
-		else
-			OLED_scroll(DOWN);
+		first = 2;
 	}
-
 //	if (state == 1 && WHEEL_R_PORT == 1)
 //	{
-//		OLED_scroll(DOWN);
+//		event = WHEEL_TURN_LEFT;
 //	}
 //	else if (state == 1 && WHEEL_R_PORT == 0)
 //	{
 //		state = 0;
-//		OLED_scroll(UP);
+//		event = WHEEL_TURN_RIGHT;
 //	}
 //	else if (state == 0 && WHEEL_R_PORT == 1)
 //	{
 //		state = 1;
-//		OLED_scroll(UP);
+//		event = WHEEL_TURN_RIGHT;
 //	}
 //	else if (state == 0 && WHEEL_R_PORT == 0)
 //	{
-//		OLED_scroll(DOWN);
+//		event = WHEEL_TURN_LEFT;
 //	}
 //	while (!(WHEEL_R_PORT == WHEEL_L_PORT));
 }
@@ -101,7 +102,6 @@ void __ISR(_EXTERNAL_4_VECTOR, IPL6SRS) encoderPush(void)
 	IFS0bits.INT4IF = 0; // External Interrupt flag reset
 	//  INTCONbits.INT4EP   ^= 1; // Set Ext. Interrupt 4 Polarity to Falling
 	//  Edge
-	guess = WHEEL_PRESS;
 }
 
 //void __ISR(_TIMER_2_VECTOR, IPL7SRS) mainTimerInterrupt(void)

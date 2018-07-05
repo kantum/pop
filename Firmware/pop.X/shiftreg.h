@@ -11,6 +11,15 @@
 #include "types.h"
 #include "pins.h"
 
+#define ShiftRegisterLatch_LAT      LATEbits.LATE2
+#define ShiftRegisterLatch_TRIS     TRISEbits.TRISE2
+
+#define ShiftRegisterData_LAT       LATEbits.LATE3
+#define ShiftRegisterData_TRIS      TRISEbits.TRISE3
+
+#define ShiftRegisterClock_LAT      LATEbits.LATE4
+#define ShiftRegisterClock_TRIS     TRISEbits.TRISE4
+
 #define PIN_A   7
 #define PIN_B   6
 #define PIN_C   5

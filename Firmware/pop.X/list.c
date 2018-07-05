@@ -78,10 +78,10 @@ bool list_add_item(struct listItem item) {
 	end_itm.flag = 0x00;
 	end_itm.name[0] = 0x00;
 	
-	delay_ms(1);
+	delay_ms(10);
 	if (!list_set_item(i, item))
 		return (false);
-	delay_ms(1);
+	delay_ms(10);
 	if (!list_set_item(i + 1, end_itm))
 		return (false);
 	return (true);

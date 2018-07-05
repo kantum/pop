@@ -19,6 +19,7 @@
       <itemPath>settings.h</itemPath>
       <itemPath>convert.h</itemPath>
       <itemPath>list.h</itemPath>
+      <itemPath>UI.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -43,6 +44,7 @@
       <itemPath>settings.c</itemPath>
       <itemPath>convert.c</itemPath>
       <itemPath>list.c</itemPath>
+      <itemPath>UI.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

@@ -12,9 +12,14 @@
 #include "pins.h"
 
 void wheel_init(void);
-void wheel_event(byte event);
+void wheel_event(void);
 
 extern byte guess;
+extern byte event;
+extern byte event_cw;
+extern byte event_ccw;
+extern byte int2_slp;
+extern byte int3_slp;
 
 #define WHEEL_NONE 0
 #define WHEEL_TURN_RIGHT 1

@@ -16,24 +16,24 @@ bool SPI_initialized = false;			// If the SPI interface has been initialized via
 void	SPI_init(void) {
 	    byte tmp;
 		
-		SPI1CON = 0; // Stops and resets the SPI1.
-		tmp = SPI1BUF; // clears the receive buffer		
+		SPI2CON = 0; // Stops and resets the SPI2.
+		tmp = SPI2BUF; // clears the receive buffer		
 		
 		__builtin_disable_interrupts(); /* Globally disable interrupts */
 		/* [SPI Receive Done Interrupt Setup] */
-		IPC5bits.SPI1IP = 7;			/* Interrupt Priority */
-		IFS0bits.SPI1RXIF = 0;			/* Reset the interrupt flag */
-		IEC0bits.SPI1RXIE = 1;			/* Enable the interrupt */
+		IPC7bits.SPI2IP	  = 7;			/* Interrupt Priority */
+		IFS1bits.SPI2RXIF = 0;			/* Reset the interrupt flag */
+		IEC1bits.SPI2RXIE = 1;			/* Enable the interrupt */
 		/* [/SPI Receive Done Interrupt Setup] */
 		INTCONSET = _INTCON_MVEC_MASK; // Setup Interrupt controller for multi vector mode
 		__builtin_enable_interrupts(); /* Globally enable interrupts */
 		
-		SPI1BRG = 0x11;			// BRG = Baud Rate Generator, SPI clock frequency for proper communication with the SD
+		SPI2BRG = 0x11;			// BRG = Baud Rate Generator, SPI clock frequency for proper communication with the SD
 								// Spi Clock Speed = SYSCLOCK / (2 * (SPIxBRG + 1))
-		SPI1STATCLR = 0x40;		// clear the Overflow
-		SPI1CON = 0x8220;		// SPI ON, 8 bits transfer, SMP=1, Master mode
-		SPI1CONbits.CKP = 0;	// Set Clock Polarity idle = high active = low
-		SPI1CONbits.CKE = 1;	// Set Clock Edge active\idle Clock
+		SPI2STATCLR = 0x40;		// clear the Overflow
+		SPI2CON = 0x8220;		// SPI ON, 8 bits transfer, SMP=1, Master mode
+		SPI2CONbits.CKP = 0;	// Set Clock Polarity idle = high active = low
+		SPI2CONbits.CKE = 1;	// Set Clock Edge active\idle Clock
 		// from now on, the device is ready to transmit and receive data
 		
 		SPI_SS_TRIS_SD = OUTPUT;	//	Configure the Slave Select as output
@@ -90,7 +90,7 @@ bool	SPI_queue(byte b) {
 // SPI_send: Sends SYNCHRONOUSLY the queued bytes through SPI
 void	SPI_send(void) {
 	SPI_TX_i = 0;				// Release the 'lock' (Read SPI_queue_byte comments)
-	IFS0bits.SPI1RXIF = 1;		// If it's the first byte activate the "domino" effect by setting the flag and in consequence call the interrupt function;
+	IFS1bits.SPI2RXIF = 1;		// If it's the first byte activate the "domino" effect by setting the flag and in consequence call the interrupt function;
 	while (SPI_sending()) delay_us(1); // As the function is synchronous, wait for the bytes to be sent to return
 }
 
@@ -131,13 +131,13 @@ bool	SPI_get_response(size_t response_size, size_t wait_bytes, byte dummy, bool 
 
 
 // [INTERNAL] Interrupt for when SPI has sent/received a byte
-void    __ISR (_SPI_1_VECTOR, IPL7SRS) SPI(void) {
-	IFS0bits.SPI1RXIF = 0;									// Reset Interrupt Flag
+void    __ISR (_SPI_2_VECTOR, IPL7SRS) SPI(void) {
+	IFS1bits.SPI2RXIF = 0;									// Reset Interrupt Flag
 	byte b;													// Temporary buffer for the received byte
 
 	/* [Save received byte in queue (if any)] */
-	if (SPI1STATbits.SPIRBF && SPI_RX_size < SPI_BUFF_SIZE) {
-		b = SPI1BUF;										// Store the received byte temporarily
+	if (SPI2STATbits.SPIRBF && SPI_RX_size < SPI_BUFF_SIZE) {
+		b = SPI2BUF;										// Store the received byte temporarily
 		if (SPI_TX_i && !SPI_TX_discard[SPI_TX_i - 1]) {				// If the response was not marked to be discarded
 			SPI_RX[SPI_RX_size++] = b;						// Add the byte to the SPI_RX buffer
 		}
@@ -149,8 +149,8 @@ void    __ISR (_SPI_1_VECTOR, IPL7SRS) SPI(void) {
 	
 	
 	/* [Send Next Byte in queue (if any)] */
-	if (SPI1STATbits.SPITBE && SPI_TX_i < SPI_TX_size) {	// (Is buffer empty?) && (Are there any bytes on the queue?)
-		SPI1BUF = SPI_TX[SPI_TX_i++];						// Actually send the byte
+	if (SPI2STATbits.SPITBE && SPI_TX_i < SPI_TX_size) {	// (Is buffer empty?) && (Are there any bytes on the queue?)
+		SPI2BUF = SPI_TX[SPI_TX_i++];						// Actually send the byte
 	}
 	/* [/Send Next Byte in queue (if any)] */
 
