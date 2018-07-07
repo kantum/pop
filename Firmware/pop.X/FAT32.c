@@ -3,20 +3,20 @@
 #include "SD.h"
 #include "FAT32.h"
 
-unsigned int	FAT32_MBR_sector = 0;		// Sector of the 1st partition
-unsigned int	FAT32_Data_sector = 0;
-unsigned int	FAT32_FAT_sector = 0;
+uint32_t	FAT32_MBR_sector = 0;		// Sector of the 1st partition
+uint32_t	FAT32_Data_sector = 0;
+uint32_t	FAT32_FAT_sector = 0;
 
-unsigned short	FAT32_Reserved_Sectors = 0;
-byte			FAT32_Number_of_FATs = 0;
-unsigned int	FAT32_FAT_Size = 0;
-byte			FAT32_Sectors_per_Cluster = 0;
-unsigned int	FAT32_End_of_Chain = 0;
+uint16_t	FAT32_Reserved_Sectors = 0;
+byte		FAT32_Number_of_FATs = 0;
+uint32_t	FAT32_FAT_Size = 0;
+byte		FAT32_Sectors_per_Cluster = 0;
+uint32_t	FAT32_End_of_Chain = 0;
 
-unsigned int	FAT32_is_mounted = false;
+uint32_t	FAT32_is_mounted = false;
 
 // FAT32_mount: Mount the file system
-bool FAT32_mount(void)
+bool	FAT32_mount(void)
 {
 	if (!SD_initialized()) { return (false); }
 	
@@ -39,7 +39,7 @@ bool FAT32_mount(void)
 	if (!SD_read_bytes(FAT32_MBR_sector, 0x24, 4, ((void*)(&FAT32_FAT_Size))))
 		return (false);	// Failed to read the size of a FAT
 	
-	unsigned short FAT32_check = 0x1;
+	uint16_t FAT32_check = 0x1;
 	if (!SD_read_bytes(FAT32_MBR_sector, 0x11, 2, ((void*)(&FAT32_check))) || FAT32_check != 0x0) {
 		return (false); // File System is not FAT32 (Probably is FAT16 or FAT12)
 	}
@@ -70,9 +70,9 @@ bool FAT32_mount(void)
  * Only works with short filenames i.e. 8 chars + 3 chars (extension)
  * Max file size: 512 bytes
  */
-bool			FAT32_fopen(file_t directory_cluster, char *filename, file_t *file)
+bool	FAT32_fopen(file_t directory_cluster, char *filename, file_t *file)
 {
-	unsigned int file_n = 0;			// Current file
+	uint32_t file_n = 0;			// Current file
 	byte b;
 	
 	do {
@@ -90,7 +90,7 @@ bool			FAT32_fopen(file_t directory_cluster, char *filename, file_t *file)
 	return (true);
 }
 
-bool			FAT32_filename_matches(file_t directory_cluster, char *filename)
+bool	FAT32_filename_matches(file_t directory_cluster, char *filename)
 {
 	int i = 0;
 	char c;
@@ -125,7 +125,7 @@ bool			FAT32_filename_matches(file_t directory_cluster, char *filename)
 }
 
 // FAT32_fgetc: File Get Character; (and moves the cursor) Reads char
-bool			FAT32_fgetc(file_t *file, char *c)
+bool	FAT32_fgetc(file_t *file, char *c)
 {
 	if (((file->attributes) & 0x10) != 0x10 && (file->cursor >= file->size))
 		return (false);		
@@ -137,7 +137,7 @@ bool			FAT32_fgetc(file_t *file, char *c)
 }
 
 // FAT32_fgetb: File Get Block; (and moves the cursor) Reads block
-bool			FAT32_fgetb(file_t *file, char *b)
+bool	FAT32_fgetb(file_t *file, char *b)
 {
 	if (!SD_read_block(file->cursor_sector++, b))
 		return (false);
@@ -148,7 +148,7 @@ bool			FAT32_fgetb(file_t *file, char *b)
 }
 
 // FAT32_fputlb: File Put Last Block; Writes the last block
-bool			FAT32_fputlb(file_t *file, char *b)
+bool	FAT32_fputlb(file_t *file, char *b)
 {
 	if (!FAT32_fseek(file, file->cursor - 512)) { return (false); }
 	
@@ -162,19 +162,19 @@ bool			FAT32_fputlb(file_t *file, char *b)
 
 
 
-unsigned int	FAT32_fsize(file_t *file)
+uint32_t	FAT32_fsize(file_t *file)
 {
 	return (file->size);
 }
 
-bool			FAT32_fseek(file_t *file, unsigned int position)
+bool			FAT32_fseek(file_t *file, uint32_t position)
 {
 	if (position > (file->size - 1))
 		return (false);
 	
-	unsigned int sector_offst;
-	unsigned int cluster_offst;
-	unsigned int tmp_cluster = file->cluster;
+	uint32_t sector_offst;
+	uint32_t cluster_offst;
+	uint32_t tmp_cluster = file->cluster;
 	
 //	if (relative_address < 512) {  }
 	sector_offst = position / 512;
@@ -185,7 +185,10 @@ bool			FAT32_fseek(file_t *file, unsigned int position)
 	{
 		// 128 is the number of FAT "Table Clusters" that fit in in a sector (512 / 4)
 		cluster_offst = 0;
-		if (!SD_read_bytes(FAT32_FAT_sector + (tmp_cluster / 128), 4 * (tmp_cluster % 128), 4, &tmp_cluster))
+		if (!SD_read_bytes(FAT32_FAT_sector + (tmp_cluster / 128),
+							4 * (tmp_cluster % 128),
+							4,
+							&tmp_cluster))
 			return (false);
 		if (tmp_cluster == FAT32_End_of_Chain)
 			return (false);
@@ -196,18 +199,18 @@ bool			FAT32_fseek(file_t *file, unsigned int position)
 	return (true);
 }
 
-unsigned int	FAT32_fpos(file_t *file)
+uint32_t	FAT32_fpos(file_t *file)
 {
 	return (file->cursor);
 }
 
 void			FAT32_setup_file(file_t directory, file_t *file)
 {	
-	byte w1;
-	byte w2;
-	byte w3;
-	byte w4;
-	unsigned int addr = directory.cursor;
+	byte		w1;
+	byte		w2;
+	byte		w3;
+	byte		w4;
+	uint32_t	addr = directory.cursor;
 	
 	FAT32_fseek(&directory, addr + 0xB);
 	FAT32_fgetc(&directory, &(file->attributes));
@@ -228,7 +231,7 @@ void			FAT32_setup_file(file_t directory, file_t *file)
 }
 
 
-unsigned int	FAT32_cluster_to_sector(unsigned int cluster)
+uint32_t	FAT32_cluster_to_sector(uint32_t cluster)
 {
 	return (FAT32_Data_sector + ((cluster - 2) * FAT32_Sectors_per_Cluster));
 }

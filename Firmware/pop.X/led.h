@@ -9,10 +9,6 @@
 #define	LED_H
 
 #include "types.h"
-#include "pins.h"
-
-void led_init(void);
-void led_set(char status);
 
 #define LED_OFF     0
 #define LED_RED     1
@@ -31,6 +27,9 @@ void led_set(char status);
 
 #define LED_B_LAT   LATDbits.LATD4
 #define LED_B_TRIS  TRISDbits.TRISD4
+
+void led_init(void);
+void led_set(char status);
 
 #endif	/* LED_H */
 

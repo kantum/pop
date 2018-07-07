@@ -8,6 +8,9 @@
 #ifndef SD_H
 #define	SD_H
 
+/* PINS */
+#define SPI_SS_SD_TRIS	TRISFbits.TRISF1
+#define SPI_SS_SD_LAT	LATFbits.LATF1
 
 #define R1      1
 #define R1b		0
@@ -50,17 +53,21 @@
 #define ACMD42	42	// SET_CLR_CARD_DETECT
 #define ACMD51  51  // SEND_SCR
 
-
-#define GRACE_BYTES 75  // The extra "grace" bytes that are given for SD commands and operations (This is because now our clock goes so fast we have to give the SD a nice extra time to prepare)
-
+#define GRACE_BYTES 75	// The extra "grace" bytes that are given for
+						// SD commands and operations (This is because now our
+						// clock goes so fast we have to give the SD a nice
+						// extra time to prepare)
 
 bool	SD_init(void);
 bool	SD_initialized(void);
-bool    SD_read_byte(unsigned int sector, unsigned int relative_address, byte *b);
-bool	SD_read_bytes(unsigned int sector, unsigned int start_rel_address, unsigned long bytes, void *b);
-bool	SD_read_block(unsigned int sector, byte *b);
-bool    SD_write_sector(unsigned int sector, char *buffer);
-
+bool    SD_read_byte(uint32_t sector,
+						uint32_t relative_address, byte *b);
+bool	SD_read_bytes(uint32_t sector,
+						uint32_t start_rel_address,
+						size_t bytes,
+						void *b);
+bool	SD_read_block(uint32_t sector, byte *b);
+bool    SD_write_sector(uint32_t sector, char *buffer);
 
 #endif	/* SD_H */
 

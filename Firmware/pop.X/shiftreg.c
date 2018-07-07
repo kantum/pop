@@ -21,19 +21,12 @@ void shiftreg_init(void)
 	shiftreg_write(0xFF);
 }
 
-void fake_delay(int n)
-{
-	unsigned long real = 10000;
-	while (real--)
-		;
-}
-
 void shiftreg_write(byte val)
 {
-	shiftreg_value         = val;
-	ShiftRegisterLatch_LAT = LOW;
 	int  i                 = 0;
 	byte mask              = 0x1;
+	shiftreg_value         = val;
+	ShiftRegisterLatch_LAT = LOW;
 	while (i++ < 8)
 	{
 		ShiftRegisterData_LAT  = ((shiftreg_value & mask) > 0) ? HIGH : LOW;

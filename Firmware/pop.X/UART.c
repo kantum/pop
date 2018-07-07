@@ -5,23 +5,19 @@
  * Created on April 21, 2018, 1:02 AM
  */
 
-
 #include <p32xxxx.h>
 #include <sys/attribs.h>    /* contains __ISR() Macros */
-
 
 #include "types.h"
 #include "UART.h"
 
-
 #define UART_BUFF_SIZE	128
 
-byte	UART_RX[UART_BUFF_SIZE];				// Incoming SPI data buffer
-size_t	UART_RX_size = 0;					// Allocated bytes in the Outgoing SPI data buffer
-size_t	UART_RX_i = 0;						// Internal index for the Incoming SPI data buffer
+byte	UART_RX[UART_BUFF_SIZE];	// Incoming SPI data buffer
+size_t	UART_RX_size = 0;			// Allocated bytes in the Outgoing SPI data buffer
+size_t	UART_RX_i = 0;				// Internal index for the Incoming SPI data buffer
 
-
-void UART_init(unsigned int baud_rate)
+void UART_init(uint32_t baud_rate)
 {
 	
 	__builtin_disable_interrupts(); /* Globally disable interrupts */
@@ -77,7 +73,6 @@ bool UART_read(byte *b)
 	}
 	return (true);
 }
-
 
 void    __ISR (_UART_1_VECTOR, IPL7SRS) UART(void) {
 	IFS0bits.U1RXIF = 0;		// Clear the interrupt flag

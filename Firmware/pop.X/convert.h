@@ -8,8 +8,7 @@
 #ifndef CONVERT_H
 #define	CONVERT_H
 
-byte* convert_long_to_arr(unsigned long val);
-
+byte* convert_long_to_arr(uint64_t val);
 
 #endif	/* CONVERT_H */
 

@@ -5,23 +5,20 @@
 #define PR_MS	(SYSCLOCK / 8000 - 1)
 #define PR_US	(SYSCLOCK / 800000 - 1)
 
-uint16_t slp = 0;
+uint16_t	slp = 0;
+uint16_t	note_len;
+uint32_t	freq;
+bool		buzz_on;
 
 void    __ISR (_TIMER_1_VECTOR, IPL7SRS) T1_Interrupt(void)
 {
-	IFS0bits.T1IF = 0;			// Timer 1 interrupt flag reset
+	IFS0bits.T1IF = 0;				// Timer 1 interrupt flag reset
 	if (slp)
 		--slp;
 	else
 		delay_ms(0);
-	if (!--int2_slp)
-	{
-		IEC0bits.INT2IE = 1;    // Interrupt Enable for Ext. Interrupt 2
-	}
-	if (!--int3_slp)
-	{
-		IEC0bits.INT3IE = 1;    // Interrupt Enable for Ext. Interrupt 3
-	}
+	if (note_len && ! --note_len)
+		stop_note();
 }
 
 void	delay_init()

@@ -13,110 +13,86 @@
 #include "UI.h"
 #include <p32xxxx.h>
 
-size_t times    = 0;
-size_t clicks   = 0;
-byte   last_dir = 200;
-byte int2_slp = 0;
-byte int3_slp = 0;
-
-void wheel_event(void)
-{
-//	if (event == WHEEL_PRESS)
-//	{
-//		if (clicks++ % 2 == 0)
-//			led_set(LED_GREEN);
-//		else
-//			led_set(LED_OFF);
-//		return;
-//	}
-//	times++;
-//	if (last_dir != event)
-//		times = 0;
-//	if (times % 4 < 2)
-//	{
-//	if (event)
-//	{
-		if (event_cw)
-		{
-			while (event_cw-- > 0)
-			{
-				led_set(LED_RED);
-				UI_scroll(SCROLL_DOWN);
-				delay_ms(10);
-			}
-			event_cw = 0;
-		}
-		else if (event_ccw)
-		{
-			while (event_ccw-- > 0)
-			{
-				led_set(LED_BLUE);
-				UI_scroll(SCROLL_UP);
-				delay_ms(10);
-			}
-			event_ccw = 0;
-		}
-		event = 0;
-//	}
-//		last_dir = event;
-//	}
-//	else
-//	{
-//		led_set(LED_OFF);
-//	}
-}
-
 void init(void)
 {
 	delay_init();
 	shiftreg_init();
-	shiftreg_set(PIN_PHOTODIODE, LOW);
+	shiftreg_set(PIN_PHOTODIODE, LOW);	// TODO photo_init();
 	led_init();
 	wheel_init();
+	UART_init();
+	wifi_init();
 	SPI_init();
+	SD_init();
+	FAT32_mount();
 	OLED_init();
-//	SD_init();
-//	FAT32_mount();
 }
 
 void main(void)
-
 {
+	struct listItem itm;
+	byte            i;
+	byte			evnt;
+	char			photo_buff[12];
+	uint16_t		photo_dist;
+
 	init();
 
-	OLED_fill(0x00);
-//	if (!wifi_connect("donotconnect", "pleasedont"))
-//		while (1);
-//	if (!wifi_update())
-//		while (1); 
-	UI_list_clear();
-	UI_list_set(0, "Item1");
-	UI_list_set(1, "Item2");
-	UI_list_set(2, "Item3");
-	UI_list_set(3, "Item4");
-	UI_list_set(4, "Item5");
-	UI_list_set(5, "Item6");
-	UI_list_set(6, "Item7");
-	UI_list_set(7, "Item8");
+	led_set(LED_RED);
+	OLED_fill(0xFF);
 
-//	struct listItem itm;
-//	byte            i = 0;
-//	do
-//	{
-//		list_get_item(i, &itm);
-//		UI_list_set(i++, itm.name);
-//	}
-//	while (itm.flag == 0xFF);
-//
+	UI_list_clear();
+	if (!wifi_prepare())
+		UI_list_set(1, "Wifi not working");
+	else
+		UI_list_set(1, "Wifi working");
+	if (!wifi_connect("donotconnect", "pleasedont"))
+		UI_list_set(2, "Wifi not connected");
+	else
+		UI_list_set(2, "Wifi connected");
+	if (!wifi_update())
+		UI_list_set(3, "Update not working");
+	else
+		UI_list_set(3, "Update working");
+	OLED_fill(0x0);
+
+	UI_list_set(4, "Item4");
+	UI_list_set(5, "Item5");
+	UI_list_set(6, "Item6");
+	UI_list_set(7, "Item7");
+	UI_list_set(8, "Item8");
+	UI_list_set(9, "Item9");
+	i = 0;
+	do
+	{
+		list_get_item(i, &itm);
+		UI_list_set(i++, itm.name);
+	}
+	while (itm.flag == 0xFF);
+
 	UI_list_start();
 
 	while (true)
 	{
+		photo_dist = check_photo();
+		UI_list_set(0, itoa(photo_buff, photo_dist, 10));
 		UI_repaint();
-		wheel_event();
-		delay_ms(100);
-//		UI_scroll(SCROLL_UP);
-//		delay_ms(500);
-//		led_set(LED_OFF);
+		evnt = wheel_event();
+		if (evnt == WHEEL_TURN_LEFT)
+		{
+			UI_scroll(SCROLL_UP);
+			play_note(5000, 500);
+		}
+		else if (evnt == WHEEL_TURN_RIGHT)
+		{
+			UI_scroll(SCROLL_DOWN);
+			play_note(5000, 500);
+		}
+		else if (evnt == WHEEL_PRESS)
+		{
+			UI_scroll(SCROLL_DOWN);
+			play_note(5000, 500);
+			delay_ms(250);
+		}
 	}
 }

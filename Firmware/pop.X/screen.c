@@ -48,12 +48,12 @@ void	OLED_init(void)
 	shiftreg_set(PIN_OLED_13V, HIGH); // Set VCC to high
 }
 
-void	OLED_fill(uint8_t color)
+void	OLED_fill(byte color)
 {
-	SPI_slave_select(SPI_OLED);
 	uint16_t	i;
-	uint8_t		screen[1024];
+	byte		screen[1024];
 	
+	SPI_slave_select(SPI_OLED);
 	shiftreg_set(PIN_OLED_DC, COMMAND);
 	OLED_SPI(0x20);		// Memory Adressing Mode
 	OLED_SPI(0x01);		// Vertical adressing Mode
@@ -88,14 +88,15 @@ void	OLED_putstr_init(void)
 	SPI_send();
 }
 
-void	OLED_putstr(uint8_t *str, byte font, uint8_t offset)
+void	OLED_putstr(byte *str, byte font, byte offset)
 {
-	uint8_t		buf[1024];
-	uint8_t		tmp;
-	uint8_t		j;
-	uint8_t		i;
+	byte		buf[1024];
+	byte		tmp;
+	byte		j;
+	byte		i;
 
-	if (font == OLED_FONT_DOUBLE) {
+	if (font == OLED_FONT_DOUBLE)
+	{
 		OLED_putstr(str, OLED_CHAR_TOP, offset);
 		OLED_putstr(str, OLED_CHAR_BOTTOM, offset);
 		return;
@@ -117,17 +118,24 @@ void	OLED_putstr(uint8_t *str, byte font, uint8_t offset)
 	SPI_send();
 }
 
-byte OLED_extend_char(byte b, byte mask) {
+byte OLED_extend_char(byte b, byte mask)
+{
 	byte pos = 0;
 	byte out = 0x00;
-	if (mask == OLED_FONT_NORMAL) return (b);
-	while (pos < 4) {
-		if (mask & b) {
+
+	if (mask == OLED_FONT_NORMAL)
+		return (b);
+	while (pos < 4)
+	{
+		if (mask & b)
+		{
 			out <<= 1;
 			out += 0x01;
 			out <<= 1;
 			out += 0x01;
-		} else {
+		}
+		else
+		{
 			out <<= 1;
 			out += 0x00;
 			out <<= 1;

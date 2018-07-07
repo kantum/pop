@@ -9,21 +9,23 @@
 #define WHEEL_H
 
 #include "types.h"
-#include "pins.h"
+
+/* PINS */
+#define WHEEL_R_PORT                PORTDbits.RD9
+#define WHEEL_R_TRIS                TRISDbits.TRISD9
+
+#define WHEEL_L_PORT                PORTDbits.RD10
+#define WHEEL_L_TRIS                TRISDbits.TRISD10
+
+#define WHEEL_P_PORT                PORTDbits.RD11
+#define WHEEL_P_TRIS                TRISDbits.TRISD11
+
+#define WHEEL_NONE					0
+#define WHEEL_TURN_RIGHT			1
+#define WHEEL_TURN_LEFT				2
+#define WHEEL_PRESS					3
 
 void wheel_init(void);
-void wheel_event(void);
-
-extern byte guess;
-extern byte event;
-extern byte event_cw;
-extern byte event_ccw;
-extern byte int2_slp;
-extern byte int3_slp;
-
-#define WHEEL_NONE 0
-#define WHEEL_TURN_RIGHT 1
-#define WHEEL_TURN_LEFT 2
-#define WHEEL_PRESS 3
+byte wheel_event(void);
 
 #endif /* WHEEL_H */
