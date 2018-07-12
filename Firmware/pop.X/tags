@@ -16,6 +16,8 @@ ${OBJECTDIR}/delay.o	nbproject/Makefile-default.mk	/^${OBJECTDIR}\/delay.o: dela
 ${OBJECTDIR}/led.o	nbproject/Makefile-default.mk	/^${OBJECTDIR}\/led.o: led.c  nbproject\/Makefile-${CND_CONF}.mk$/;"	t
 ${OBJECTDIR}/list.o	nbproject/Makefile-default.mk	/^${OBJECTDIR}\/list.o: list.c  nbproject\/Makefile-${CND_CONF}.mk$/;"	t
 ${OBJECTDIR}/main.o	nbproject/Makefile-default.mk	/^${OBJECTDIR}\/main.o: main.c  nbproject\/Makefile-${CND_CONF}.mk$/;"	t
+${OBJECTDIR}/pages.o	nbproject/Makefile-default.mk	/^${OBJECTDIR}\/pages.o: pages.c  nbproject\/Makefile-${CND_CONF}.mk$/;"	t
+${OBJECTDIR}/photo.o	nbproject/Makefile-default.mk	/^${OBJECTDIR}\/photo.o: photo.c  nbproject\/Makefile-${CND_CONF}.mk$/;"	t
 ${OBJECTDIR}/piezo.o	nbproject/Makefile-default.mk	/^${OBJECTDIR}\/piezo.o: piezo.c  nbproject\/Makefile-${CND_CONF}.mk$/;"	t
 ${OBJECTDIR}/screen.o	nbproject/Makefile-default.mk	/^${OBJECTDIR}\/screen.o: screen.c  nbproject\/Makefile-${CND_CONF}.mk$/;"	t
 ${OBJECTDIR}/settings.o	nbproject/Makefile-default.mk	/^${OBJECTDIR}\/settings.o: settings.c  nbproject\/Makefile-${CND_CONF}.mk$/;"	t
@@ -48,6 +50,7 @@ ACMD23	SD.h	/^#define ACMD23	/;"	d
 ACMD41	SD.h	/^#define ACMD41	/;"	d
 ACMD42	SD.h	/^#define ACMD42	/;"	d
 ACMD51	SD.h	/^#define ACMD51 /;"	d
+ADCValue	photo.c	/^uint16_t ADCValue;$/;"	v	typeref:typename:uint16_t
 ALLCONFS	nbproject/Makefile-impl.mk	/^ALLCONFS=default $/;"	m
 ASFLAGS	nbproject/Makefile-default.mk	/^ASFLAGS=$/;"	m
 BLACK	screen.h	/^#define	BLACK	/;"	d
@@ -111,27 +114,27 @@ DISTDIR	nbproject/Makefile-default.mk	/^DISTDIR=dist\/${CND_CONF}\/${IMAGE_TYPE}
 DOWN	types.h	/^#define DOWN	/;"	d
 FALLING_EDGE	types.h	/^#define FALLING_EDGE	/;"	d
 FAT32_BUFFER	FAT32.h	/^byte            FAT32_BUFFER[512];$/;"	v	typeref:typename:byte[512]
-FAT32_Data_sector	FAT32.c	/^unsigned int	FAT32_Data_sector = 0;$/;"	v	typeref:typename:unsigned int
-FAT32_End_of_Chain	FAT32.c	/^unsigned int	FAT32_End_of_Chain = 0;$/;"	v	typeref:typename:unsigned int
-FAT32_FAT_Size	FAT32.c	/^unsigned int	FAT32_FAT_Size = 0;$/;"	v	typeref:typename:unsigned int
-FAT32_FAT_sector	FAT32.c	/^unsigned int	FAT32_FAT_sector = 0;$/;"	v	typeref:typename:unsigned int
+FAT32_Data_sector	FAT32.c	/^uint32_t	FAT32_Data_sector = 0;$/;"	v	typeref:typename:uint32_t
+FAT32_End_of_Chain	FAT32.c	/^uint32_t	FAT32_End_of_Chain = 0;$/;"	v	typeref:typename:uint32_t
+FAT32_FAT_Size	FAT32.c	/^uint32_t	FAT32_FAT_Size = 0;$/;"	v	typeref:typename:uint32_t
+FAT32_FAT_sector	FAT32.c	/^uint32_t	FAT32_FAT_sector = 0;$/;"	v	typeref:typename:uint32_t
 FAT32_H	FAT32.h	/^#define	FAT32_H$/;"	d
-FAT32_MBR_sector	FAT32.c	/^unsigned int	FAT32_MBR_sector = 0;		\/\/ Sector of the 1st partition$/;"	v	typeref:typename:unsigned int
-FAT32_Number_of_FATs	FAT32.c	/^byte			FAT32_Number_of_FATs = 0;$/;"	v	typeref:typename:byte
+FAT32_MBR_sector	FAT32.c	/^uint32_t	FAT32_MBR_sector = 0;		\/\/ Sector of the 1st partition$/;"	v	typeref:typename:uint32_t
+FAT32_Number_of_FATs	FAT32.c	/^byte		FAT32_Number_of_FATs = 0;$/;"	v	typeref:typename:byte
 FAT32_ROOT_DIRECTORY	FAT32.h	/^file_t			FAT32_ROOT_DIRECTORY;$/;"	v	typeref:typename:file_t
-FAT32_Reserved_Sectors	FAT32.c	/^unsigned short	FAT32_Reserved_Sectors = 0;$/;"	v	typeref:typename:unsigned short
-FAT32_Sectors_per_Cluster	FAT32.c	/^byte			FAT32_Sectors_per_Cluster = 0;$/;"	v	typeref:typename:byte
-FAT32_cluster_to_sector	FAT32.c	/^unsigned int	FAT32_cluster_to_sector(unsigned int cluster)$/;"	f	typeref:typename:unsigned int
-FAT32_fgetb	FAT32.c	/^bool			FAT32_fgetb(file_t *file, char *b)$/;"	f	typeref:typename:bool
-FAT32_fgetc	FAT32.c	/^bool			FAT32_fgetc(file_t *file, char *c)$/;"	f	typeref:typename:bool
-FAT32_filename_matches	FAT32.c	/^bool			FAT32_filename_matches(file_t directory_cluster, char *filename)$/;"	f	typeref:typename:bool
-FAT32_fopen	FAT32.c	/^bool			FAT32_fopen(file_t directory_cluster, char *filename, file_t *file)$/;"	f	typeref:typename:bool
-FAT32_fpos	FAT32.c	/^unsigned int	FAT32_fpos(file_t *file)$/;"	f	typeref:typename:unsigned int
-FAT32_fputlb	FAT32.c	/^bool			FAT32_fputlb(file_t *file, char *b)$/;"	f	typeref:typename:bool
-FAT32_fseek	FAT32.c	/^bool			FAT32_fseek(file_t *file, unsigned int position)$/;"	f	typeref:typename:bool
-FAT32_fsize	FAT32.c	/^unsigned int	FAT32_fsize(file_t *file)$/;"	f	typeref:typename:unsigned int
-FAT32_is_mounted	FAT32.c	/^unsigned int	FAT32_is_mounted = false;$/;"	v	typeref:typename:unsigned int
-FAT32_mount	FAT32.c	/^bool FAT32_mount(void)$/;"	f	typeref:typename:bool
+FAT32_Reserved_Sectors	FAT32.c	/^uint16_t	FAT32_Reserved_Sectors = 0;$/;"	v	typeref:typename:uint16_t
+FAT32_Sectors_per_Cluster	FAT32.c	/^byte		FAT32_Sectors_per_Cluster = 0;$/;"	v	typeref:typename:byte
+FAT32_cluster_to_sector	FAT32.c	/^uint32_t	FAT32_cluster_to_sector(uint32_t cluster)$/;"	f	typeref:typename:uint32_t
+FAT32_fgetb	FAT32.c	/^bool	FAT32_fgetb(file_t *file, char *b)$/;"	f	typeref:typename:bool
+FAT32_fgetc	FAT32.c	/^bool	FAT32_fgetc(file_t *file, char *c)$/;"	f	typeref:typename:bool
+FAT32_filename_matches	FAT32.c	/^bool	FAT32_filename_matches(file_t directory_cluster, char *filename)$/;"	f	typeref:typename:bool
+FAT32_fopen	FAT32.c	/^bool	FAT32_fopen(file_t directory_cluster, char *filename, file_t *file)$/;"	f	typeref:typename:bool
+FAT32_fpos	FAT32.c	/^uint32_t	FAT32_fpos(file_t *file)$/;"	f	typeref:typename:uint32_t
+FAT32_fputlb	FAT32.c	/^bool	FAT32_fputlb(file_t *file, char *b)$/;"	f	typeref:typename:bool
+FAT32_fseek	FAT32.c	/^bool			FAT32_fseek(file_t *file, uint32_t position)$/;"	f	typeref:typename:bool
+FAT32_fsize	FAT32.c	/^uint32_t	FAT32_fsize(file_t *file)$/;"	f	typeref:typename:uint32_t
+FAT32_is_mounted	FAT32.c	/^uint32_t	FAT32_is_mounted = false;$/;"	v	typeref:typename:uint32_t
+FAT32_mount	FAT32.c	/^bool	FAT32_mount(void)$/;"	f	typeref:typename:bool
 FAT32_mounted	FAT32.c	/^bool			FAT32_mounted(void)$/;"	f	typeref:typename:bool
 FAT32_setup_file	FAT32.c	/^void			FAT32_setup_file(file_t directory, file_t *file)$/;"	f	typeref:typename:void
 FINAL_IMAGE	nbproject/Makefile-default.mk	/^FINAL_IMAGE=dist\/${CND_CONF}\/${IMAGE_TYPE}\/pop.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}$/;"	m
@@ -176,15 +179,115 @@ MP_LINKER_FILE_OPTION	nbproject/Makefile-default.mk	/^MP_LINKER_FILE_OPTION=$/;"
 MP_PROCESSOR_OPTION	nbproject/Makefile-default.mk	/^MP_PROCESSOR_OPTION=32MX340F512H$/;"	m
 MV	nbproject/Makefile-default.mk	/^MV=mv $/;"	m
 NL	wifi.h	/^#define NL	/;"	d
+N_A1	piezo.h	/^#define N_A1 /;"	d
+N_A2	piezo.h	/^#define N_A2 /;"	d
+N_A3	piezo.h	/^#define N_A3 /;"	d
+N_A4	piezo.h	/^#define N_A4 /;"	d
+N_A5	piezo.h	/^#define N_A5 /;"	d
+N_A6	piezo.h	/^#define N_A6 /;"	d
+N_A7	piezo.h	/^#define N_A7 /;"	d
+N_A8	piezo.h	/^#define N_A8 /;"	d
+N_AS1	piezo.h	/^#define N_AS1 /;"	d
+N_AS2	piezo.h	/^#define N_AS2 /;"	d
+N_AS3	piezo.h	/^#define N_AS3 /;"	d
+N_AS4	piezo.h	/^#define N_AS4 /;"	d
+N_AS5	piezo.h	/^#define N_AS5 /;"	d
+N_AS6	piezo.h	/^#define N_AS6 /;"	d
+N_AS7	piezo.h	/^#define N_AS7 /;"	d
+N_AS8	piezo.h	/^#define N_AS8 /;"	d
+N_B0	piezo.h	/^#define N_B0 /;"	d
+N_B1	piezo.h	/^#define N_B1 /;"	d
+N_B2	piezo.h	/^#define N_B2 /;"	d
+N_B3	piezo.h	/^#define N_B3 /;"	d
+N_B4	piezo.h	/^#define N_B4 /;"	d
+N_B5	piezo.h	/^#define N_B5 /;"	d
+N_B6	piezo.h	/^#define N_B6 /;"	d
+N_B7	piezo.h	/^#define N_B7 /;"	d
+N_B8	piezo.h	/^#define N_B8 /;"	d
+N_C1	piezo.h	/^#define N_C1 /;"	d
+N_C2	piezo.h	/^#define N_C2 /;"	d
+N_C3	piezo.h	/^#define N_C3 /;"	d
+N_C4	piezo.h	/^#define N_C4 /;"	d
+N_C5	piezo.h	/^#define N_C5 /;"	d
+N_C6	piezo.h	/^#define N_C6 /;"	d
+N_C7	piezo.h	/^#define N_C7 /;"	d
+N_C8	piezo.h	/^#define N_C8 /;"	d
+N_CS1	piezo.h	/^#define N_CS1 /;"	d
+N_CS2	piezo.h	/^#define N_CS2 /;"	d
+N_CS3	piezo.h	/^#define N_CS3 /;"	d
+N_CS4	piezo.h	/^#define N_CS4 /;"	d
+N_CS5	piezo.h	/^#define N_CS5 /;"	d
+N_CS6	piezo.h	/^#define N_CS6 /;"	d
+N_CS7	piezo.h	/^#define N_CS7 /;"	d
+N_CS8	piezo.h	/^#define N_CS8 /;"	d
+N_D1	piezo.h	/^#define N_D1 /;"	d
+N_D2	piezo.h	/^#define N_D2 /;"	d
+N_D3	piezo.h	/^#define N_D3 /;"	d
+N_D4	piezo.h	/^#define N_D4 /;"	d
+N_D5	piezo.h	/^#define N_D5 /;"	d
+N_D6	piezo.h	/^#define N_D6 /;"	d
+N_D7	piezo.h	/^#define N_D7 /;"	d
+N_D8	piezo.h	/^#define N_D8 /;"	d
+N_DS1	piezo.h	/^#define N_DS1 /;"	d
+N_DS2	piezo.h	/^#define N_DS2 /;"	d
+N_DS3	piezo.h	/^#define N_DS3 /;"	d
+N_DS4	piezo.h	/^#define N_DS4 /;"	d
+N_DS5	piezo.h	/^#define N_DS5 /;"	d
+N_DS6	piezo.h	/^#define N_DS6 /;"	d
+N_DS7	piezo.h	/^#define N_DS7 /;"	d
+N_DS8	piezo.h	/^#define N_DS8 /;"	d
+N_E1	piezo.h	/^#define N_E1 /;"	d
+N_E2	piezo.h	/^#define N_E2 /;"	d
+N_E3	piezo.h	/^#define N_E3 /;"	d
+N_E4	piezo.h	/^#define N_E4 /;"	d
+N_E5	piezo.h	/^#define N_E5 /;"	d
+N_E6	piezo.h	/^#define N_E6 /;"	d
+N_E7	piezo.h	/^#define N_E7 /;"	d
+N_E8	piezo.h	/^#define N_E8 /;"	d
+N_F1	piezo.h	/^#define N_F1 /;"	d
+N_F2	piezo.h	/^#define N_F2 /;"	d
+N_F3	piezo.h	/^#define N_F3 /;"	d
+N_F4	piezo.h	/^#define N_F4 /;"	d
+N_F5	piezo.h	/^#define N_F5 /;"	d
+N_F6	piezo.h	/^#define N_F6 /;"	d
+N_F7	piezo.h	/^#define N_F7 /;"	d
+N_F8	piezo.h	/^#define N_F8 /;"	d
+N_FS1	piezo.h	/^#define N_FS1 /;"	d
+N_FS2	piezo.h	/^#define N_FS2 /;"	d
+N_FS3	piezo.h	/^#define N_FS3 /;"	d
+N_FS4	piezo.h	/^#define N_FS4 /;"	d
+N_FS5	piezo.h	/^#define N_FS5 /;"	d
+N_FS6	piezo.h	/^#define N_FS6 /;"	d
+N_FS7	piezo.h	/^#define N_FS7 /;"	d
+N_FS8	piezo.h	/^#define N_FS8 /;"	d
+N_G1	piezo.h	/^#define N_G1 /;"	d
+N_G2	piezo.h	/^#define N_G2 /;"	d
+N_G3	piezo.h	/^#define N_G3 /;"	d
+N_G4	piezo.h	/^#define N_G4 /;"	d
+N_G5	piezo.h	/^#define N_G5 /;"	d
+N_G6	piezo.h	/^#define N_G6 /;"	d
+N_G7	piezo.h	/^#define N_G7 /;"	d
+N_G8	piezo.h	/^#define N_G8 /;"	d
+N_GS1	piezo.h	/^#define N_GS1 /;"	d
+N_GS2	piezo.h	/^#define N_GS2 /;"	d
+N_GS3	piezo.h	/^#define N_GS3 /;"	d
+N_GS4	piezo.h	/^#define N_GS4 /;"	d
+N_GS5	piezo.h	/^#define N_GS5 /;"	d
+N_GS6	piezo.h	/^#define N_GS6 /;"	d
+N_GS7	piezo.h	/^#define N_GS7 /;"	d
+N_GS8	piezo.h	/^#define N_GS8 /;"	d
 OBJECTDIR	nbproject/Makefile-default.mk	/^OBJECTDIR=build\/${CND_CONF}\/${IMAGE_TYPE}$/;"	m
 OBJECTFILES	nbproject/Makefile-default.mk	/^OBJECTFILES=${OBJECTDIR}\/main.o ${OBJECTDIR}\/FAT32.o ${OBJECTDIR}\/SD.o ${OBJECTDIR}\/SPI.o ${/;"	m
 OBJECTFILES_QUOTED_IF_SPACED	nbproject/Makefile-default.mk	/^OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}\/main.o ${OBJECTDIR}\/FAT32.o ${OBJECTDIR}\/SD.o ${OBJ/;"	m
-OLED_CHAR_BOTTOM	screen.h	/^#define OLED_CHAR_BOTTOM /;"	d
-OLED_CHAR_TOP	screen.h	/^#define OLED_CHAR_TOP /;"	d
 OLED_D_C_LAT	screen.h	/^#define OLED_D_C_LAT /;"	d
 OLED_D_C_TRIS	screen.h	/^#define OLED_D_C_TRIS /;"	d
+OLED_ELLIPSIS_CHAR	screen.h	/^#define OLED_ELLIPSIS_CHAR /;"	d
 OLED_FONT_DOUBLE	screen.h	/^#define OLED_FONT_DOUBLE /;"	d
+OLED_FONT_INVERTED	screen.h	/^#define OLED_FONT_INVERTED /;"	d
+OLED_FONT_IS_HALF	screen.h	/^#define OLED_FONT_IS_HALF /;"	d
 OLED_FONT_NORMAL	screen.h	/^#define OLED_FONT_NORMAL /;"	d
+OLED_FONT_TOP	screen.h	/^#define OLED_FONT_TOP /;"	d
+OLED_FONT_TRANSPARENT	screen.h	/^#define OLED_FONT_TRANSPARENT /;"	d
 OLED_RES_LAT	screen.h	/^#define OLED_RES_LAT /;"	d
 OLED_RES_TRIS	screen.h	/^#define OLED_RES_TRIS /;"	d
 OLED_SPI	screen.h	/^#define OLED_SPI(/;"	d
@@ -194,19 +297,29 @@ OLED_buffer	screen.h	/^static char OLED_buffer[128 * 32 \/ 8] = { \/\/Perpopulat
 OLED_characters1	screen.h	/^static const unsigned char OLED_characters1[] = {$/;"	v	typeref:typename:const unsigned char[]
 OLED_characters2	screen.h	/^const unsigned char OLED_characters2[] =$/;"	v	typeref:typename:const unsigned char[]
 OLED_extend_char	screen.c	/^byte OLED_extend_char(byte b, byte mask)$/;"	f	typeref:typename:byte
-OLED_fill	screen.c	/^void	OLED_fill(uint8_t color)$/;"	f	typeref:typename:void
+OLED_fill	screen.c	/^void	OLED_fill(byte color)$/;"	f	typeref:typename:void
+OLED_filler	screen.c	/^void	OLED_filler(byte i, byte options) {$/;"	f	typeref:typename:void
 OLED_img1	screen.h	/^static const unsigned char OLED_img1[] = {$/;"	v	typeref:typename:const unsigned char[]
 OLED_init	screen.c	/^void	OLED_init(void)$/;"	f	typeref:typename:void
-OLED_putstr	screen.c	/^void	OLED_putstr(uint8_t *str, byte font, uint8_t offset)$/;"	f	typeref:typename:void
+OLED_page	screen.c	/^byte OLED_page = 0;$/;"	v	typeref:typename:byte
+OLED_putbuff	screen.c	/^void	OLED_putbuff(byte *buf) {$/;"	f	typeref:typename:void
+OLED_putstr	screen.c	/^void	OLED_putstr(byte *str, byte options, byte offset)$/;"	f	typeref:typename:void
 OLED_putstr_init	screen.c	/^void	OLED_putstr_init(void)$/;"	f	typeref:typename:void
+OLED_set_contrast	screen.c	/^void	OLED_set_contrast(byte contrast)$/;"	f	typeref:typename:void
 OLED_sleep	screen.c	/^void	OLED_sleep(void)$/;"	f	typeref:typename:void
 OLED_wake	screen.c	/^void	OLED_wake(void)$/;"	f	typeref:typename:void
+OLED_wifi	screen.h	/^static const unsigned char OLED_wifi[] = {$/;"	v	typeref:typename:const unsigned char[]
+OLED_wifi_icon	screen.h	/^#define OLED_wifi_icon /;"	d
 OS_CURRENT	nbproject/Makefile-local-default.mk	/^OS_CURRENT="$(shell uname -s)"$/;"	m
 OUTPUT	types.h	/^#define OUTPUT /;"	d
 OUTPUT_SUFFIX	nbproject/Makefile-default.mk	/^OUTPUT_SUFFIX=elf$/;"	m
 OUTPUT_SUFFIX	nbproject/Makefile-default.mk	/^OUTPUT_SUFFIX=hex$/;"	m
+PAGES_H	pages.h	/^#define	PAGES_H$/;"	d
 PATH	nbproject/Makefile-local-default.mk	/^PATH:=\/Applications\/microchip\/mplabx\/v4.20\/mplab_platform\/platform\/..\/mplab_ide\/modules/;"	m
 PATH_TO_IDE_BIN	nbproject/Makefile-local-default.mk	/^PATH_TO_IDE_BIN=\/Applications\/microchip\/mplabx\/v4.20\/mplab_platform\/platform\/..\/mplab_id/;"	m
+PHOTO_ADC_PIN	photo.c	/^#define PHOTO_ADC_PIN	/;"	d	file:
+PHOTO_TRIS_PIN	photo.c	/^#define PHOTO_TRIS_PIN	/;"	d	file:
+PIEZO_H	piezo.h	/^#define PIEZO_H$/;"	d
 PIN_A	shiftreg.h	/^#define PIN_A	/;"	d
 PIN_B	shiftreg.h	/^#define PIN_B	/;"	d
 PIN_C	shiftreg.h	/^#define PIN_C	/;"	d
@@ -225,8 +338,8 @@ PIN_WIFI_EN	shiftreg.h	/^#define PIN_WIFI_EN	/;"	d
 PIN_WIFI_RST	shiftreg.h	/^#define PIN_WIFI_RST	/;"	d
 POSSIBLE_DEPFILES	nbproject/Makefile-default.mk	/^POSSIBLE_DEPFILES=${OBJECTDIR}\/main.o.d ${OBJECTDIR}\/FAT32.o.d ${OBJECTDIR}\/SD.o.d ${OBJECTDI/;"	m
 PROJECTNAME	nbproject/Makefile-impl.mk	/^PROJECTNAME=pop.X$/;"	m
-PR_MS	delay.c	/^#define PR_MS	/;"	d	file:
-PR_US	delay.c	/^#define PR_US	/;"	d	file:
+PR_MS	delay.h	/^#define PR_MS	/;"	d
+PR_US	delay.h	/^#define PR_US	/;"	d
 R1	SD.h	/^#define R1 /;"	d
 R1b	SD.h	/^#define R1b	/;"	d
 R2	SD.h	/^#define R2	/;"	d
@@ -240,21 +353,25 @@ SCROLL_DOWN	UI.h	/^#define SCROLL_DOWN /;"	d
 SCROLL_RST	UI.h	/^#define SCROLL_RST /;"	d
 SCROLL_UP	UI.h	/^#define SCROLL_UP /;"	d
 SD_H	SD.h	/^#define	SD_H$/;"	d
-SD_current_sector	SD.c	/^unsigned long SD_current_sector = 0; \/\/ The address of the sector on buffer$/;"	v	typeref:typename:unsigned long
+SD_current_sector	SD.c	/^uint64_t	 SD_current_sector = 0; \/\/ The address of the sector on buffer$/;"	v	typeref:typename:uint64_t
 SD_good_sector	SD.c	/^bool          SD_good_sector = false; \/\/ If the sector on buffer is good$/;"	v	typeref:typename:bool
 SD_init	SD.c	/^bool SD_init(void)$/;"	f	typeref:typename:bool
-SD_initialized	SD.c	/^bool SD_initialized(void)$/;"	f	typeref:typename:bool
+SD_initialized	SD.c	/^bool	SD_initialized(void)$/;"	f	typeref:typename:bool
 SD_is_SDHC	SD.c	/^bool SD_is_SDHC        = false; \/\/ If the SD card is SDHC (High Capacity SD)$/;"	v	typeref:typename:bool
 SD_is_initialized	SD.c	/^bool SD_is_initialized = false; \/\/ If the SD card has been initialized via$/;"	v	typeref:typename:bool
-SD_read_block	SD.c	/^bool SD_read_block(unsigned int sector, byte* b)$/;"	f	typeref:typename:bool
-SD_read_byte	SD.c	/^bool SD_read_byte(unsigned int sector, unsigned int relative_address, byte* b)$/;"	f	typeref:typename:bool
-SD_read_bytes	SD.c	/^bool SD_read_bytes($/;"	f	typeref:typename:bool
-SD_read_sector	SD.c	/^static bool SD_read_sector(unsigned int sector)$/;"	f	typeref:typename:bool	file:
+SD_read_block	SD.c	/^bool SD_read_block(uint32_t sector, byte* b)$/;"	f	typeref:typename:bool
+SD_read_byte	SD.c	/^bool	SD_read_byte(uint32_t sector, uint32_t relative_address, byte* b)$/;"	f	typeref:typename:bool
+SD_read_bytes	SD.c	/^bool	SD_read_bytes(uint32_t sector,$/;"	f	typeref:typename:bool
+SD_read_sector	SD.c	/^static bool SD_read_sector(uint32_t sector)$/;"	f	typeref:typename:bool	file:
 SD_sector_buffer	SD.c	/^byte          SD_sector_buffer[512 + GRACE_BYTES]; \/\/ The buffer of the sector$/;"	v	typeref:typename:byte[]
 SD_sector_pad	SD.c	/^byte          SD_sector_pad  = 0;     \/\/ The padding for the sector on buffer$/;"	v	typeref:typename:byte
-SD_send_command	SD.c	/^static void SD_send_command($/;"	f	typeref:typename:void	file:
-SD_write_sector	SD.c	/^bool SD_write_sector(unsigned int sector, char* buffer)$/;"	f	typeref:typename:bool
+SD_send_command	SD.c	/^static void SD_send_command(byte command,$/;"	f	typeref:typename:void	file:
+SD_write_sector	SD.c	/^bool SD_write_sector(uint32_t sector, char* buffer)$/;"	f	typeref:typename:bool
 SETTINGS_H	settings.h	/^#define	SETTINGS_H$/;"	d
+SETTING_CONTRAST	settings.h	/^#define SETTING_CONTRAST /;"	d
+SETTING_DISTANCE	settings.h	/^#define SETTING_DISTANCE /;"	d
+SETTING_MODE	settings.h	/^#define SETTING_MODE /;"	d
+SETTING_SOUND	settings.h	/^#define SETTING_SOUND /;"	d
 SHIFTREG_H	shiftreg.h	/^#define	SHIFTREG_H$/;"	d
 SOURCEFILES	nbproject/Makefile-default.mk	/^SOURCEFILES=main.c FAT32.c SD.c SPI.c configbits.c shiftreg.c wheel.c led.c screen.c delay.c pie/;"	m
 SOURCEFILES_QUOTED_IF_SPACED	nbproject/Makefile-default.mk	/^SOURCEFILES_QUOTED_IF_SPACED=main.c FAT32.c SD.c SPI.c configbits.c shiftreg.c wheel.c led.c scr/;"	m
@@ -266,26 +383,24 @@ SPI_RX	SPI.h	/^byte	SPI_RX[SPI_BUFF_SIZE];			\/\/ Incoming SPI data buffer$/;"	v
 SPI_RX_i	SPI.h	/^size_t	SPI_RX_i = 0;					\/\/ Internal index for the Incoming SPI data buffer$/;"	v	typeref:typename:size_t
 SPI_RX_size	SPI.h	/^size_t	SPI_RX_size = 0;				\/\/ Allocated bytes in the Outgoing SPI data buffer$/;"	v	typeref:typename:size_t
 SPI_SD	SPI.h	/^#define SPI_SD /;"	d
-SPI_SS_LAT_SD	SPI.h	/^#define SPI_SS_LAT_SD /;"	d
 SPI_SS_SD_LAT	SD.h	/^#define SPI_SS_SD_LAT	/;"	d
 SPI_SS_SD_TRIS	SD.h	/^#define SPI_SS_SD_TRIS	/;"	d
-SPI_SS_TRIS_SD	SPI.h	/^#define SPI_SS_TRIS_SD /;"	d
 SPI_TX	SPI.h	/^byte	SPI_TX[SPI_BUFF_SIZE];			\/\/ Outgoing SPI data buffer$/;"	v	typeref:typename:byte[]
 SPI_TX_discard	SPI.h	/^bool	SPI_TX_discard[SPI_BUFF_SIZE];	\/\/ Mark if the response from the byte has to be saved$/;"	v	typeref:typename:bool[]
 SPI_TX_i	SPI.h	/^size_t	SPI_TX_i = 0;					\/\/ Internal index for the Outgoing SPI data buffer$/;"	v	typeref:typename:size_t
 SPI_TX_size	SPI.h	/^size_t	SPI_TX_size = 0;				\/\/ Allocated bytes in the Outgoing SPI data buffer$/;"	v	typeref:typename:size_t
 SPI_align_bits	SPI.c	/^byte	SPI_align_bits(size_t displacement, byte b1, byte b2) {$/;"	f	typeref:typename:byte
-SPI_available	SPI.c	/^bool	SPI_available(void) {$/;"	f	typeref:typename:bool
+SPI_available	SPI.c	/^bool	SPI_available(void)$/;"	f	typeref:typename:bool
 SPI_get_byte	SPI.c	/^bool	SPI_get_byte(byte *b)$/;"	f	typeref:typename:bool
 SPI_get_response	SPI.c	/^bool	SPI_get_response(size_t response_size, size_t wait_bytes, byte dummy, bool sleeping_bit, by/;"	f	typeref:typename:bool
 SPI_init	SPI.c	/^void	SPI_init(void)$/;"	f	typeref:typename:void
-SPI_initialized	SPI.c	/^bool SPI_initialized = false;			\/\/ If the SPI interface has been initialized via SPI_init();$/;"	v	typeref:typename:bool
-SPI_misaligned_bits	SPI.c	/^size_t	SPI_misaligned_bits(byte b, bool sleeping_bit) {$/;"	f	typeref:typename:size_t
+SPI_initialized	SPI.c	/^bool	SPI_initialized = false;			\/\/ If the SPI interface has been initialized via SPI_init();$/;"	v	typeref:typename:bool
+SPI_misaligned_bits	SPI.c	/^size_t	SPI_misaligned_bits(byte b, bool sleeping_bit)$/;"	f	typeref:typename:size_t
 SPI_queue	SPI.c	/^bool	SPI_queue(byte b)$/;"	f	typeref:typename:bool
 SPI_queue_byte	SPI.c	/^bool	SPI_queue_byte(byte b, bool discard)$/;"	f	typeref:typename:bool
 SPI_read	SPI.c	/^bool	SPI_read(size_t bytes, byte dummy)$/;"	f	typeref:typename:bool
 SPI_send	SPI.c	/^void	SPI_send(void)$/;"	f	typeref:typename:void
-SPI_sending	SPI.c	/^bool	SPI_sending(void) {$/;"	f	typeref:typename:bool
+SPI_sending	SPI.c	/^bool	SPI_sending(void)$/;"	f	typeref:typename:bool
 SPI_slave_select	SPI.c	/^void	SPI_slave_select(byte slave)$/;"	f	typeref:typename:void
 SPI_started	SPI.c	/^bool	SPI_started(void)$/;"	f	typeref:typename:bool
 SUBPROJECTS	nbproject/Makefile-impl.mk	/^SUBPROJECTS=${SUB_${SUB}}$/;"	m
@@ -305,89 +420,127 @@ UART_RX	UART.c	/^byte	UART_RX[UART_BUFF_SIZE];	\/\/ Incoming SPI data buffer$/;"
 UART_RX_i	UART.c	/^size_t	UART_RX_i = 0;				\/\/ Internal index for the Incoming SPI data buffer$/;"	v	typeref:typename:size_t
 UART_RX_size	UART.c	/^size_t	UART_RX_size = 0;			\/\/ Allocated bytes in the Outgoing SPI data buffer$/;"	v	typeref:typename:size_t
 UART_available	UART.c	/^size_t UART_available(void)$/;"	f	typeref:typename:size_t
-UART_init	UART.c	/^void UART_init(unsigned int baud_rate)$/;"	f	typeref:typename:void
+UART_init	UART.c	/^void UART_init(uint32_t baud_rate)$/;"	f	typeref:typename:void
 UART_read	UART.c	/^bool UART_read(byte *b)$/;"	f	typeref:typename:bool
 UART_send	UART.c	/^void UART_send(byte c)$/;"	f	typeref:typename:void
 UART_send_str	UART.c	/^void UART_send_str(byte *str)$/;"	f	typeref:typename:void
 UART_wait_response	UART.c	/^void UART_wait_response(size_t sz)$/;"	f	typeref:typename:void
+UI_CANCEL	UI.h	/^#define UI_CANCEL /;"	d
+UI_CENTER	UI.h	/^#define UI_CENTER /;"	d
+UI_DEFAULT	UI.h	/^#define UI_DEFAULT	/;"	d
+UI_DISSMISSED_BY_ALL_EVENTS	UI.h	/^#define UI_DISSMISSED_BY_ALL_EVENTS /;"	d
+UI_EXPIRED_TMOUT	UI.h	/^#define UI_EXPIRED_TMOUT /;"	d
 UI_H	UI.h	/^#define	UI_H$/;"	d
+UI_IGNORE_EVENTS	UI.h	/^#define UI_IGNORE_EVENTS	/;"	d
+UI_LEFT	UI.h	/^#define UI_LEFT /;"	d
 UI_LIST	UI.h	/^#define UI_LIST /;"	d
 UI_LIST_MAX_SZ	UI.h	/^#define UI_LIST_MAX_SZ /;"	d
 UI_MSG	UI.h	/^#define UI_MSG /;"	d
 UI_NONE	UI.h	/^#define UI_NONE /;"	d
-UI_list	UI.c	/^char UI_list[UI_LIST_MAX_SZ][50];$/;"	v	typeref:typename:char[][50]
-UI_list_clear	UI.c	/^void	UI_list_clear(void) {$/;"	f	typeref:typename:void
-UI_list_scroll	UI.c	/^uint8_t	UI_list_scroll = 0;$/;"	v	typeref:typename:uint8_t
-UI_list_set	UI.c	/^void	UI_list_set(size_t i, char *str) {$/;"	f	typeref:typename:void
-UI_list_size	UI.c	/^size_t UI_list_size = 0;$/;"	v	typeref:typename:size_t
-UI_list_start	UI.c	/^void	UI_list_start(void) {$/;"	f	typeref:typename:void
-UI_mode	UI.c	/^bool UI_mode = UI_NONE;$/;"	v	typeref:typename:bool
-UI_needs_repaint	UI.c	/^bool UI_needs_repaint = true;$/;"	v	typeref:typename:bool
+UI_OK	UI.h	/^#define UI_OK /;"	d
+UI_PRESS_DELAY	UI.h	/^#define UI_PRESS_DELAY /;"	d
+UI_animate_looking	UI.c	/^void UI_animate_looking(void)$/;"	f	typeref:typename:void
+UI_animate_sleepy	UI.c	/^void UI_animate_sleepy(void)$/;"	f	typeref:typename:void
+UI_distance	UI.c	/^uint16_t UI_distance(void)$/;"	f	typeref:typename:uint16_t
+UI_distance_test	UI.c	/^void UI_distance_test(void)$/;"	f	typeref:typename:void
+UI_init	UI.c	/^void	UI_init(void)$/;"	f	typeref:typename:void
+UI_list	UI.c	/^char	UI_list[UI_LIST_MAX_SZ][50];$/;"	v	typeref:typename:char[][50]
+UI_list_clear	UI.c	/^void	UI_list_clear(void)$/;"	f	typeref:typename:void
+UI_list_scroll	UI.c	/^int32_t	UI_list_scroll = 0;$/;"	v	typeref:typename:int32_t
+UI_list_set	UI.c	/^void	UI_list_set(size_t i, char *str)$/;"	f	typeref:typename:void
+UI_list_size	UI.c	/^size_t	UI_list_size = 0;$/;"	v	typeref:typename:size_t
+UI_list_start	UI.c	/^void	UI_list_start(void)$/;"	f	typeref:typename:void
+UI_message	UI.c	/^byte UI_message(char *msg, byte settings, size_t timeout)$/;"	f	typeref:typename:byte
+UI_mode	UI.c	/^bool	UI_mode = UI_NONE;$/;"	v	typeref:typename:bool
+UI_needs_repaint	UI.c	/^bool	UI_needs_repaint = true;$/;"	v	typeref:typename:bool
+UI_number	UI.c	/^int32_t UI_number(char *msg, int32_t val, int32_t min, int32_t max, int32_t step, void (*callbac/;"	f	typeref:typename:int32_t
+UI_paint_img	UI.c	/^void UI_paint_img(char *path)$/;"	f	typeref:typename:void
 UI_paint_list	UI.c	/^void	UI_paint_list(void)$/;"	f	typeref:typename:void
-UI_repaint	UI.c	/^void	UI_repaint(void) {$/;"	f	typeref:typename:void
-UI_scroll	UI.c	/^void	UI_scroll(byte dir)$/;"	f	typeref:typename:void
+UI_paint_msg	UI.c	/^void UI_paint_msg(char *str)$/;"	f	typeref:typename:void
+UI_paint_number	UI.c	/^void UI_paint_number(char *str, int32_t val)$/;"	f	typeref:typename:void
+UI_paint_prompt	UI.c	/^void UI_paint_prompt(char *str, byte selected)$/;"	f	typeref:typename:void
+UI_prompt	UI.c	/^byte UI_prompt(char *msg)$/;"	f	typeref:typename:byte
+UI_putstr_aligned	UI.c	/^void UI_putstr_aligned(char *str, byte options, byte offset, byte alignment) {$/;"	f	typeref:typename:void
+UI_repaint	UI.c	/^void	UI_repaint(void)$/;"	f	typeref:typename:void
+UI_request_repaint	UI.c	/^void	UI_request_repaint()$/;"	f	typeref:typename:void
+UI_scroll	UI.c	/^bool	UI_scroll(byte dir)$/;"	f	typeref:typename:bool
+UI_selected_item	UI.c	/^size_t UI_selected_item(void)$/;"	f	typeref:typename:size_t
+UI_set_scroll	UI.c	/^void    UI_set_scroll(int32_t sc) {$/;"	f	typeref:typename:void
 UP	types.h	/^#define UP	/;"	d
 WHEEL_H	wheel.h	/^#define WHEEL_H$/;"	d
+WHEEL_LONG_PRESS	wheel.h	/^#define WHEEL_LONG_PRESS /;"	d
 WHEEL_L_PORT	wheel.h	/^#define WHEEL_L_PORT /;"	d
 WHEEL_L_TRIS	wheel.h	/^#define WHEEL_L_TRIS /;"	d
-WHEEL_NONE	wheel.h	/^#define WHEEL_NONE	/;"	d
-WHEEL_PRESS	wheel.h	/^#define WHEEL_PRESS	/;"	d
+WHEEL_NONE	wheel.h	/^#define WHEEL_NONE /;"	d
+WHEEL_PRESS	wheel.h	/^#define WHEEL_PRESS /;"	d
 WHEEL_P_PORT	wheel.h	/^#define WHEEL_P_PORT /;"	d
 WHEEL_P_TRIS	wheel.h	/^#define WHEEL_P_TRIS /;"	d
 WHEEL_R_PORT	wheel.h	/^#define WHEEL_R_PORT /;"	d
 WHEEL_R_TRIS	wheel.h	/^#define WHEEL_R_TRIS /;"	d
-WHEEL_TURN_LEFT	wheel.h	/^#define WHEEL_TURN_LEFT	/;"	d
-WHEEL_TURN_RIGHT	wheel.h	/^#define WHEEL_TURN_RIGHT	/;"	d
+WHEEL_TURN_LEFT	wheel.h	/^#define WHEEL_TURN_LEFT /;"	d
+WHEEL_TURN_RIGHT	wheel.h	/^#define WHEEL_TURN_RIGHT /;"	d
 WHITE	screen.h	/^#define	WHITE	/;"	d
+WIFI_BUSY	wifi.h	/^#define WIFI_BUSY	/;"	d
 WIFI_BUS_ERR	wifi.h	/^#define WIFI_BUS_ERR /;"	d
+WIFI_DONE	wifi.h	/^#define WIFI_DONE	/;"	d
 WIFI_ERR	wifi.h	/^#define WIFI_ERR /;"	d
+WIFI_ERROR	wifi.h	/^#define WIFI_ERROR	/;"	d
 WIFI_H	wifi.h	/^#define	WIFI_H$/;"	d
+WIFI_IDLE	wifi.h	/^#define WIFI_IDLE	/;"	d
 WIFI_OK	wifi.h	/^#define WIFI_OK /;"	d
+WIFI_ORDER	wifi.h	/^#define WIFI_ORDER	/;"	d
 WIFI_PASS_LEN	settings.h	/^#define WIFI_PASS_LEN /;"	d
 WIFI_TCP	wifi.h	/^#define WIFI_TCP	/;"	d
 WIFI_UDP	wifi.h	/^#define WIFI_UDP	/;"	d
-__ISR	SPI.c	/^void    __ISR (_SPI_2_VECTOR, IPL7SRS) SPI(void) {$/;"	f	typeref:typename:void
+WIFI_UPDATE	wifi.h	/^#define WIFI_UPDATE	/;"	d
+__ISR	SPI.c	/^void    __ISR (_SPI_2_VECTOR, IPL7SRS) SPI(void)$/;"	f	typeref:typename:void
 __ISR	UART.c	/^void    __ISR (_UART_1_VECTOR, IPL7SRS) UART(void) {$/;"	f	typeref:typename:void
 __ISR	delay.c	/^void    __ISR (_TIMER_1_VECTOR, IPL7SRS) T1_Interrupt(void)$/;"	f	typeref:typename:void
 all	Makefile	/^all: .all-post$/;"	t
-attributes	FAT32.h	/^   byte         attributes;$/;"	m	struct:file_s	typeref:typename:byte
+attributes	FAT32.h	/^   byte		attributes;$/;"	m	struct:file_s	typeref:typename:byte
 build	Makefile	/^build: .build-post$/;"	t
 buzz_on	delay.c	/^bool		buzz_on;$/;"	v	typeref:typename:bool
-buzz_on	main.c	/^bool		buzz_on;$/;"	v	typeref:typename:bool
-byte	types.h	/^typedef unsigned char byte;$/;"	t	typeref:typename:unsigned char
+byte	types.h	/^typedef uint8_t byte;$/;"	t	typeref:typename:uint8_t
 checkReturnCode	nbproject/Package-default.bash	/^function checkReturnCode$/;"	f
+check_photo	photo.c	/^int	check_photo(void)$/;"	f	typeref:typename:int
 clean	Makefile	/^clean: .clean-post$/;"	t
 clobber	Makefile	/^clobber: .clobber-post$/;"	t
-cluster	FAT32.h	/^   unsigned int cluster;$/;"	m	struct:file_s	typeref:typename:unsigned int
+cluster	FAT32.h	/^   uint32_t	cluster;$/;"	m	struct:file_s	typeref:typename:uint32_t
 com-microchip-mplab-nbide-embedded-makeproject-MakeProject.md5	nbproject/Makefile-genesis.properties	/^com-microchip-mplab-nbide-embedded-makeproject-MakeProject.md5=3c333ba33c51ccc254bb69f65f4fff20$/;"	k
 conf.ids	nbproject/Makefile-genesis.properties	/^conf.ids=default$/;"	k
-configurations-xml	nbproject/Makefile-genesis.properties	/^configurations-xml=e174d5e2b90a92667632f7ac1742df9f$/;"	k
-convert_arr_to_long	convert.c	/^unsigned long convert_arr_to_long(byte* arr)$/;"	f	typeref:typename:unsigned long
-convert_long_to_arr	convert.c	/^byte* convert_long_to_arr(unsigned long val)$/;"	f	typeref:typename:byte *
-convert_ret	convert.c	/^byte convert_ret[4];$/;"	v	typeref:typename:byte[4]
+configurations-xml	nbproject/Makefile-genesis.properties	/^configurations-xml=a55a612048a52bc4b3b1600513b2428b$/;"	k
+convert_arr_to_long	convert.c	/^uint64_t convert_arr_to_long(byte* arr)$/;"	f	typeref:typename:uint64_t
+convert_arr_to_short	convert.c	/^uint16_t convert_arr_to_short(byte* arr)$/;"	f	typeref:typename:uint16_t
+convert_long_to_arr	convert.c	/^byte* convert_long_to_arr(uint64_t val)$/;"	f	typeref:typename:byte *
+convert_ret_l	convert.c	/^byte convert_ret_l[4];$/;"	v	typeref:typename:byte[4]
+convert_ret_s	convert.c	/^byte convert_ret_s[2];$/;"	v	typeref:typename:byte[2]
+convert_short_to_arr	convert.c	/^byte* convert_short_to_arr(uint16_t val)$/;"	f	typeref:typename:byte *
 copyFileToTmpDir	nbproject/Package-default.bash	/^function copyFileToTmpDir$/;"	f
-cursor	FAT32.h	/^   unsigned int cursor;$/;"	m	struct:file_s	typeref:typename:unsigned int
-cursor_sector	FAT32.h	/^   unsigned int cursor_sector;$/;"	m	struct:file_s	typeref:typename:unsigned int
+cursor	FAT32.h	/^   uint32_t	cursor;$/;"	m	struct:file_s	typeref:typename:uint32_t
+cursor_sector	FAT32.h	/^   uint32_t	cursor_sector;$/;"	m	struct:file_s	typeref:typename:uint32_t
 default.com-microchip-mplab-nbide-toolchainXC32-XC32LanguageToolchain.md5	nbproject/Makefile-genesis.properties	/^default.com-microchip-mplab-nbide-toolchainXC32-XC32LanguageToolchain.md5=3976384a3210002020dbcd/;"	k
 default.languagetoolchain.dir	nbproject/Makefile-genesis.properties	/^default.languagetoolchain.dir=\/Applications\/microchip\/xc32\/v2.10\/bin$/;"	k
 default.languagetoolchain.version	nbproject/Makefile-genesis.properties	/^default.languagetoolchain.version=2.10$/;"	k
+delay_async_ms	delay.c	/^void delay_async_ms(uint32_t ms)$/;"	f	typeref:typename:void
+delay_async_status	delay.c	/^uint32_t delay_async_status(void)$/;"	f	typeref:typename:uint32_t
 delay_init	delay.c	/^void	delay_init()$/;"	f	typeref:typename:void
 delay_ms	delay.c	/^void	delay_ms(uint32_t ms)$/;"	f	typeref:typename:void
 delay_us	delay.c	/^void	delay_us(uint32_t us)$/;"	f	typeref:typename:void
 dist/${CND_CONF}/${IMAGE_TYPE}/pop.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}	nbproject/Makefile-default.mk	/^dist\/${CND_CONF}\/${IMAGE_TYPE}\/pop.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbprojec/;"	t
-false	types.h	/^#define false /;"	d
 file_s	FAT32.h	/^typedef struct  file_s$/;"	s
 file_t	FAT32.h	/^}               file_t;$/;"	t	typeref:struct:file_s
 flag	list.h	/^	byte   flag;$/;"	m	struct:listItem	typeref:typename:byte
 freq	delay.c	/^uint32_t	freq;$/;"	v	typeref:typename:uint32_t
-freq	main.c	/^uint32_t	freq;$/;"	v	typeref:typename:uint32_t
-guess	wheel.c	/^volatile byte	guess = WHEEL_NONE;$/;"	v	typeref:typename:volatile byte
+freq	piezo.h	/^	uint16_t	freq;$/;"	m	struct:note_s	typeref:typename:uint16_t
+guess	wheel.c	/^volatile byte guess  = WHEEL_NONE;$/;"	v	typeref:typename:volatile byte
 help	Makefile	/^help: .help-post$/;"	t
 host.platform	nbproject/Makefile-genesis.properties	/^host.platform=mac$/;"	k
 id	list.h	/^	size_t id;$/;"	m	struct:listItem	typeref:typename:size_t
+images_get_from_SD	images.c	/^bool	images_get_from_SD(char *name, unsigned char **buff )$/;"	f	typeref:typename:bool
 init	main.c	/^void init(void)$/;"	f	typeref:typename:void
 led_init	led.c	/^void led_init(void)$/;"	f	typeref:typename:void
 led_set	led.c	/^void led_set(char status)$/;"	f	typeref:typename:void
+len	piezo.h	/^	float		len;$/;"	m	struct:note_s	typeref:typename:float
 listItem	list.h	/^struct listItem$/;"	s
 list_add_item	list.c	/^bool list_add_item(struct listItem item)$/;"	f	typeref:typename:bool
 list_clear	list.c	/^bool list_clear(void)$/;"	f	typeref:typename:bool
@@ -399,30 +552,58 @@ mdbDebugger/LAST_HW_BP_RESOURCE_WARN	nbproject/private/SuppressibleMessageMemo.p
 mdbDebugger/NO_HW_BP_RESOURCES_WARN	nbproject/private/SuppressibleMessageMemo.properties	/^mdbDebugger\/NO_HW_BP_RESOURCES_WARN=true$/;"	k
 name	list.h	/^	char   name[50];$/;"	m	struct:listItem	typeref:typename:char[50]
 note_len	delay.c	/^uint16_t	note_len;$/;"	v	typeref:typename:uint16_t
-note_len	main.c	/^uint16_t	note_len;$/;"	v	typeref:typename:uint16_t
+note_s	piezo.h	/^typedef struct	note_s$/;"	s
+note_t	piezo.h	/^}				note_t;$/;"	t	typeref:struct:note_s
+pages_list	pages.c	/^void pages_list(void) {$/;"	f	typeref:typename:void
+pages_settings	pages.c	/^void pages_settings(void) {$/;"	f	typeref:typename:void
 play_note	piezo.c	/^void	play_note(uint16_t freq, uint16_t len)$/;"	f	typeref:typename:void
+play_song	piezo.c	/^void	play_song(note_t *array, uint16_t speed, size_t size)$/;"	f	typeref:typename:void
+settings_contrast	settings.h	/^byte     settings_contrast;$/;"	v	typeref:typename:byte
+settings_distance	settings.h	/^uint16_t settings_distance;$/;"	v	typeref:typename:uint16_t
 settings_get_setting	settings.c	/^bool settings_get_setting(size_t offset, size_t size, byte* val)$/;"	f	typeref:typename:bool
 settings_get_wifi_credentials	settings.c	/^bool settings_get_wifi_credentials(void)$/;"	f	typeref:typename:bool
+settings_load	settings.c	/^bool settings_load(void) {$/;"	f	typeref:typename:bool
+settings_mode	settings.h	/^byte     settings_mode;$/;"	v	typeref:typename:byte
 settings_set_setting	settings.c	/^bool settings_set_setting(size_t offset, size_t size, byte* val)$/;"	f	typeref:typename:bool
+settings_sound	settings.h	/^byte     settings_sound;$/;"	v	typeref:typename:byte
 shiftreg_init	shiftreg.c	/^void shiftreg_init(void)$/;"	f	typeref:typename:void
 shiftreg_set	shiftreg.c	/^void shiftreg_set(byte pin, bool level)$/;"	f	typeref:typename:void
 shiftreg_value	shiftreg.c	/^byte shiftreg_value;$/;"	v	typeref:typename:byte
 shiftreg_write	shiftreg.c	/^void shiftreg_write(byte val)$/;"	f	typeref:typename:void
-size	FAT32.h	/^   unsigned int size;$/;"	m	struct:file_s	typeref:typename:unsigned int
-slp	delay.c	/^uint16_t	slp = 0;$/;"	v	typeref:typename:uint16_t
+sil	piezo.h	/^	float		sil;$/;"	m	struct:note_s	typeref:typename:float
+size	FAT32.h	/^   uint32_t	size;$/;"	m	struct:file_s	typeref:typename:uint32_t
+slp_ms	delay.c	/^uint16_t	slp_ms = 0;$/;"	v	typeref:typename:uint16_t
+slp_us	delay.c	/^uint16_t	slp_us = 0;$/;"	v	typeref:typename:uint16_t
 stop_note	piezo.c	/^void	stop_note(void)$/;"	f	typeref:typename:void
-true	types.h	/^#define true /;"	d
-wheel_event	wheel.c	/^byte wheel_event(void)$/;"	f	typeref:typename:byte
+sure_eyes_left_bits	images.h	/^static unsigned char sure_eyes_left_bits[] = {$/;"	v	typeref:typename:unsigned char[]
+sure_eyes_right_bits	images.h	/^static unsigned char sure_eyes_right_bits[] = {$/;"	v	typeref:typename:unsigned char[]
+tetris	piezo.h	/^note_t	tetris[] = {$/;"	v	typeref:typename:note_t[]
+ui_bck_img	UI.c	/^file_t	ui_bck_img;$/;"	v	typeref:typename:file_t
+ui_bck_img_	UI.c	/^bool	ui_bck_img_ = false;$/;"	v	typeref:typename:bool
+ui_bck_msg	UI.c	/^file_t	ui_bck_msg;$/;"	v	typeref:typename:file_t
+ui_bck_msg_	UI.c	/^bool	ui_bck_msg_ = false;$/;"	v	typeref:typename:bool
+ui_bck_wifi	UI.c	/^file_t	ui_bck_wifi;$/;"	v	typeref:typename:file_t
+ui_bck_wifi_	UI.c	/^bool	ui_bck_wifi_ = false;$/;"	v	typeref:typename:bool
+wheel_confirm_press	wheel.c	/^byte wheel_confirm_press(void) {$/;"	f	typeref:typename:byte
+wheel_get_event	wheel.c	/^byte wheel_get_event(void) {$/;"	f	typeref:typename:byte
+wheel_get_event_timeout	wheel.c	/^byte wheel_get_event_timeout(size_t timeout) {$/;"	f	typeref:typename:byte
 wheel_init	wheel.c	/^void wheel_init(void)$/;"	f	typeref:typename:void
-wheel_l_slp	wheel.c	/^bool			wheel_l_slp = false;$/;"	v	typeref:typename:bool
-wheel_r_slp	wheel.c	/^bool			wheel_r_slp = false;$/;"	v	typeref:typename:bool
+wheel_l_slp	wheel.c	/^bool wheel_l_slp = false;$/;"	v	typeref:typename:bool
+wheel_r_slp	wheel.c	/^bool wheel_r_slp = false;$/;"	v	typeref:typename:bool
+wifi_async_check	wifi.c	/^bool wifi_async_check(void) {$/;"	f	typeref:typename:bool
+wifi_async_i	wifi.c	/^size_t wifi_async_i = 0;$/;"	v	typeref:typename:size_t
+wifi_async_is_ready	wifi.c	/^bool wifi_async_is_ready(void) {$/;"	f	typeref:typename:bool
+wifi_async_order	wifi.c	/^bool wifi_async_order(uint64_t id) {$/;"	f	typeref:typename:bool
+wifi_async_status	wifi.h	/^byte wifi_async_status = WIFI_IDLE;$/;"	v	typeref:typename:byte
+wifi_async_update	wifi.c	/^bool wifi_async_update(void) {$/;"	f	typeref:typename:bool
 wifi_connect	wifi.c	/^bool wifi_connect(char *ssid, char *pass)$/;"	f	typeref:typename:bool
+wifi_curr_op	wifi.h	/^byte wifi_curr_op = WIFI_IDLE;$/;"	v	typeref:typename:byte
 wifi_flush_uart	wifi.c	/^void wifi_flush_uart(void)$/;"	f	typeref:typename:void
 wifi_init	wifi.c	/^bool wifi_init(void)$/;"	f	typeref:typename:bool
-wifi_load_response	wifi.c	/^char *wifi_load_response(void)$/;"	f	typeref:typename:char *
-wifi_order	wifi.c	/^bool wifi_order(unsigned long id)$/;"	f	typeref:typename:bool
+wifi_load_response	wifi.c	/^void wifi_load_response(void)$/;"	f	typeref:typename:void
 wifi_pass	settings.h	/^char	wifi_pass[WIFI_PASS_LEN];$/;"	v	typeref:typename:char[]
 wifi_prepare	wifi.c	/^bool wifi_prepare(void)$/;"	f	typeref:typename:bool
+wifi_rcv_order	wifi.c	/^bool wifi_rcv_order(void)$/;"	f	typeref:typename:bool
+wifi_rcv_update	wifi.c	/^bool wifi_rcv_update(void)$/;"	f	typeref:typename:bool
 wifi_response	wifi.c	/^char wifi_response[100];$/;"	v	typeref:typename:char[100]
 wifi_ssid	settings.h	/^char	wifi_ssid[WIFI_PASS_LEN];$/;"	v	typeref:typename:char[]
-wifi_update	wifi.c	/^bool wifi_update(void)$/;"	f	typeref:typename:bool

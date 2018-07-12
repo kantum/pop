@@ -11,6 +11,7 @@
 #include "shiftreg.h"
 #include "wheel.h"
 #include "UI.h"
+#include "piezo.h"
 #include <p32xxxx.h>
 
 void init(void)
@@ -23,9 +24,14 @@ void init(void)
 	UART_init();
 	wifi_init();
 	SPI_init();
-	SD_init();
-	FAT32_mount();
 	OLED_init();
+	if (!SD_init() || !FAT32_mount()) {
+		while(1);
+	}
+	settings_load();
+	UI_init();
+	OLED_set_contrast(settings_contrast);
+	
 }
 
 void main(void)
@@ -40,59 +46,24 @@ void main(void)
 
 	led_set(LED_RED);
 	OLED_fill(0xFF);
+	play_song(tetris, 400, 38);
 
 	UI_list_clear();
-	if (!wifi_prepare())
-		UI_list_set(1, "Wifi not working");
-	else
-		UI_list_set(1, "Wifi working");
+	UI_message("Looking for Wi-Fi|", UI_IGNORE_EVENTS, 0);
+	//	delay_ms(5000);
+	wifi_prepare();
+
+	UI_message("Connecting to Wi-Fi|", UI_IGNORE_EVENTS, 0);
+	//	delay_ms(1000);
 	if (!wifi_connect("donotconnect", "pleasedont"))
-		UI_list_set(2, "Wifi not connected");
-	else
-		UI_list_set(2, "Wifi connected");
-	if (!wifi_update())
-		UI_list_set(3, "Update not working");
-	else
-		UI_list_set(3, "Update working");
-	OLED_fill(0x0);
+		;//UI_message("ERROR Connecting to Wi-Fi", UI_IGNORE_EVENTS, 0); while(1); //TODO Handle ERROR HERE
 
-	UI_list_set(4, "Item4");
-	UI_list_set(5, "Item5");
-	UI_list_set(6, "Item6");
-	UI_list_set(7, "Item7");
-	UI_list_set(8, "Item8");
-	UI_list_set(9, "Item9");
-	i = 0;
-	do
-	{
-		list_get_item(i, &itm);
-		UI_list_set(i++, itm.name);
+	UI_message("Updating List|", UI_IGNORE_EVENTS, 0);
+	//	delay_ms(1000);
+	if (!wifi_async_update()) {
+		UI_message("ERROR Updating List", UI_IGNORE_EVENTS, 0); while(1); //TODO Handle ERROR HERE
 	}
-	while (itm.flag == 0xFF);
 
-	UI_list_start();
-
-	while (true)
-	{
-		photo_dist = check_photo();
-		UI_list_set(0, itoa(photo_buff, photo_dist, 10));
-		UI_repaint();
-		evnt = wheel_event();
-		if (evnt == WHEEL_TURN_LEFT)
-		{
-			UI_scroll(SCROLL_UP);
-			play_note(5000, 500);
-		}
-		else if (evnt == WHEEL_TURN_RIGHT)
-		{
-			UI_scroll(SCROLL_DOWN);
-			play_note(5000, 500);
-		}
-		else if (evnt == WHEEL_PRESS)
-		{
-			UI_scroll(SCROLL_DOWN);
-			play_note(5000, 500);
-			delay_ms(250);
-		}
-	}
+	pages_list();
+	while (true);
 }

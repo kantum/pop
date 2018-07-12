@@ -37,8 +37,6 @@ void	SPI_init(void)
 	SPI2CONbits.CKE = 1;	// Set Clock Edge active\idle Clock
 	// from now on, the device is ready to transmit and receive data
 
-	SPI_SS_TRIS_SD = OUTPUT;	//	Configure the Slave Select as output
-	SPI_SS_LAT_SD = HIGH;
 
 	SPI_initialized = true;
 }
@@ -104,7 +102,7 @@ void	SPI_send(void)
 {
 	SPI_TX_i = 0;				// Release the 'lock' (Read SPI_queue_byte comments)
 	IFS1bits.SPI2RXIF = 1;		// If it's the first byte activate the "domino" effect by setting the flag and in consequence call the interrupt function;
-	while (SPI_sending()) delay_us(1); // As the function is synchronous, wait for the bytes to be sent to return
+	while (SPI_sending()); // As the function is synchronous, wait for the bytes to be sent to return
 }
 
 // SPI_read: Sends 'bytes' times the dummy byte and stores the response in SPI_RX

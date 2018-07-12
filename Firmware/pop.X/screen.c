@@ -3,6 +3,10 @@
 #include "screen.h"
 #include "delay.h"
 #include "shiftreg.h"
+#include "FAT32.h"
+#include "wifi.h"
+
+byte OLED_page = 0;
 
 void	OLED_init(void)
 {
@@ -33,9 +37,9 @@ void	OLED_init(void)
 	OLED_SPI(0xD3);		// Set display vertical offset
 	OLED_SPI(0x00);		// not offset
 	OLED_SPI(0xD5);		// Set display clock divide ratio/oscillator frequency
-	OLED_SPI(0x50);
+	OLED_SPI(0x50);		// <-------- 0x50
 	OLED_SPI(0xD9);		// Set pre-charge period
-	OLED_SPI(0x22);
+	OLED_SPI(0x22);		// <-------- 0x22
 	OLED_SPI(0xDA);		// Set com pins hardware configuration
 	OLED_SPI(0x12);
 	OLED_SPI(0xDB);		// Set vcom high at deselect
@@ -46,6 +50,15 @@ void	OLED_init(void)
 
 	SPI_send();
 	shiftreg_set(PIN_OLED_13V, HIGH); // Set VCC to high
+}
+
+void	OLED_set_contrast(byte contrast)
+{
+	SPI_slave_select(SPI_OLED);
+	shiftreg_set(PIN_OLED_DC, COMMAND);
+	OLED_SPI(0x81);							// Set contrast control register
+	OLED_SPI(contrast);						// 0-256
+	SPI_send();
 }
 
 void	OLED_fill(byte color)
@@ -69,6 +82,7 @@ void	OLED_fill(byte color)
 	for (i = 0; i <= 1024; i++)
 		OLED_SPI(color);
 	SPI_send();
+	OLED_page = 0;
 }
 
 void	OLED_putstr_init(void)
@@ -86,45 +100,103 @@ void	OLED_putstr_init(void)
 	OLED_SPI(0x40);		// Set Display Start Line
 
 	SPI_send();
+	OLED_page = 0;
 }
 
-void	OLED_putstr(byte *str, byte font, byte offset)
-{
-	byte		buf[1024];
-	byte		tmp;
-	byte		j;
-	byte		i;
+void	OLED_filler(byte i, byte options) {
+	byte filler = 0x00;
+	if (options & OLED_FONT_TRANSPARENT)
+		filler = FAT32_BUFFER[128 * (OLED_page % 4) + i];
+	if (options & OLED_FONT_INVERTED)
+		OLED_SPI(~filler);
+	else
+		OLED_SPI(filler);
+}
 
-	if (font == OLED_FONT_DOUBLE)
-	{
-		OLED_putstr(str, OLED_CHAR_TOP, offset);
-		OLED_putstr(str, OLED_CHAR_BOTTOM, offset);
+void	OLED_putbuff(byte *buf) {
+	SPI_slave_select(SPI_OLED);
+	shiftreg_set(PIN_OLED_DC, DATA);
+
+	size_t i = 0;
+	//while (i < 512) OLED_SPI()
+}
+
+
+void	OLED_putstr(byte *str, byte options, byte offset)
+{
+	uint8_t		tmp;
+	uint8_t		j;
+	uint8_t		i;
+	byte		merged;
+	byte		icon_bytes = 0;
+	
+	SPI_slave_select(SPI_OLED);
+
+	if (OLED_page == 0 && wifi_async_status == WIFI_BUSY)
+		icon_bytes = OLED_wifi_icon;
+	
+	
+	if (offset > 128 - icon_bytes) offset = 128 - icon_bytes;
+	if (options & OLED_FONT_DOUBLE) {
+		options ^= OLED_FONT_DOUBLE;
+		options |= OLED_FONT_IS_HALF;
+		OLED_putstr(str, options | OLED_FONT_TOP, offset);
+		OLED_putstr(str, options, offset);
 		return;
 	}
 	
-	j = -1;
+	j = 0;
 	shiftreg_set(PIN_OLED_DC, DATA);
 	for(i = 0; i < offset; i++)
-		OLED_SPI(0x0);
-	while (str[++j])
-    {
-		tmp = (str[j] - 32);		
-		for(i = 0; i < 5; i++)
-			OLED_SPI(OLED_extend_char(OLED_characters2[tmp * 5 + i], font));
-		OLED_SPI(0x0);
+		OLED_filler(i, options);
+	
+	
+	byte chars_allowed;
+	if (icon_bytes) {
+		chars_allowed = (128 - icon_bytes - offset) / 6;
+	} else {
+		chars_allowed = (128 - offset) / 6;
 	}
-	for(i = 0; i < 128 - (j * 6) - offset; i++)
-		OLED_SPI(0x0);
+	
+	while (str[j] && j < chars_allowed)
+    {
+		tmp = (str[j] - 32);
+		if (j == chars_allowed - 1) tmp = OLED_ELLIPSIS_CHAR; // Ellipsis
+		for(i = 0; i < 5; i++) {
+			merged = OLED_extend_char(OLED_characters2[tmp * 5 + i], options);
+			if (options & OLED_FONT_TRANSPARENT)
+				merged |= FAT32_BUFFER[128 * (OLED_page % 4) + i + offset + (j * 6)];
+			if (options & OLED_FONT_INVERTED)
+				merged = ~merged;
+			OLED_SPI(merged);
+		}
+		OLED_filler(i + (j * 6) + offset, options);
+		j++;
+	}
+
+	for(i = 0; i < 128 - (j * 6) - offset - icon_bytes; i++) 
+		OLED_filler(i + (j * 6) + offset, options);
+	for (i = 0; i < icon_bytes; i++)
+		OLED_SPI(OLED_wifi[i]);
+
 	SPI_send();
+	if (OLED_page < 7) OLED_page++;
+	else OLED_page = 0;
 }
 
 byte OLED_extend_char(byte b, byte mask)
 {
 	byte pos = 0;
 	byte out = 0x00;
-
-	if (mask == OLED_FONT_NORMAL)
+	
+	if (!(mask & OLED_FONT_IS_HALF))
 		return (b);
+	
+	if (mask & OLED_FONT_TOP)
+		mask = 0b00001000;
+	else
+		mask = 0b10000000;
+	
 	while (pos < 4)
 	{
 		if (mask & b)

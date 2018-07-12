@@ -314,12 +314,20 @@ bool SD_write_sector(uint32_t sector, char* buffer)
 	if (!SPI_get_response(1, (GRACE_BYTES + 1), 0xff, 1, &r1_response))
 		return (false);
 
+	byte dummy = 0x00;
+	while (dummy == 0x00) {
+		SPI_read(1, 0xFF);
+		SPI_get_byte(&dummy);
+	}
 	/*===============================[CMD13]==============================*/
-	SD_send_command(CMD13, 0x0, 0x0, 0x0, 0x0, 0xff);
-
-	if	(!SPI_get_response(2, GRACE_BYTES+2, 0xff, 1, r2_response) /*&& r2_response[0] == 0x00 && r2_response[1] == 0x00*/)
+	/*SD_send_command(CMD13, 0x0, 0x0, 0x0, 0x0, 0xff);
+	
+	SPI_read(5, 0xFF);
+	while (SPI_available())
+		SPI_get_byte(&dummy);
+	/*if	(!SPI_get_response(2, GRACE_BYTES+2, 0xff, 1, r2_response) /*&& r2_response[0] == 0x00 && r2_response[1] == 0x00)
 	{
-		/* NON USABLE CARD */
+		// NON USABLE CARD
 		return (false);
 	}
 	else

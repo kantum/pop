@@ -16,11 +16,25 @@
 #define	BLACK		0x0
 #define	CONTRAST	128
 
-#define OLED_CHAR_TOP       0b00001000
-#define OLED_CHAR_BOTTOM    0b10000000
 
-#define OLED_FONT_NORMAL    0x00
-#define OLED_FONT_DOUBLE    0xDD
+#define OLED_ELLIPSIS_CHAR      92 // 'z' + 2
+
+#define OLED_FONT_NORMAL        0b00000000
+#define OLED_FONT_DOUBLE        0b00000001
+#define OLED_FONT_IS_HALF       0b00000010
+#define OLED_FONT_TOP           0b00000100
+#define OLED_FONT_INVERTED      0b00001000
+#define OLED_FONT_TRANSPARENT   0b00010000
+
+
+//0 > Font Regular/Double 
+//0 > Is Halved
+//0 > Halved Bottom Top
+//0 > Normal/Inverted
+//0 > Opaque/Transparent Background
+//0 > 
+//0 > 
+//0 >
 
 void	OLED_refresh(void);
 void	OLED_fill(byte color);
@@ -29,6 +43,12 @@ void	OLED_run(void);
 void	OLED_run(void);
 void	OLED_putstr(byte *str, byte font, byte offset);
 byte	OLED_extend_char(byte b, byte lvl);
+void	OLED_set_contrast(byte contrast);
+
+#define OLED_wifi_icon      14    
+static const unsigned char OLED_wifi[] = {
+    0x06, 0x02, 0x1B, 0x0D, 0x25, 0x35, 0x55, 0x35, 0x25, 0x0D, 0x1B, 0x02, 0x06, 0x00
+};
 
 static const unsigned char OLED_img1[] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -327,7 +347,8 @@ const unsigned char OLED_characters2[] =
 	0x44, 0x28, 0x10, 0x28, 0x44,	// x
 	0x1C, 0xA0, 0xA0, 0xA0, 0x7C,	// y
 	0x44, 0x64, 0x54, 0x4C, 0x44,	// z
-	0x14, 0x14, 0x14, 0x14, 0x14 	// horiz lines
+	0x14, 0x14, 0x14, 0x14, 0x14, 	// horiz lines
+    0x40, 0x00, 0x40, 0x00, 0x40 	// ...
 };
 
 static char OLED_buffer[128 * 32 / 8] = { //Perpopulated with the Microchip logo

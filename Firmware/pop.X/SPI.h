@@ -18,9 +18,6 @@
 #define SPI_SD      0x1
 #define SPI_OLED    0x2
 
-#define SPI_SS_TRIS_SD   TRISFbits.TRISF1   // The 'TRIS' bit of the SD
-#define SPI_SS_LAT_SD    LATFbits.LATF1     // The 'LAT' bit of the SD
-
 /* SPI Globals*/
 byte	SPI_TX[SPI_BUFF_SIZE];			// Outgoing SPI data buffer
 bool	SPI_TX_discard[SPI_BUFF_SIZE];	// Mark if the response from the byte has to be saved

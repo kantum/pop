@@ -11,21 +11,23 @@
 #include "types.h"
 
 /* PINS */
-#define WHEEL_R_PORT                PORTDbits.RD9
-#define WHEEL_R_TRIS                TRISDbits.TRISD9
+#define WHEEL_R_PORT                PORTDbits.RD10
+#define WHEEL_R_TRIS                TRISDbits.TRISD10
 
-#define WHEEL_L_PORT                PORTDbits.RD10
-#define WHEEL_L_TRIS                TRISDbits.TRISD10
+#define WHEEL_L_PORT                PORTDbits.RD9
+#define WHEEL_L_TRIS                TRISDbits.TRISD9
 
 #define WHEEL_P_PORT                PORTDbits.RD11
 #define WHEEL_P_TRIS                TRISDbits.TRISD11
 
-#define WHEEL_NONE					0
-#define WHEEL_TURN_RIGHT			1
-#define WHEEL_TURN_LEFT				2
-#define WHEEL_PRESS					3
-
 void wheel_init(void);
-byte wheel_event(void);
+byte wheel_get_event_timeout(size_t timeout);
+byte wheel_get_event(void);
+
+#define WHEEL_NONE       0
+#define WHEEL_TURN_RIGHT 1
+#define WHEEL_TURN_LEFT  2
+#define WHEEL_PRESS      3
+#define WHEEL_LONG_PRESS 4
 
 #endif /* WHEEL_H */

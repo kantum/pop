@@ -32,7 +32,9 @@ bool settings_set_setting(size_t offset, size_t size, byte* val)
 	FAT32_fgetb(&file, FAT32_BUFFER);
 	while (size--)
 		FAT32_BUFFER[offset + (size)] = val[size];
-	return (FAT32_fputlb(&file, FAT32_BUFFER));
+	if (!FAT32_fputlb(&file, FAT32_BUFFER))
+		return (false);
+	return (settings_load());
 }
 
 bool settings_get_setting(size_t offset, size_t size, byte* val)
@@ -45,5 +47,20 @@ bool settings_get_setting(size_t offset, size_t size, byte* val)
 	FAT32_fgetb(&file, FAT32_BUFFER);
 	while (size--)
 		val[size] = FAT32_BUFFER[offset + (size)];
+	return (true);
+}
+
+
+bool settings_load(void) {
+	if (!settings_get_setting(SETTING_MODE, &settings_mode))
+		return (false)/* TODO Error Handler */;
+	if (!settings_get_setting(SETTING_CONTRAST, &settings_contrast))
+		return (false)/* TODO Error Handler */;
+	if (!settings_get_setting(SETTING_SOUND, &settings_sound))
+		return (false)/* TODO Error Handler */;
+	byte rsp[2];
+	if (!settings_get_setting(SETTING_DISTANCE, rsp))
+		return (false)/* TODO Error Handler */;
+	settings_distance = convert_arr_to_short(&rsp);
 	return (true);
 }
