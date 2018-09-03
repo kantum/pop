@@ -6,10 +6,12 @@ uint16_t	slp_us = 0;
 uint16_t	note_len;
 uint32_t	freq;
 bool		buzz_on;
+size_t		global_millis = 0x00;
 
 void    __ISR (_TIMER_1_VECTOR, IPL7SRS) T1_Interrupt(void)
 {
 	IFS0bits.T1IF = 0;				// Timer 1 interrupt flag reset
+	global_millis++;
 	if (slp_us)
 	{
 		--slp_us;
@@ -21,6 +23,10 @@ void    __ISR (_TIMER_1_VECTOR, IPL7SRS) T1_Interrupt(void)
 		if (note_len && ! --note_len)
 			stop_note();
 	}
+}
+
+size_t	millis() {
+	return (global_millis);
 }
 
 void	delay_init()

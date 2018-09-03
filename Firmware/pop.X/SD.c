@@ -41,7 +41,7 @@ bool SD_init(void)
 	SPI_slave_select(SPI_NONE);
 
 	// ..."and toggle SD CLK for at least 74 cycles"
-	count = 10;
+	count = 20;
 	while (count--)
 		SPI_queue(0b11111111);
 	SPI_send();

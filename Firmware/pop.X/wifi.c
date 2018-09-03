@@ -5,31 +5,56 @@
 #include "UART.h"
 #include "wifi.h"
 #include "list.h"
+#include "pages.h"
 
 char wifi_response[100];
 size_t wifi_async_i = 0;
+uint64_t wifi_orders_queue[50];
+uint64_t wifi_orders_sz = 0;
+size_t	 wifi_op_s_tmsp = 0;
 
-
-bool wifi_init(void)
-{
-	UART_init(115200);
-	delay_ms(4000);
-	wifi_flush_uart();
+bool wifi_orders_set(uint64_t id){
+	if (wifi_orders_sz < 50) {
+		wifi_orders_queue[wifi_orders_sz] = id;
+		wifi_orders_sz++;
+		return (true);
+	} else {
+		return (false);
+	}
 }
 
-bool wifi_prepare(void)
+uint64_t wifi_orders_get(void){
+	size_t i = 1;
+	uint64_t ret = wifi_orders_queue[0];
+	if (!wifi_orders_sz) return (0x00);
+	wifi_orders_sz--;
+	while ((i - 1) < wifi_orders_sz && i < 49) {
+		wifi_orders_queue[i - 1] = wifi_orders_queue[i];
+		i++;
+	}
+	wifi_orders_queue[i] = 0x00;
+	return (ret);
+}
+
+
+void wifi_enable(bool enable) {
+	//TODO
+}
+
+bool wifi_init(void)
 {
 	byte r = 0x00;
 	while (r != 'O')
 	{
+		UART_init(115200);
+		wifi_flush_uart();
+		delay_async_ms(500);
 		UART_send_str("!!!S");
-		delay_ms(100);
-		if (UART_available())
-		{
-			UART_read(&r);
-		}
-		delay_ms(100);
+		while (!UART_available() && delay_async_status());
+		if (UART_available()) UART_read(&r);
+		delay_ms(500);
 	}
+	delay_ms(100);
 	return (true);
 }
 
@@ -76,6 +101,7 @@ bool wifi_async_update(void) {
 	wifi_async_status = WIFI_BUSY;
 	wifi_async_i = 0;
 	wifi_curr_op = WIFI_UPDATE;
+	wifi_op_s_tmsp = millis();
 	return (true);
 }
 
@@ -88,17 +114,35 @@ bool wifi_async_check(void) {
 	if (wifi_async_is_ready()) {
 		UI_request_repaint();
 		if (wifi_curr_op == WIFI_UPDATE) {
-			wifi_rcv_update(); return (true); // TODO: HANDLE ERR
+			wifi_rcv_update();
+			uint64_t tmp_id = wifi_orders_get();
+			if (tmp_id > 0)
+				wifi_async_order(tmp_id);
+			return (true); // TODO: HANDLE ERR
 		}
 		if (wifi_curr_op == WIFI_ORDER) {
-			wifi_rcv_order(); return (true); // TODO: HANDLE ERR
+			wifi_rcv_order();
+			uint64_t tmp_id = wifi_orders_get();
+			if (tmp_id > 0)
+				wifi_async_order(tmp_id);
+			return (true); // TODO: HANDLE ERR
+		}
+	} else {
+		if (wifi_async_status == WIFI_BUSY && (
+			wifi_curr_op == WIFI_UPDATE ||
+			wifi_curr_op == WIFI_ORDER)) {
+			if (millis() - wifi_op_s_tmsp > 30000) {
+				UI_request_repaint();
+				wifi_async_status = WIFI_ERROR;
+				return (true);
+			}
 		}
 	}
 	return (false);
 }
 
 bool wifi_async_order(uint64_t id) {
-	if (wifi_async_status != WIFI_IDLE) return (false);
+	if (wifi_async_status != WIFI_IDLE) { return (wifi_orders_set(id)); }
 	wifi_flush_uart();
 	UART_send_str("!!!O?");
 	byte num[10];
@@ -108,6 +152,7 @@ bool wifi_async_order(uint64_t id) {
 	wifi_async_status = WIFI_BUSY;
 	wifi_async_i = 0;
 	wifi_curr_op = WIFI_ORDER;
+	wifi_op_s_tmsp = millis();
 	return (true);
 }
 
@@ -160,6 +205,7 @@ bool wifi_rcv_update(void)
 		}
 		itm.name[sz - 1] = 0x00;
 		itm.id = atol(num);
+		pages_list_loaded = false;
 		if (!list_add_item(itm))
 			return (false);
 		return (wifi_async_update());

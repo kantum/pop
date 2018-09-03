@@ -14,7 +14,7 @@ int	check_photo(void)
     PHOTO_ADC_PIN
     AD1CON1bits.ADON = 1;				// Turn ON The ADC
     AD1CON1SET = 0x0002;				// Start Sampling ...
-    delay_ms(1);						// During 1 ms
+    delay_ms(10);						// During 1 ms
     AD1CON1CLR = 0x0002;				// Start Converting
     while (!(AD1CON1 & 0x0001));		// Wait for the conversion
     ADCValue = ADC1BUF0;				// Get ADC Value

@@ -8,6 +8,8 @@
 #ifndef FAT32_H
 #define	FAT32_H
 
+#include "types.h"
+
 bool FAT32_mount(void);
 bool FAT32_mounted(void);
 

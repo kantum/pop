@@ -54,6 +54,9 @@ void	OLED_init(void)
 
 void	OLED_set_contrast(byte contrast)
 {
+	// This does the mapping between 0-100 and 0-255
+	if (contrast <= 100) contrast = (float)contrast * 2.55;
+	
 	SPI_slave_select(SPI_OLED);
 	shiftreg_set(PIN_OLED_DC, COMMAND);
 	OLED_SPI(0x81);							// Set contrast control register
@@ -113,14 +116,40 @@ void	OLED_filler(byte i, byte options) {
 		OLED_SPI(filler);
 }
 
-void	OLED_putbuff(byte *buf) {
+void	OLED_putbuff(byte *buff) {
 	SPI_slave_select(SPI_OLED);
 	shiftreg_set(PIN_OLED_DC, DATA);
 
 	size_t i = 0;
-	//while (i < 512) OLED_SPI()
+	while (i < 512) OLED_SPI(buff[i++]);
+	SPI_send();
 }
 
+void OLED_kb_inv(byte b, byte i, byte sel_s, byte sel_e) {
+	if (i >= sel_s && i <= sel_e) {
+		OLED_SPI(~b);
+	} else {
+		OLED_SPI(b);
+	}
+}
+
+void OLED_keyboard_line(byte *str, byte sp, byte sel_s, byte sel_e, byte offset) {
+	byte i = 0;
+	byte j;
+	sel_s += offset;
+	sel_e += offset;
+	while (i < offset) OLED_kb_inv(0x00, i++, sel_s, sel_e);
+	while (*str && i < (128 - 4 - sp)) {
+		for (j = 0; j < 5; j++) {
+		  OLED_kb_inv(OLED_characters2[(*str - 32) * 5 + j], i++, sel_s, sel_e);
+		}
+		for (j = 0; j < sp; j++) OLED_kb_inv(0x00, i++, sel_s, sel_e);
+		str++;
+	}
+	while (i < 128) OLED_kb_inv(0x00, i++, sel_s, sel_e);	
+	SPI_send();
+	
+}
 
 void	OLED_putstr(byte *str, byte options, byte offset)
 {
@@ -132,7 +161,7 @@ void	OLED_putstr(byte *str, byte options, byte offset)
 	
 	SPI_slave_select(SPI_OLED);
 
-	if (OLED_page == 0 && wifi_async_status == WIFI_BUSY)
+	if (OLED_page == 0 && wifi_async_status != WIFI_IDLE)
 		icon_bytes = OLED_wifi_icon;
 	
 	
@@ -176,8 +205,15 @@ void	OLED_putstr(byte *str, byte options, byte offset)
 
 	for(i = 0; i < 128 - (j * 6) - offset - icon_bytes; i++) 
 		OLED_filler(i + (j * 6) + offset, options);
-	for (i = 0; i < icon_bytes; i++)
-		OLED_SPI(OLED_wifi[i]);
+	for (i = 0; i < icon_bytes; i++) {
+		if (wifi_async_status == WIFI_BUSY) {
+			OLED_SPI(OLED_wifi[i]);
+		} else if (wifi_async_status == WIFI_ERROR) {
+			OLED_SPI(OLED_wifi_err[i]);
+		} else {
+			OLED_SPI(0xFF);
+		}
+	}
 
 	SPI_send();
 	if (OLED_page < 7) OLED_page++;
@@ -191,7 +227,6 @@ byte OLED_extend_char(byte b, byte mask)
 	
 	if (!(mask & OLED_FONT_IS_HALF))
 		return (b);
-	
 	if (mask & OLED_FONT_TOP)
 		mask = 0b00001000;
 	else

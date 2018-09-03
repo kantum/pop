@@ -34,7 +34,7 @@ bool settings_set_setting(size_t offset, size_t size, byte* val)
 		FAT32_BUFFER[offset + (size)] = val[size];
 	if (!FAT32_fputlb(&file, FAT32_BUFFER))
 		return (false);
-	return (settings_load());
+	return (true);
 }
 
 bool settings_get_setting(size_t offset, size_t size, byte* val)
@@ -62,5 +62,11 @@ bool settings_load(void) {
 	if (!settings_get_setting(SETTING_DISTANCE, rsp))
 		return (false)/* TODO Error Handler */;
 	settings_distance = convert_arr_to_short(&rsp);
+	byte rspl[4];
+	if (!settings_get_setting(SETTING_PASSWORD, rspl))
+		return (false)/* TODO Error Handler */;
+	settings_password = convert_arr_to_long(&rspl);
+	if (!settings_get_setting(SETTING_SECURITY, &settings_security))
+		return (false)/* TODO Error Handler */;
 	return (true);
 }

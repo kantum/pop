@@ -2,10 +2,13 @@
 PCB/POP_Altium/__Previews
 PCB/POP_Altium/History
 PCB/POP_Altium/Project Logs for POP
-PCB/POP_Altium/Project Outputs for POP
 Firmware/pop.X/build
 Firmware/pop.X/debug
 Firmware/pop.X/dist
+Firmware/POP2.X/build
+Firmware/POP2.X/debug
+Firmware/POP2.X/dist
+Firmware/images/a.out
 *.un~
 
 

@@ -22,20 +22,29 @@ void init(void)
 	led_init();
 	wheel_init();
 	UART_init();
-	wifi_init();
 	SPI_init();
 	OLED_init();
-	if (!SD_init() || !FAT32_mount()) {
+	OLED_fill(0x00);
+
+	if (!SD_init()) {
+		delay_ms(100);
+ 		UI_message("SD Missing or Non-Compatible", UI_IGNORE_EVENTS, 0);
+		while(1);
+	}
+	if (!FAT32_mount()) {
+		delay_ms(100);
+ 		UI_message("File System Corrupted", UI_IGNORE_EVENTS, 0);
 		while(1);
 	}
 	settings_load();
-	UI_init();
 	OLED_set_contrast(settings_contrast);
 	
 }
 
 void main(void)
 {
+
+	
 	struct listItem itm;
 	byte            i;
 	byte			evnt;
@@ -45,13 +54,13 @@ void main(void)
 	init();
 
 	led_set(LED_RED);
-	OLED_fill(0xFF);
-	play_song(tetris, 400, 38);
-
+	//play_song(tetris, 400, 38);
+	device_unlock();
+	
 	UI_list_clear();
 	UI_message("Looking for Wi-Fi|", UI_IGNORE_EVENTS, 0);
 	//	delay_ms(5000);
-	wifi_prepare();
+	wifi_init();
 
 	UI_message("Connecting to Wi-Fi|", UI_IGNORE_EVENTS, 0);
 	//	delay_ms(1000);
@@ -63,7 +72,7 @@ void main(void)
 	if (!wifi_async_update()) {
 		UI_message("ERROR Updating List", UI_IGNORE_EVENTS, 0); while(1); //TODO Handle ERROR HERE
 	}
-
+	
 	pages_list();
 	while (true);
 }

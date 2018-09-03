@@ -57,7 +57,7 @@ void	SPI_slave_select(byte slave)
 	else
 	{				// This is for slave being SPI_NONE or as a fallback for other values
 		shiftreg_set(PIN_SD_SS, HIGH);
-		shiftreg_set(PIN_SD_SS, HIGH);
+		shiftreg_set(PIN_OLED_SS, HIGH);
 	}
 }
 // SPI_started: Returns true or false depending if the SPI protocol is on or off

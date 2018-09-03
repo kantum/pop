@@ -15,6 +15,8 @@
 #define SETTING_CONTRAST          1 ,      1
 #define SETTING_SOUND             2 ,      1
 #define SETTING_DISTANCE          3 ,      2
+#define SETTING_PASSWORD          5 ,      4
+#define SETTING_SECURITY          9 ,      1
 
 #include "types.h"
 
@@ -22,6 +24,8 @@ byte     settings_mode;
 byte     settings_contrast;
 byte     settings_sound;
 uint16_t settings_distance;
+uint32_t settings_password;
+byte     settings_security;
 
 char	wifi_ssid[WIFI_PASS_LEN];
 char	wifi_pass[WIFI_PASS_LEN];

@@ -161,6 +161,275 @@ uint16_t UI_distance(void)
 	return (UI_EXPIRED_TMOUT);
 }
 
+void	UI_keyboard() {
+	char str[20];
+	byte i = 0;
+	while (i < 20) str[i++] = 0;
+	strcpy(str, "\x81");
+
+	byte len = 0;
+
+	UI_mode = UI_MSG;
+	UI_keyboard_paint(str, 0, 0, UI_KB_REGULAR, 1);
+	delay_ms(UI_PRESS_DELAY);
+	
+	char col = 0;
+	char row = 0;
+	char slen = 1;
+	char kb = UI_KB_REGULAR;
+	byte sl;
+	byte evnt;
+	while (true) {
+		sl = UI_keyboard_paint(str, row, col, kb, slen);
+		evnt = wheel_get_event();
+		if (evnt == WHEEL_PRESS) {
+			if (sl == 0x82) sl = ' ';
+			if (row == 2 && col == 11) {
+				kb ^= 1;
+				continue;
+			}
+			if (row == 0 && col == 11) {
+				if (len > 0) {
+					str[len--] = 0x00;
+					str[len]   = '\x81';
+				}
+			} else {
+				if (len < 18) {
+					str[len++]   = sl;
+					str[len]	 = '\x81';
+					str[len + 1] = 0x00;
+				}
+			}
+		}
+		if (evnt == WHEEL_TURN_LEFT)  { col--; }
+		if (evnt == WHEEL_TURN_RIGHT) { col++; }
+		if (col < 0) {
+			if (row) { row--; } else { col = 0; continue; }
+			if (row == 0) col = 11;
+			if (row == 1) col = 12;
+			if (row == 2) col = 11;
+			if (row == 3) col = 10;
+		}
+		if (row == 0) {
+			if (col == 10 && evnt == WHEEL_TURN_LEFT) { col = 9; }
+			if (col == 10 && evnt == WHEEL_TURN_RIGHT) { col = 11; }
+			if (col == 12) { col = 0; row++; }
+		}
+		if (row == 1) { if (col > 12) { col = 0; row++; } }
+		if (row == 2) {
+//			if (col == 9) { col = 11; }
+//			if (col == 10) { col = 8; }
+			if (col > 11) { col = 0; row++; }
+		}
+		if (row == 3) {
+			if (col > 10) { col = 0; row++; }
+		}
+		if (row == 4) {
+			if (col > 0) { col = 0; }
+		}
+		if ((col == 11 && row == 2) ||
+			(col == 11 && row == 0)) { slen = 3; } else { slen = 1; }
+	}
+	
+}
+
+byte	UI_keyboard_paint(char str[20], size_t row, size_t col, byte kb_, byte len) {
+	byte options = OLED_FONT_NORMAL;
+	
+	OLED_wake();
+	OLED_putstr_init();
+//	OLED_putstr("", options, 0);
+	OLED_putstr(str, options, 3);
+	OLED_putstr("", options, 0);
+
+	char *kb[4];
+	if (kb_ == UI_KB_REGULAR) {
+		kb[0] = "1234567890";
+		kb[1] = "qwertyuiop[]\\";
+		kb[2] = "asdfghjkl;' ^";
+		kb[3] = "zxcvbnm\x82<>/";
+	} else if (kb_ == UI_KB_CAPS) {
+		kb[0] = "!@#$%^&*()";
+		kb[1] = "QWERTYUIOP{}|";
+		kb[2] = "ASDFGHJKL:\" ^";
+		kb[3] = "ZXCVBNM\x82,./";
+	}
+#define KB_SP	4
+
+	byte sel_s = (col * (5 + KB_SP)) - (KB_SP / 2);
+	byte sel_e = sel_s + (5 + KB_SP) * len;
+	if (row == 0) {
+		OLED_keyboard_line(kb[0], KB_SP, sel_s, sel_e, 2);
+	} else { OLED_keyboard_line(kb[0], KB_SP, 1, 0, 2); }
+	
+	if (row == 1) {
+		OLED_keyboard_line(kb[1], KB_SP, sel_s, sel_e, 2);
+	} else { OLED_keyboard_line(kb[1], KB_SP, 1, 0, 2); }
+	
+	if (row == 2) {
+		OLED_keyboard_line(kb[2], KB_SP, sel_s, sel_e, 2);
+	} else { OLED_keyboard_line(kb[2], KB_SP, 1, 0, 2); }
+	
+	if (row == 3) {
+		OLED_keyboard_line(kb[3], KB_SP, sel_s, sel_e, 2);
+	} else { OLED_keyboard_line(kb[3], KB_SP, 1, 0, 2); }
+	OLED_putstr("", options, 0);
+	if (row == 4) {
+		UI_putstr_aligned(">OK<", options, 0, UI_CENTER);
+	} else {
+		UI_putstr_aligned(" OK ", options, 0, UI_CENTER);
+	}
+	if (row < 4)
+		return (kb[row][col]);
+	else
+		return (true);
+}
+
+uint64_t	UI_password(char *str, byte len) {
+	
+	if (len < 3 || len > 5) return (0x00);
+	byte digits[6];
+	int i = 0;
+	while (i < 6) {
+		digits[i++] = ' ';
+	}
+	digits[len] = '-';	// 0xAC == End
+	UI_paint_pass(str, digits, 0x00, false);
+
+	UI_mode = UI_MSG;
+	delay_ms(UI_PRESS_DELAY);
+	
+	int sel = 0x00;
+	bool blinking = false;
+	bool editing = false;
+	bool needs_refresh = true;
+	byte evnt;
+	while (true) {
+		if (needs_refresh) {
+			if (!editing) UI_paint_pass(str, digits, sel, blinking);
+			if (editing) UI_paint_pass(str, digits, sel + 20, 0x00);
+			needs_refresh = false;
+		}
+		if (!editing && sel != len)
+			evnt = wheel_get_event_timeout(200);
+		else
+			evnt = wheel_get_event();
+		if (evnt == WHEEL_NONE) {
+			needs_refresh = true;
+			blinking ^= 1;
+		}
+		if (evnt == WHEEL_TURN_LEFT) {
+			needs_refresh = true;
+			blinking = true;
+			if (!editing) sel--;
+			if (editing) {
+				if (digits[sel] == ' ') {
+					digits[sel] = 0;
+				} else {
+					digits[sel]--;
+				}
+			}
+		}
+		if (evnt == WHEEL_TURN_RIGHT) {
+			needs_refresh = true;
+			blinking = true;
+			if (!editing) sel++;
+			if (editing) {
+				if (digits[sel] == ' ') {
+					digits[sel] = 9;
+				} else {
+					digits[sel]++;
+				}
+			}
+		}
+		if (evnt == WHEEL_PRESS) {
+			if (sel == len) { break; }
+			blinking = true;
+			needs_refresh = true;
+			if (editing == false && digits[sel] == ' ') digits[sel] = 0x00;
+			editing ^= 1;
+		}
+		if (digits[sel] == 0xFF) digits[sel] = 9;
+		if (digits[sel] == 10) digits[sel] = 0;
+		if (sel < 0)   sel = 0;
+		if (sel > len) sel = len;
+	}
+	
+	size_t pass = 0x00;
+	i = 0;
+	while (i < len) {
+		pass *= 10;
+		if (digits[i] >= 0 && digits[i] <= 9)
+			pass += digits[i];
+		i++;
+	}
+	return (pass);
+}
+
+void UI_paint_pass(char *str, char *digits, byte selected, bool blinking)
+{
+	byte options = OLED_FONT_NORMAL;
+	if (ui_bck_msg_)
+		options |= OLED_FONT_TRANSPARENT;
+	OLED_wake();
+	OLED_putstr_init();
+	
+	FAT32_fseek(&ui_bck_msg, 0);
+	
+	char str_pass[20];
+	
+	int i = 0;
+	int j = 0;
+	bool editing = false;
+	if (selected >= 20) {
+		selected -= 20;
+		editing = true;
+	}
+	while (i < 6) {
+		if (digits[i] == '-') {
+			break;
+		} else if (digits[i] == ' ') {
+			if (blinking && selected == i) {
+				str_pass[j++] = '}';
+			} else {
+				str_pass[j++] = '_';
+			}
+		} else if (digits[i] >= 0 && digits[i] <= 9) {
+			if (editing) {
+				if (selected == i) str_pass[j++] = digits[i] + '0';
+				else str_pass[j++] = '*';
+			} else {
+				if (blinking && selected == i) str_pass[j++] = '}';
+				else if (selected == i) str_pass[j++] = digits[i] + '0'; //'*';
+				else str_pass[j++] = '*';
+			}
+		} else {
+			str_pass[j++] = '?';
+		}
+		str_pass[j++] = ' ';
+		i++;
+	}
+	str_pass[j - 1] = 0x00;
+	
+	
+	if (ui_bck_msg_) FAT32_fgetb(&ui_bck_msg, FAT32_BUFFER);
+	OLED_putstr("", options, 0);
+	OLED_putstr(str, options, 0);
+	OLED_putstr("", options, 0);
+	UI_putstr_aligned(str_pass, options | OLED_FONT_IS_HALF | OLED_FONT_TOP, 0, UI_CENTER);
+	if (ui_bck_msg_) FAT32_fgetb(&ui_bck_msg, FAT32_BUFFER);
+	
+	UI_putstr_aligned(str_pass, options | OLED_FONT_IS_HALF, 0, UI_CENTER);	
+	OLED_putstr("", options, 0);
+	if (selected == i) {
+		UI_putstr_aligned(">OK<", options, 0, UI_CENTER);
+	} else {
+		UI_putstr_aligned(" OK ", options, 0, UI_CENTER);
+	}
+	OLED_putstr("", options, 0);
+}
+
+
 void UI_paint_number(char *str, int32_t val)
 {
 	static byte str_val[10];
@@ -172,6 +441,21 @@ void UI_paint_number(char *str, int32_t val)
 	UI_repaint();
 }
 
+char UI_splitted_msg[UI_MSG_LINE_LEN + 1];
+char* UI_split_msg(char **str) {
+	size_t i = 0;
+	char *end_of_str = 0x00;
+	while (i < UI_MSG_LINE_LEN) {
+		if ((*str)[i] == ' ') end_of_str = ((*str) + i);
+		i++;
+	}
+	if (end_of_str == 0x00) end_of_str = ((*str) + i);
+	i = 0;
+	while ((*str != end_of_str)) UI_splitted_msg[i++] = *((*str)++);
+	UI_splitted_msg[i] = 0x00;
+	return (UI_splitted_msg);
+}
+
 void UI_paint_msg(char *str)
 {
 	byte options = OLED_FONT_NORMAL;
@@ -180,21 +464,56 @@ void UI_paint_msg(char *str)
 	OLED_wake();
 	OLED_putstr_init();
 	
-	FAT32_fseek(&ui_bck_msg, 0);
+	if (ui_bck_msg_) FAT32_fseek(&ui_bck_msg, 0);
 	if (ui_bck_msg_) FAT32_fgetb(&ui_bck_msg, FAT32_BUFFER);
 	OLED_putstr("", options, 0);
 	OLED_putstr("", options, 0);
 	OLED_putstr("", options, 0);
-	UI_putstr_aligned(str, options | OLED_FONT_DOUBLE, 0, UI_CENTER);
-	
-	if (ui_bck_msg_) FAT32_fgetb(&ui_bck_msg, FAT32_BUFFER);
-//	OLED_putstr("", options, 0);
+	if (strlen(str) < UI_MSG_LINE_LEN) {
+		UI_putstr_aligned(str, options | OLED_FONT_IS_HALF | OLED_FONT_TOP, 0, UI_CENTER);
+		if (ui_bck_msg_) FAT32_fgetb(&ui_bck_msg, FAT32_BUFFER);
+		UI_putstr_aligned(str, options | OLED_FONT_IS_HALF, 0, UI_CENTER);
+	} else {
+		UI_putstr_aligned(UI_split_msg(&str), options, 0, UI_CENTER);
+		if (ui_bck_msg_) FAT32_fgetb(&ui_bck_msg, FAT32_BUFFER);
+		UI_putstr_aligned(str, options, 0, UI_CENTER);
+	}
 	OLED_putstr("", options, 0);
 	OLED_putstr("", options, 0);
 	OLED_putstr("", options, 0);
 }
 
-void UI_paint_img(char *path)
+bool UI_load_buff(char *buff, char *path) {
+	ui_bck_img_ = false;
+	if (!FAT32_fopen(FAT32_ROOT_DIRECTORY, path, &ui_bck_img))
+		return (false);
+	ui_bck_img_ = true;
+	FAT32_fgetb(&ui_bck_img, buff);
+	FAT32_fgetb(&ui_bck_img, buff + 512);
+	return (true);
+}
+
+void UI_paint_buff(char *buff) {
+	OLED_wake();
+	OLED_putstr_init();
+	OLED_putbuff(buff);
+	OLED_putbuff(buff + 512);
+}
+
+void UI_paint_img(char *path) {
+	ui_bck_img_ = false;
+	if (FAT32_fopen(FAT32_ROOT_DIRECTORY, path, &ui_bck_img))
+		ui_bck_img_ = true;
+	OLED_wake();
+	OLED_putstr_init();
+	FAT32_fseek(&ui_bck_img, 0);
+	if (ui_bck_img_) FAT32_fgetb(&ui_bck_img, FAT32_BUFFER);
+	OLED_putbuff(FAT32_BUFFER);
+	if (ui_bck_img_) FAT32_fgetb(&ui_bck_img, FAT32_BUFFER);
+	OLED_putbuff(FAT32_BUFFER);
+}
+
+void UI_paint_img_old(char *path)
 {
 	ui_bck_img_ = false;
 	if (FAT32_fopen(FAT32_ROOT_DIRECTORY, path, &ui_bck_img))
@@ -220,12 +539,45 @@ void UI_paint_img(char *path)
 	OLED_putstr("", options, 128);
 	OLED_putstr("", options, 128);
 	OLED_putstr("", options, 128);
-	OLED_putstr("", options, 128);
-
+	UI_putstr_aligned(path, options, 0, UI_CENTER);
 }
 
+char UI_BUFF_1[1024];
+char UI_BUFF_2[1024];
+char UI_BUFF_3[1024];
+char UI_BUFF_4[1024];
+char UI_BUFF_5[1024];
 
 void UI_animate_sleepy(void)
+{
+	size_t len = 4;
+	if (!UI_load_buff(UI_BUFF_1, "eye_F.dat"))
+		return (UI_message("Animation Failed|", UI_DISSMISSED_BY_ALL_EVENTS, 0));
+	if (!UI_load_buff(UI_BUFF_2, "e_b1_F.dat"))
+		return (UI_message("Animation Failed|", UI_DISSMISSED_BY_ALL_EVENTS, 0));
+	if (!UI_load_buff(UI_BUFF_3, "e_b2_F.dat"))
+		return (UI_message("Animation Failed|", UI_DISSMISSED_BY_ALL_EVENTS, 0));
+	if (!UI_load_buff(UI_BUFF_4, "e_b3_F.dat"))
+		return (UI_message("Animation Failed|", UI_DISSMISSED_BY_ALL_EVENTS, 0));
+	if (!UI_load_buff(UI_BUFF_5, "eye_C.dat"))
+		return (UI_message("Animation Failed|", UI_DISSMISSED_BY_ALL_EVENTS, 0));
+	
+#define DLY	50
+	while (len--) {
+		UI_paint_buff(UI_BUFF_1);
+		delay_ms(DLY);
+		UI_paint_buff(UI_BUFF_2);
+		delay_ms(DLY);
+		UI_paint_buff(UI_BUFF_3);
+		delay_ms(DLY);
+		UI_paint_buff(UI_BUFF_4);
+		delay_ms(DLY);
+		UI_paint_buff(UI_BUFF_5);
+		delay_ms(DLY);
+	}
+}
+
+void UI_animate_sleepy_old(void)
 {
 	size_t len = 4;
 	while (len--) {
@@ -238,6 +590,48 @@ void UI_animate_sleepy(void)
 }
 
 void UI_animate_looking(void)
+{
+	UI_animate_blink(1);
+	delay_ms(200);
+	UI_animate_blink(10);
+	delay_ms(200);
+	UI_animate_blink(25);
+	delay_ms(200);
+	UI_animate_blink(50);
+	UI_paint_img("eye_C.dat");
+	delay_ms(5000);
+	OLED_fill(0x00);
+}
+
+void UI_animate_blink(byte step)
+{
+	size_t len = 2;
+	if (step == 50) len = 1;
+	if (!UI_load_buff(UI_BUFF_1, "eye_UL.dat"))
+		return (UI_message("Animation Failed|", UI_DISSMISSED_BY_ALL_EVENTS, 0));
+	if (!UI_load_buff(UI_BUFF_2, "eye_C.dat"))
+		return (UI_message("Animation Failed|", UI_DISSMISSED_BY_ALL_EVENTS, 0));
+	if (!UI_load_buff(UI_BUFF_3, "e_b3_UL.dat"))
+		return (UI_message("Animation Failed|", UI_DISSMISSED_BY_ALL_EVENTS, 0));
+	if (!UI_load_buff(UI_BUFF_4, "eye_C.dat"))
+		return (UI_message("Animation Failed|", UI_DISSMISSED_BY_ALL_EVENTS, 0));
+	
+	while (len--) {
+		UI_paint_buff(UI_BUFF_1);
+		delay_ms(80 / step);
+		UI_paint_buff(UI_BUFF_3);
+		delay_ms(20);
+		UI_paint_buff(UI_BUFF_4);
+		delay_ms(20 * step);
+		UI_paint_buff(UI_BUFF_3);
+		delay_ms(5 * step);
+		UI_paint_buff(UI_BUFF_1);
+		delay_ms(200 / step);
+		delay_ms(200 / step);
+	}
+}
+
+void UI_animate_looking_old(void)
 {
 	size_t len = 4;
 	while (len--) {
@@ -342,7 +736,7 @@ void UI_putstr_aligned(char *str, byte options, byte offset, byte alignment) {
 		if (len * 6 > 128)
 			offset = 0;
 		else
-			offset += ((128 - ((len * 6))) /2);
+			offset += ((128 - (((len - 1) * 6))) / 2);
 		offset++;
 	}
 	OLED_putstr(str, options, offset);

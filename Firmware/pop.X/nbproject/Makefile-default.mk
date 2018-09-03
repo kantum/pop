@@ -57,17 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=main.c FAT32.c SD.c SPI.c configbits.c shiftreg.c wheel.c led.c screen.c delay.c piezo.c wifi.c UART.c settings.c convert.c list.c UI.c photo.c pages.c
+SOURCEFILES_QUOTED_IF_SPACED=main.c FAT32.c SD.c SPI.c configbits.c shiftreg.c wheel.c led.c screen.c delay.c piezo.c wifi.c UART.c settings.c convert.c list.c UI.c photo.c pages.c device.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/FAT32.o ${OBJECTDIR}/SD.o ${OBJECTDIR}/SPI.o ${OBJECTDIR}/configbits.o ${OBJECTDIR}/shiftreg.o ${OBJECTDIR}/wheel.o ${OBJECTDIR}/led.o ${OBJECTDIR}/screen.o ${OBJECTDIR}/delay.o ${OBJECTDIR}/piezo.o ${OBJECTDIR}/wifi.o ${OBJECTDIR}/UART.o ${OBJECTDIR}/settings.o ${OBJECTDIR}/convert.o ${OBJECTDIR}/list.o ${OBJECTDIR}/UI.o ${OBJECTDIR}/photo.o ${OBJECTDIR}/pages.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/FAT32.o.d ${OBJECTDIR}/SD.o.d ${OBJECTDIR}/SPI.o.d ${OBJECTDIR}/configbits.o.d ${OBJECTDIR}/shiftreg.o.d ${OBJECTDIR}/wheel.o.d ${OBJECTDIR}/led.o.d ${OBJECTDIR}/screen.o.d ${OBJECTDIR}/delay.o.d ${OBJECTDIR}/piezo.o.d ${OBJECTDIR}/wifi.o.d ${OBJECTDIR}/UART.o.d ${OBJECTDIR}/settings.o.d ${OBJECTDIR}/convert.o.d ${OBJECTDIR}/list.o.d ${OBJECTDIR}/UI.o.d ${OBJECTDIR}/photo.o.d ${OBJECTDIR}/pages.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/FAT32.o ${OBJECTDIR}/SD.o ${OBJECTDIR}/SPI.o ${OBJECTDIR}/configbits.o ${OBJECTDIR}/shiftreg.o ${OBJECTDIR}/wheel.o ${OBJECTDIR}/led.o ${OBJECTDIR}/screen.o ${OBJECTDIR}/delay.o ${OBJECTDIR}/piezo.o ${OBJECTDIR}/wifi.o ${OBJECTDIR}/UART.o ${OBJECTDIR}/settings.o ${OBJECTDIR}/convert.o ${OBJECTDIR}/list.o ${OBJECTDIR}/UI.o ${OBJECTDIR}/photo.o ${OBJECTDIR}/pages.o ${OBJECTDIR}/device.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/FAT32.o.d ${OBJECTDIR}/SD.o.d ${OBJECTDIR}/SPI.o.d ${OBJECTDIR}/configbits.o.d ${OBJECTDIR}/shiftreg.o.d ${OBJECTDIR}/wheel.o.d ${OBJECTDIR}/led.o.d ${OBJECTDIR}/screen.o.d ${OBJECTDIR}/delay.o.d ${OBJECTDIR}/piezo.o.d ${OBJECTDIR}/wifi.o.d ${OBJECTDIR}/UART.o.d ${OBJECTDIR}/settings.o.d ${OBJECTDIR}/convert.o.d ${OBJECTDIR}/list.o.d ${OBJECTDIR}/UI.o.d ${OBJECTDIR}/photo.o.d ${OBJECTDIR}/pages.o.d ${OBJECTDIR}/device.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/FAT32.o ${OBJECTDIR}/SD.o ${OBJECTDIR}/SPI.o ${OBJECTDIR}/configbits.o ${OBJECTDIR}/shiftreg.o ${OBJECTDIR}/wheel.o ${OBJECTDIR}/led.o ${OBJECTDIR}/screen.o ${OBJECTDIR}/delay.o ${OBJECTDIR}/piezo.o ${OBJECTDIR}/wifi.o ${OBJECTDIR}/UART.o ${OBJECTDIR}/settings.o ${OBJECTDIR}/convert.o ${OBJECTDIR}/list.o ${OBJECTDIR}/UI.o ${OBJECTDIR}/photo.o ${OBJECTDIR}/pages.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/FAT32.o ${OBJECTDIR}/SD.o ${OBJECTDIR}/SPI.o ${OBJECTDIR}/configbits.o ${OBJECTDIR}/shiftreg.o ${OBJECTDIR}/wheel.o ${OBJECTDIR}/led.o ${OBJECTDIR}/screen.o ${OBJECTDIR}/delay.o ${OBJECTDIR}/piezo.o ${OBJECTDIR}/wifi.o ${OBJECTDIR}/UART.o ${OBJECTDIR}/settings.o ${OBJECTDIR}/convert.o ${OBJECTDIR}/list.o ${OBJECTDIR}/UI.o ${OBJECTDIR}/photo.o ${OBJECTDIR}/pages.o ${OBJECTDIR}/device.o
 
 # Source Files
-SOURCEFILES=main.c FAT32.c SD.c SPI.c configbits.c shiftreg.c wheel.c led.c screen.c delay.c piezo.c wifi.c UART.c settings.c convert.c list.c UI.c photo.c pages.c
+SOURCEFILES=main.c FAT32.c SD.c SPI.c configbits.c shiftreg.c wheel.c led.c screen.c delay.c piezo.c wifi.c UART.c settings.c convert.c list.c UI.c photo.c pages.c device.c
 
 
 CFLAGS=
@@ -220,6 +220,12 @@ ${OBJECTDIR}/pages.o: pages.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/pages.o 
 	@${FIXDEPS} "${OBJECTDIR}/pages.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DICD3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/pages.o.d" -o ${OBJECTDIR}/pages.o pages.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
+${OBJECTDIR}/device.o: device.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/device.o.d 
+	@${RM} ${OBJECTDIR}/device.o 
+	@${FIXDEPS} "${OBJECTDIR}/device.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -DICD3PlatformTool=1  -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/device.o.d" -o ${OBJECTDIR}/device.o device.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
 else
 ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}" 
@@ -334,6 +340,12 @@ ${OBJECTDIR}/pages.o: pages.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/pages.o.d 
 	@${RM} ${OBJECTDIR}/pages.o 
 	@${FIXDEPS} "${OBJECTDIR}/pages.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/pages.o.d" -o ${OBJECTDIR}/pages.o pages.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/device.o: device.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/device.o.d 
+	@${RM} ${OBJECTDIR}/device.o 
+	@${FIXDEPS} "${OBJECTDIR}/device.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/device.o.d" -o ${OBJECTDIR}/device.o device.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
 endif
 
