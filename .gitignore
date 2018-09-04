@@ -8,6 +8,7 @@ Firmware/pop.X/dist
 Firmware/POP2.X/build
 Firmware/POP2.X/debug
 Firmware/POP2.X/dist
+Firmware/POP2.X/nbproject
 Firmware/images/a.out
 *.un~
 
