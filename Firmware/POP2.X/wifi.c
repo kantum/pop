@@ -14,11 +14,13 @@ uint64_t wifi_orders_queue[50];
 uint64_t wifi_orders_sz = 0;
 size_t	 wifi_op_s_tmsp = 0;
 
+int      wifi_rsp_ch = 0;
+
 bool wifi_recover(void) {
 	int rt = 1;
 	while (rt--) {
 		if (wifi_init()) { return (true); }
-		//delay_ms(1);
+		delay_ms(1);
 	}
 	return (false);
 }
@@ -129,9 +131,11 @@ void wifi_load_response(void)
 {
 	if (wifi_async_status != WIFI_BUSY) return;
 	byte rd;
+   
 	while (UART_available() && wifi_async_i < 512)
 	{
 		UART_read(&rd);
+        if (wifi_curr_op == WIFI_UPDATE && wifi_rsp_ch++ % 2 == 1) continue;
 		wifi_response[wifi_async_i++] = rd;
 		if (wifi_curr_op == WIFI_SCAN) {
 			if (rd == '\n' && wifi_response[wifi_async_i - 2] == '\n')
@@ -153,6 +157,7 @@ bool wifi_async_update(void) {
 	UART_send_str("!!!U");
 	wifi_async_status = WIFI_BUSY;
 	wifi_async_i = 0;
+    wifi_rsp_ch = 0;
 	wifi_curr_op = WIFI_UPDATE;
 	wifi_op_s_tmsp = millis();
 	return (true);
@@ -219,6 +224,7 @@ bool wifi_async_order(uint64_t id) {
 	UART_send('~');
 	wifi_async_status = WIFI_BUSY;
 	wifi_async_i = 0;
+    wifi_rsp_ch = 0;
 	wifi_curr_op = WIFI_ORDER;
 	wifi_op_s_tmsp = millis();
 	return (true);
@@ -231,6 +237,7 @@ bool wifi_async_scan(void) {
 	UART_send_str("!!!L");
 	wifi_async_status = WIFI_BUSY;
 	wifi_async_i = 0;
+    wifi_rsp_ch = 0;
 	wifi_curr_op = WIFI_SCAN;
 	wifi_op_s_tmsp = millis();
 	return (true);
@@ -278,8 +285,16 @@ bool wifi_rcv_update(void)
 		return (false);
 	wifi_async_status = WIFI_IDLE;
 	wifi_curr_op = WIFI_IDLE;
-	char *rsp = wifi_response;
-	if (rsp[0] == 'N')
+    char *rsp;
+    if (*wifi_response == 'O')
+    {
+        rsp = wifi_response + 1;
+    }
+    else
+    {
+        rsp = wifi_response;
+    }
+    if (rsp[0] == 'N')
 		return (true);
 	if (rsp[0] == 'E')
 		return (false);
@@ -312,6 +327,7 @@ bool wifi_rcv_update(void)
 		pages_list_loaded = false;
 		if (!list_add_item(itm))
 			return (false);
+        delay_ms(10);
 		return (wifi_async_update());
 	}
 	return (false);

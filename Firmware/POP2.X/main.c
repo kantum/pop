@@ -40,6 +40,7 @@ void init(void)
 		while (1);
 	}
 	settings_load();
+    settings_get_wifi_credentials();
 
 	OLED_set_contrast(settings_contrast);
 }
@@ -48,6 +49,7 @@ uint32_t color;
 
 void main(void)
 {
+    
 	struct listItem itm;
 	byte i;
 	byte evnt;
@@ -55,7 +57,7 @@ void main(void)
 	uint16_t photo_dist;
 
 	init();
-	play_note(440, 4000);
+	//play_note(440, 4000);
 	//play_song(tetris, 1000, 20);
 	device_unlock();
 
@@ -64,7 +66,7 @@ void main(void)
 	wifi_init();
 
 	UI_message("Connecting to Wi-Fi\xB0", UI_IGNORE_EVENTS, 0);
-	if (!wifi_connect("donotconnect", "pleasedont"))
+	if (!wifi_connect(wifi_ssid, wifi_pass))
 		; //UI_message("ERROR Connecting to Wi-Fi", UI_IGNORE_EVENTS, 0); while(1); //TODO Handle ERROR HERE
 
 	UI_message("Updating List\xB0", UI_IGNORE_EVENTS, 0);

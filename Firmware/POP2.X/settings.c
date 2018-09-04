@@ -17,9 +17,12 @@ bool settings_get_wifi_credentials(void)
 	i = 0;
 	while (i < (WIFI_PASS_LEN - 1)
 			&& FAT32_fgetc(&file, wifi_pass + i)
-			&& wifi_pass[i++] != '\n');	
-	wifi_pass[i] = 0x00;
-	return (true);
+			&& wifi_pass[i++] != '\n');
+    if (wifi_pass[i - 1] == '\n')
+    	wifi_pass[i - 1] = 0x00;
+	else
+        wifi_pass[i] = 0x00;
+    return (true);
 }	
 
 bool settings_set_setting(size_t offset, size_t size, byte* val)

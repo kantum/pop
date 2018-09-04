@@ -32,7 +32,9 @@ bool pages_list_buffer(void) {
 		} else {
 			pages_list_loaded = true;
 		}
-	}
+	} else {
+        pages_list_loaded = true;
+    }
 	return (true);
 }
 

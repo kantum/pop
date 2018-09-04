@@ -21,7 +21,7 @@ void UART_init(uint32_t baud_rate)
 	INTCONSET = _INTCON_MVEC_MASK; // Setup Interrupt controller for multi vector mode
 	__builtin_enable_interrupts(); /* Globally enable interrupts */
 	
-	U2BRG  = (SYSCLOCK / (16 * baud_rate)) - 1;		//Set Baud rate 
+	U2BRG  = ((SYSCLOCK) / (16 * baud_rate)) - 1;		//Set Baud rate 
 	U2STA  = 0;
 	U2MODE = 0x8000;	// Enable Uart for 8-bit data
 						// no parity, 1 STOP bit (BRGH = 0 (High Baud Enable Bit))

@@ -9,8 +9,8 @@
 
 void device_sleep(void)
 {
+    if (wifi_async_status == WIFI_BUSY) return;
     OLED_fill(0x00);
-    while (wifi_async_status == WIFI_BUSY) wifi_async_check();
 	wifi_enable(false);
 	OLED_sleep();
 	
@@ -26,10 +26,12 @@ void device_sleep(void)
 	
 	PR1 = PR_MS;
 	
-	led_rgb(0x0000ff);
+    led_rgb(0xFFFFFF);
 	//led_set(LED_BLUE);
 	OLED_wake();
 	wifi_enable(true);
+    if (!wifi_connect(wifi_ssid, wifi_pass))
+        ; // TODO: Handle error shit
 	device_unlock();
 }
 

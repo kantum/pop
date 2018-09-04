@@ -76,6 +76,7 @@ byte wheel_get_event_timeout(size_t timeout) {
         if (millis() - last_evnt > 20000) {
             last_evnt = millis();
             device_sleep();
+            UI_request_repaint();
             return (WHEEL_NONE);
         }
     }
