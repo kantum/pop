@@ -2,28 +2,16 @@
 #include "delay.h"
 #include "shiftreg.h"
 
-#define PHOTO_ADC_PIN	AD1CHSbits.CH0SB = 12;
-#define PHOTO_TRIS_PIN	TRISBbits.TRISB12 = 1;
-
-uint16_t ADCValue;
+#define PHOTO_PORT_PIN	PORTBbits.RB12
+#define PHOTO_TRIS_PIN	TRISBbits.TRISB12
 
 void	photo_init(void)
 {
-    PHOTO_TRIS_PIN
-    PHOTO_ADC_PIN
+    PHOTO_TRIS_PIN = INPUT;
 	shiftreg_set(PIN_PHOTODIODE, LOW);
 }
 
 int	check_photo(void)
 {
-    shiftreg_set(PIN_PHOTODIODE, HIGH);	// Light up the infrared led
-    AD1CON1bits.ON = 1;					// Turn ON The ADC
-    AD1CON1bits.SAMP = 1;				// Start Sampling ...
-    delay_ms(10);						// During 1 ms
-    AD1CON1bits.SAMP = 0;				// Start Converting
-    while (!(AD1CON1bits.DONE));		// Wait for the conversion
-    ADCValue = ADC1BUF0;				// Get ADC Value
-    AD1CON1bits.ON = 0;					// Turn OFF The ADC
-    shiftreg_set(PIN_PHOTODIODE, LOW);	// Light down the infrared led
-    return ADCValue;
+	return (PHOTO_PORT_PIN * 100);
 }

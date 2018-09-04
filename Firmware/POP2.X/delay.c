@@ -20,8 +20,8 @@ void    __ISR (_TIMER_1_VECTOR, IPL7SOFT) T1_Interrupt(void)
 	{
 		if (slp_ms)
 			--slp_ms;
-//		if (note_len && ! --note_len) TODO change piezo to manual pwm
-//			stop_note();
+		if (note_len && ! --note_len)
+			stop_note();
 	}
 }
 

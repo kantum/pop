@@ -6,6 +6,7 @@
 #include "wifi.h"
 #include "list.h"
 #include "pages.h"
+#include "shiftreg.h"
 
 char wifi_response[512];
 size_t wifi_async_i = 0;
@@ -22,8 +23,7 @@ bool wifi_recover(void) {
 	return (false);
 }
 
-bool wifi_orders_set(uint64_t id)
-{
+bool wifi_orders_set(uint64_t id){
 	if (wifi_orders_sz < 50) {
 		wifi_orders_queue[wifi_orders_sz] = id;
 		wifi_orders_sz++;
@@ -33,8 +33,7 @@ bool wifi_orders_set(uint64_t id)
 	}
 }
 
-uint64_t wifi_orders_get(void)
-{
+uint64_t wifi_orders_get(void){
 	size_t i = 1;
 	uint64_t ret = wifi_orders_queue[0];
 	if (!wifi_orders_sz) return (0x00);
@@ -47,9 +46,19 @@ uint64_t wifi_orders_get(void)
 	return (ret);
 }
 
-void wifi_enable(bool enable)
-{
-	//TODO
+
+void wifi_enable(bool enable) {
+	if (!enable)
+	{
+		wifi_async_status = WIFI_ERROR;
+		wifi_curr_op = WIFI_ERROR;
+		shiftreg_set(PIN_WIFI_EN, LOW);
+	}
+	else
+	{
+		shiftreg_set(PIN_WIFI_EN, HIGH);
+		wifi_init();
+	}
 }
 
 bool wifi_init(void)
@@ -60,14 +69,13 @@ bool wifi_init(void)
 	{
 		UART_init(115200);
 		wifi_flush_uart();
-		//delay_async_ms(10);
+		delay_async_ms(10);
 		UART_send_str("!!!S");
-		while (!UART_available()/* && delay_async_status()*/);
+		while (!UART_available() && delay_async_status());
 		if (UART_available()) UART_read(&r);
-		//delay_ms(10);
+		delay_ms(10);
 	}
-	if (r == 'O')
-	{
+	if (r == 'O') {
 		wifi_async_status = WIFI_IDLE;
 		wifi_curr_op = WIFI_IDLE;
 		wifi_op_s_tmsp = 0;
@@ -112,9 +120,8 @@ bool wifi_connect(char *ssid, char *pass)
 	UART_send('~');
 	UART_wait_response(1);
 	byte r;
-	while (!UART_available());
-	  if (!UART_read(&r)) return (false);
-	  if (r == 'O') return (true);
+	if (!UART_read(&r)) return (false);
+	if (r == 'O') return (true);
 	return (false);
 }
 
@@ -309,3 +316,5 @@ bool wifi_rcv_update(void)
 	}
 	return (false);
 }
+
+

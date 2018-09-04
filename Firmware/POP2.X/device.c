@@ -13,7 +13,6 @@ void device_sleep(void)
     while (wifi_async_status == WIFI_BUSY) wifi_async_check();
 	wifi_enable(false);
 	OLED_sleep();
-	led_set(LED_OFF);
 	
 	PR1 = PR_MS * 5000;
 
@@ -27,6 +26,7 @@ void device_sleep(void)
 	
 	PR1 = PR_MS;
 	
+	led_rgb(0x0000ff);
 	//led_set(LED_BLUE);
 	OLED_wake();
 	wifi_enable(true);

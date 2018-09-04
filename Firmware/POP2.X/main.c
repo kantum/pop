@@ -21,6 +21,7 @@ void init(void)
 	shiftreg_init();
 	photo_init();
 	led_init();
+	piezo_init();
 	wheel_init();
 	SPI_init();
 	OLED_init();
@@ -40,8 +41,10 @@ void init(void)
 	}
 	settings_load();
 
-//	OLED_set_contrast(settings_contrast);
+	OLED_set_contrast(settings_contrast);
 }
+
+uint32_t color;
 
 void main(void)
 {
@@ -52,14 +55,13 @@ void main(void)
 	uint16_t photo_dist;
 
 	init();
-	//led_set(LED_RED);
-	//play_song(tetris, 400, 38);
+	play_note(440, 4000);
+	//play_song(tetris, 1000, 20);
 	device_unlock();
 
 	UI_list_clear();
 	UI_message("Looking for Wi-Fi\xB0", UI_IGNORE_EVENTS, 0);
 	wifi_init();
-	//delay_ms(100);
 
 	UI_message("Connecting to Wi-Fi\xB0", UI_IGNORE_EVENTS, 0);
 	if (!wifi_connect("donotconnect", "pleasedont"))
@@ -71,7 +73,8 @@ void main(void)
 		UI_message("ERROR Updating List", UI_IGNORE_EVENTS, 0);
 		while (1); //TODO Handle ERROR HERE
 	}
-	pages_dummy_list();
-//	pages_list();
+//	pages_dummy_list();
+	pages_list();
+//	led_rgb(0xff00ff);
 	while (true);
 }

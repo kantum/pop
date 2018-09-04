@@ -55,9 +55,8 @@ void	OLED_init(void)
 
 void	OLED_set_contrast(byte contrast)
 {
-	// This does the mapping between 0-100 and 0-255
+	/* This does the mapping between 0-100 and 0-255 */
 	if (contrast <= 100) contrast = (float)contrast * 2.55;
-	
 	SPI_slave_select(SPI_OLED);
 	shiftreg_set(PIN_OLED_DC, COMMAND);
 	OLED_SPI(0x81);							// Set contrast control register

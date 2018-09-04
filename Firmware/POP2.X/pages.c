@@ -222,7 +222,7 @@ void pages_wifi_setup(void) {
 				if (i == UI_list_size - 0) return;
 				if (i == UI_list_size - 1) goto RESCAN;
 				if (i == UI_list_size - 2) continue;
-				strcpy(ssid, UI_list_get(i));
+				strcpy(ssid, (char*)UI_list_get(i));
 				break;
 			}
 	}
@@ -236,7 +236,7 @@ void pages_wifi_setup(void) {
 		}
 	}
 	
-	strcpy(pass, UI_keyboard());
+	strcpy(pass, (char*)UI_keyboard());
 	UI_message("Testing Connection\xB0", UI_IGNORE_EVENTS, 0);
 	bool conn_failed = false;
 	if (!wifi_connect(ssid, pass))

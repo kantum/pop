@@ -1,14 +1,32 @@
+#include "types.h"
 #include "piezo.h"
 
 extern uint16_t	note_len;
 extern uint32_t	freq;
 extern bool		buzz_on;
 
+void    __ISR (_OUTPUT_COMPARE_3_VECTOR, IPL6AUTO) OC3_interrupt(void)
+{
+	IFS0bits.OC3IF = 0;				// Timer 1 interrupt flag reset
+	PIEZO_LAT ^= 1;
+}
+
 void	stop_note(void)
 {
-	T2CONbits.ON = 0;			// Turn OFF Timer2
 	OC1CON = 0x0000;			// Turn OFF OC1
 	buzz_on = 0;
+}
+
+void	piezo_init()
+{
+	PIEZO_TRIS = OUTPUT;
+	PIEZO_LAT = LOW;
+	__builtin_disable_interrupts();	// Globally disable interrupts
+	IFS0bits.OC3IF = 0;				// Interrupt flag reset
+	IPC3bits.OC3IP = 6;				// Interrupt Priority
+	IEC0bits.OC3IE = 1;				// Interrupt Enable
+	INTCONSET = _INTCON_MVEC_MASK;	// Set Multi Vector Mode
+	__builtin_enable_interrupts();	// Globally enable interrupts
 }
 
 void	play_note(uint16_t freq, uint16_t len)
@@ -27,11 +45,11 @@ void	play_note(uint16_t freq, uint16_t len)
 	T2CONbits.ON = 0;		 	// Turn OFF Timer2
 	T2CONbits.TCKPS = 0;	 	// Set Prescaler to 1
 	PR2 = pr;
-	OC1CON = 0x0000;		 	// Turn OFF OC1
-	OC1CONbits.OCM = 0b110;	 	// PWM Mode Without Fault Pin
-	OC1R = PR2 / 2;			 	// Initialize Before Turning OC1 ON
-	OC1RS = PR2 / 2;		 	// Duty Cycle = OC1RS/(PR2 + 1) = 50%
-	OC1CONbits.ON = 1;		 	// Set OC1 ON (equivalent is OC1CONSET = 0x8020)
+	OC3CON = 0x0000;		 	// Turn OFF OC1
+	OC3CONbits.OCM = 0b110;	 	// PWM Mode Without Fault Pin
+	OC3R = PR2 / 2;			 	// Initialize Before Turning OC1 ON
+	OC3RS = PR2 / 2;		 	// Duty Cycle = OC1RS/(PR2 + 1) = 50%
+	OC3CONbits.ON = 1;		 	// Set OC1 ON (equivalent is OC1CONSET = 0x8020)
 	T2CONbits.ON = 1;		 	// Turn on Timer2
 	IEC0bits.T1IE = 1;			// Interrupt Enable for timer 1
 	T1CONbits.ON = 1;			// Turn on Timer1

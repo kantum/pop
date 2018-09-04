@@ -264,7 +264,7 @@ byte	UI_keyboard_paint(char str[20], size_t row, size_t col, byte kb_, byte len)
 		kb[2] = "ASDFGHJKL:\" ^";
 		kb[3] = "ZXCVBNM\xB3,.?`";
 	} else if (kb_ == UI_KB_SPECIAL) {
-		kb[0] = "\xAD\x9D\x9C\x9B\x7F\x7F\x7F\x7F\xA6\xA7\x7F\x7F1";
+		kb[0] = "\xAD\x9D\x9C\x9B\x7F\x7F\x7F\x7F\xA6\xA7\x7F\x7F";
 		kb[1] = "\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F";
 		kb[2] = "\x7F\x7F\x7F\x7F\x91\x7F\x7F\x7F\x7F\x7F\x7F ^";
 		kb[3] = "\x7F\x7F\x7F\x7F\x7F\x7F\x7F\xB3\x7F\x7F\x7F\x7F";
@@ -430,7 +430,6 @@ void UI_paint_pass(char *str, char *digits, byte selected, bool blinking)
 		i++;
 	}
 	str_pass[j - 1] = 0x00;
-	
 	
 	if (ui_bck_msg_) FAT32_fgetb(&ui_bck_msg, FAT32_BUFFER);
 	OLED_putstr("", options, 0);

@@ -53,7 +53,6 @@ ACMD23	SD.h	/^#define ACMD23	/;"	d
 ACMD41	SD.h	/^#define ACMD41	/;"	d
 ACMD42	SD.h	/^#define ACMD42	/;"	d
 ACMD51	SD.h	/^#define ACMD51 /;"	d
-ADCValue	photo.c	/^uint16_t ADCValue;$/;"	v	typeref:typename:uint16_t
 ALLCONFS	nbproject/Makefile-impl.mk	/^ALLCONFS=default $/;"	m
 ASFLAGS	nbproject/Makefile-default.mk	/^ASFLAGS=$/;"	m
 BLACK	screen.h	/^#define	BLACK	/;"	d
@@ -91,13 +90,13 @@ CMD6	SD.h	/^#define CMD6	/;"	d
 CMD8	SD.h	/^#define CMD8	/;"	d
 CMD9	SD.h	/^#define CMD9	/;"	d
 CND_ARTIFACT_DIR_default	nbproject/Makefile-variables.mk	/^CND_ARTIFACT_DIR_default=dist\/default\/production$/;"	m
-CND_ARTIFACT_NAME_default	nbproject/Makefile-variables.mk	/^CND_ARTIFACT_NAME_default=test_01.X.production.hex$/;"	m
-CND_ARTIFACT_PATH_default	nbproject/Makefile-variables.mk	/^CND_ARTIFACT_PATH_default=dist\/default\/production\/test_01.X.production.hex$/;"	m
+CND_ARTIFACT_NAME_default	nbproject/Makefile-variables.mk	/^CND_ARTIFACT_NAME_default=POP2.X.production.hex$/;"	m
+CND_ARTIFACT_PATH_default	nbproject/Makefile-variables.mk	/^CND_ARTIFACT_PATH_default=dist\/default\/production\/POP2.X.production.hex$/;"	m
 CND_BASEDIR	nbproject/Makefile-variables.mk	/^CND_BASEDIR=`pwd`$/;"	m
 CND_CONF	nbproject/Makefile-default.mk	/^CND_CONF=default$/;"	m
 CND_PACKAGE_DIR_default	nbproject/Makefile-variables.mk	/^CND_PACKAGE_DIR_default=${CND_DISTDIR}\/default\/package$/;"	m
-CND_PACKAGE_NAME_default	nbproject/Makefile-variables.mk	/^CND_PACKAGE_NAME_default=test01.x.tar$/;"	m
-CND_PACKAGE_PATH_default	nbproject/Makefile-variables.mk	/^CND_PACKAGE_PATH_default=${CND_DISTDIR}\/default\/package\/test01.x.tar$/;"	m
+CND_PACKAGE_NAME_default	nbproject/Makefile-variables.mk	/^CND_PACKAGE_NAME_default=pop2.x.tar$/;"	m
+CND_PACKAGE_PATH_default	nbproject/Makefile-variables.mk	/^CND_PACKAGE_PATH_default=${CND_DISTDIR}\/default\/package\/pop2.x.tar$/;"	m
 COMMAND	screen.h	/^#define COMMAND /;"	d
 COMPARISON_BUILD	nbproject/Makefile-default.mk	/^COMPARISON_BUILD=$/;"	m
 COMPARISON_BUILD	nbproject/Makefile-default.mk	/^COMPARISON_BUILD=-mafrlcsj$/;"	m
@@ -146,7 +145,7 @@ FAT32_mounted	FAT32.c	/^bool			FAT32_mounted(void)$/;"	f	typeref:typename:bool
 FAT32_recover	FAT32.c	/^bool FAT32_recover(void)$/;"	f	typeref:typename:bool
 FAT32_setup_file	FAT32.c	/^void			FAT32_setup_file(file_t directory, file_t *file)$/;"	f	typeref:typename:void
 FAT32_working	FAT32.h	/^bool FAT32_working = false;$/;"	v	typeref:typename:bool
-FINAL_IMAGE	nbproject/Makefile-default.mk	/^FINAL_IMAGE=dist\/${CND_CONF}\/${IMAGE_TYPE}\/test_01.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}$/;"	m
+FINAL_IMAGE	nbproject/Makefile-default.mk	/^FINAL_IMAGE=dist\/${CND_CONF}\/${IMAGE_TYPE}\/POP2.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}$/;"	m
 FIXDEPS	nbproject/Makefile-default.mk	/^FIXDEPS=fixDeps$/;"	m
 GRACE_BYTES	SD.h	/^#define GRACE_BYTES /;"	d
 HIGH	types.h	/^#define HIGH /;"	d
@@ -328,9 +327,11 @@ OUTPUT_SUFFIX	nbproject/Makefile-default.mk	/^OUTPUT_SUFFIX=hex$/;"	m
 PAGES_H	pages.h	/^#define	PAGES_H$/;"	d
 PATH	nbproject/Makefile-local-default.mk	/^PATH:=\/Applications\/microchip\/mplabx\/v5.00\/mplab_platform\/platform\/..\/mplab_ide\/modules/;"	m
 PATH_TO_IDE_BIN	nbproject/Makefile-local-default.mk	/^PATH_TO_IDE_BIN=\/Applications\/microchip\/mplabx\/v5.00\/mplab_platform\/platform\/..\/mplab_id/;"	m
-PHOTO_ADC_PIN	photo.c	/^#define PHOTO_ADC_PIN	/;"	d	file:
+PHOTO_PORT_PIN	photo.c	/^#define PHOTO_PORT_PIN	/;"	d	file:
 PHOTO_TRIS_PIN	photo.c	/^#define PHOTO_TRIS_PIN	/;"	d	file:
 PIEZO_H	piezo.h	/^#define PIEZO_H$/;"	d
+PIEZO_LAT	piezo.h	/^#define PIEZO_LAT	/;"	d
+PIEZO_TRIS	piezo.h	/^#define PIEZO_TRIS	/;"	d
 PIN_A	shiftreg.h	/^#define PIN_A	/;"	d
 PIN_B	shiftreg.h	/^#define PIN_B	/;"	d
 PIN_C	shiftreg.h	/^#define PIN_C	/;"	d
@@ -348,7 +349,7 @@ PIN_SD_SS	shiftreg.h	/^#define PIN_SD_SS	/;"	d
 PIN_WIFI_EN	shiftreg.h	/^#define PIN_WIFI_EN	/;"	d
 PIN_WIFI_RST	shiftreg.h	/^#define PIN_WIFI_RST	/;"	d
 POSSIBLE_DEPFILES	nbproject/Makefile-default.mk	/^POSSIBLE_DEPFILES=${OBJECTDIR}\/main.o.d ${OBJECTDIR}\/configbits.o.d ${OBJECTDIR}\/led.o.d ${OB/;"	m
-PROJECTNAME	nbproject/Makefile-impl.mk	/^PROJECTNAME=test_01.X$/;"	m
+PROJECTNAME	nbproject/Makefile-impl.mk	/^PROJECTNAME=POP2.X$/;"	m
 PR_MS	delay.h	/^#define PR_MS	/;"	d
 PR_US	delay.h	/^#define PR_US	/;"	d
 R1	SD.h	/^#define R1 /;"	d
@@ -439,9 +440,9 @@ TR_SD_MISSING	translate.h	/^#define TR_SD_MISSING	/;"	d
 TYPES_H	types.h	/^#define	TYPES_H$/;"	d
 UART_BUFF_SIZE	UART.c	/^#define UART_BUFF_SIZE	/;"	d	file:
 UART_H	UART.h	/^#define	UART_H$/;"	d
-UART_RX	UART.c	/^byte	UART_RX[UART_BUFF_SIZE];	\/\/ Incoming SPI data buffer$/;"	v	typeref:typename:byte[]
-UART_RX_i	UART.c	/^size_t	UART_RX_i = 0;				\/\/ Internal index for the Incoming SPI data buffer$/;"	v	typeref:typename:size_t
-UART_RX_size	UART.c	/^size_t	UART_RX_size = 0;			\/\/ Allocated bytes in the Outgoing SPI data buffer$/;"	v	typeref:typename:size_t
+UART_RX	UART.c	/^byte	UART_RX[UART_BUFF_SIZE];	\/\/ Incoming UART data buffer$/;"	v	typeref:typename:byte[]
+UART_RX_i	UART.c	/^size_t	UART_RX_i = 0;				\/\/ Internal index for the Incoming UART data buffer$/;"	v	typeref:typename:size_t
+UART_RX_size	UART.c	/^size_t	UART_RX_size = 0;			\/\/ Allocated bytes in the Outgoing UART data buffer$/;"	v	typeref:typename:size_t
 UART_available	UART.c	/^size_t UART_available(void)$/;"	f	typeref:typename:size_t
 UART_init	UART.c	/^void UART_init(uint32_t baud_rate)$/;"	f	typeref:typename:void
 UART_read	UART.c	/^bool UART_read(byte *b)$/;"	f	typeref:typename:bool
@@ -503,7 +504,7 @@ UI_paint_pass	UI.c	/^void UI_paint_pass(char *str, char *digits, byte selected, 
 UI_paint_prompt	UI.c	/^void UI_paint_prompt(char *str, byte selected)$/;"	f	typeref:typename:void
 UI_password	UI.c	/^uint64_t	UI_password(char *str, byte len) {$/;"	f	typeref:typename:uint64_t
 UI_prompt	UI.c	/^byte UI_prompt(char *msg)$/;"	f	typeref:typename:byte
-UI_putstr_aligned	UI.c	/^void UI_putstr_aligned(char *str, byte options, byte offset, byte alignment) {$/;"	f	typeref:typename:void
+UI_putstr_aligned	UI.c	/^void UI_putstr_aligned(char *str, byte options, byte offset, byte alignment)$/;"	f	typeref:typename:void
 UI_repaint	UI.c	/^void	UI_repaint(void)$/;"	f	typeref:typename:void
 UI_request_repaint	UI.c	/^void	UI_request_repaint()$/;"	f	typeref:typename:void
 UI_scroll	UI.c	/^bool	UI_scroll(byte dir)$/;"	f	typeref:typename:bool
@@ -543,9 +544,10 @@ WIFI_SCAN	wifi.h	/^#define WIFI_SCAN	/;"	d
 WIFI_TCP	wifi.h	/^#define WIFI_TCP	/;"	d
 WIFI_UDP	wifi.h	/^#define WIFI_UDP	/;"	d
 WIFI_UPDATE	wifi.h	/^#define WIFI_UPDATE	/;"	d
-__ISR	SPI.c	/^void    __ISR (_SPI_2_VECTOR, IPL7SOFT) SPI(void)$/;"	f	typeref:typename:void
-__ISR	UART.c	/^void    __ISR (_UART_1_VECTOR, IPL7SOFT) UART(void) {$/;"	f	typeref:typename:void
+__ISR	SPI.c	/^void    __ISR (_SPI_1_VECTOR, IPL7SOFT) SPI(void)$/;"	f	typeref:typename:void
+__ISR	UART.c	/^void    __ISR (_UART_2_VECTOR, IPL7SOFT) UART(void)$/;"	f	typeref:typename:void
 __ISR	delay.c	/^void    __ISR (_TIMER_1_VECTOR, IPL7SOFT) T1_Interrupt(void)$/;"	f	typeref:typename:void
+__ISR	wheel.c	/^void __ISR(_EXTERNAL_0_VECTOR, IPL7SOFT) encoderPress(void)$/;"	f	typeref:typename:void
 __ISR	wheel.c	/^void __ISR(_EXTERNAL_2_VECTOR, IPL7SOFT) encoderRight(void)$/;"	f	typeref:typename:void
 __ISR	wheel.c	/^void __ISR(_EXTERNAL_3_VECTOR, IPL7SOFT) encoderLeft(void)$/;"	f	typeref:typename:void
 all	Makefile	/^all: .all-post$/;"	t
@@ -558,9 +560,11 @@ check_photo	photo.c	/^int	check_photo(void)$/;"	f	typeref:typename:int
 clean	Makefile	/^clean: .clean-post$/;"	t
 clobber	Makefile	/^clobber: .clobber-post$/;"	t
 cluster	FAT32.h	/^   uint32_t	cluster;$/;"	m	struct:file_s	typeref:typename:uint32_t
+color	main.c	/^uint32_t color;$/;"	v	typeref:typename:uint32_t
+color_len	led.c	/^uint16_t color_len;$/;"	v	typeref:typename:uint16_t
 com-microchip-mplab-nbide-embedded-makeproject-MakeProject.md5	nbproject/Makefile-genesis.properties	/^com-microchip-mplab-nbide-embedded-makeproject-MakeProject.md5=9d53b989b6ed2b6446aae58c2779ca87$/;"	k
 conf.ids	nbproject/Makefile-genesis.properties	/^conf.ids=default$/;"	k
-configurations-xml	nbproject/Makefile-genesis.properties	/^configurations-xml=f8c066ca68580cd1884721406ef36296$/;"	k
+configurations-xml	nbproject/Makefile-genesis.properties	/^configurations-xml=44c3c2e79046e4641c8e25dcb8a1612d$/;"	k
 convert_arr_to_long	convert.c	/^uint64_t convert_arr_to_long(byte* arr)$/;"	f	typeref:typename:uint64_t
 convert_arr_to_short	convert.c	/^uint16_t convert_arr_to_short(byte* arr)$/;"	f	typeref:typename:uint16_t
 convert_long_to_arr	convert.c	/^byte* convert_long_to_arr(uint64_t val)$/;"	f	typeref:typename:byte *
@@ -582,7 +586,7 @@ device_authorize	device.c	/^bool device_authorize(char *str) {$/;"	f	typeref:typ
 device_old_sleep	device.c	/^void device_old_sleep(void)$/;"	f	typeref:typename:void
 device_sleep	device.c	/^void device_sleep(void)$/;"	f	typeref:typename:void
 device_unlock	device.c	/^void device_unlock(void) {$/;"	f	typeref:typename:void
-dist/${CND_CONF}/${IMAGE_TYPE}/test_01.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}	nbproject/Makefile-default.mk	/^dist\/${CND_CONF}\/${IMAGE_TYPE}\/test_01.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbpr/;"	t
+dist/${CND_CONF}/${IMAGE_TYPE}/POP2.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}	nbproject/Makefile-default.mk	/^dist\/${CND_CONF}\/${IMAGE_TYPE}\/POP2.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproje/;"	t
 file_s	FAT32.h	/^typedef struct  file_s$/;"	s
 file_t	FAT32.h	/^}               file_t;$/;"	t	typeref:struct:file_s
 flag	list.h	/^	byte   flag;$/;"	m	struct:listItem	typeref:typename:byte
@@ -599,12 +603,12 @@ int2_en	wheel.c	/^bool int2_en = true;$/;"	v	typeref:typename:bool
 int3_en	wheel.c	/^bool int3_en = true;$/;"	v	typeref:typename:bool
 kb_str	UI.c	/^char kb_str[20];$/;"	v	typeref:typename:char[20]
 last_evnt	wheel.c	/^size_t last_evnt = -1;$/;"	v	typeref:typename:size_t
-led_b	led.c	/^void	led_b(uint8_t color)$/;"	f	typeref:typename:void
-led_g	led.c	/^void	led_g(uint8_t color)$/;"	f	typeref:typename:void
+led_b	led.c	/^void led_b(uint8_t color)$/;"	f	typeref:typename:void
+led_dim_rgb	led.c	/^void	led_dim_rgb(uint32_t color1, uint32_t color2, uint16_t length)$/;"	f	typeref:typename:void
+led_g	led.c	/^void led_g(uint8_t color)$/;"	f	typeref:typename:void
 led_init	led.c	/^void led_init(void)$/;"	f	typeref:typename:void
-led_r	led.c	/^void	led_r(uint8_t color)$/;"	f	typeref:typename:void
-led_rgb	led.c	/^void	led_rgb(uint32_t color)$/;"	f	typeref:typename:void
-led_set	led.c	/^void led_set(char status)$/;"	f	typeref:typename:void
+led_r	led.c	/^void led_r(uint8_t color)$/;"	f	typeref:typename:void
+led_rgb	led.c	/^void led_rgb(uint32_t color)$/;"	f	typeref:typename:void
 len	piezo.h	/^	float		len;$/;"	m	struct:note_s	typeref:typename:float
 listItem	list.h	/^struct listItem$/;"	s
 list_add_item	list.c	/^bool list_add_item(struct listItem item)$/;"	f	typeref:typename:bool
@@ -629,6 +633,7 @@ pages_setting	pages.c	/^size_t pages_setting(byte menu, size_t current) {$/;"	f	
 pages_settings	pages.c	/^void pages_settings(void) {$/;"	f	typeref:typename:void
 pages_wifi_setup	pages.c	/^void pages_wifi_setup(void) {$/;"	f	typeref:typename:void
 photo_init	photo.c	/^void	photo_init(void)$/;"	f	typeref:typename:void
+piezo_init	piezo.c	/^void	piezo_init()$/;"	f	typeref:typename:void
 play_note	piezo.c	/^void	play_note(uint16_t freq, uint16_t len)$/;"	f	typeref:typename:void
 play_song	piezo.c	/^void	play_song(note_t *array, uint16_t speed, size_t size)$/;"	f	typeref:typename:void
 pps_init	pps.c	/^void    pps_init()$/;"	f	typeref:typename:void
@@ -651,6 +656,7 @@ sil	piezo.h	/^	float		sil;$/;"	m	struct:note_s	typeref:typename:float
 size	FAT32.h	/^   uint32_t	size;$/;"	m	struct:file_s	typeref:typename:uint32_t
 slp_ms	delay.c	/^uint16_t	slp_ms = 0;$/;"	v	typeref:typename:uint16_t
 slp_us	delay.c	/^uint16_t	slp_us = 0;$/;"	v	typeref:typename:uint16_t
+stop_led	led.c	/^void stop_led()$/;"	f	typeref:typename:void
 stop_note	piezo.c	/^void	stop_note(void)$/;"	f	typeref:typename:void
 tetris	piezo.h	/^note_t	tetris[] = {$/;"	v	typeref:typename:note_t[]
 tr	translate.c	/^char* tr(size_t str) {$/;"	f	typeref:typename:char *
@@ -663,10 +669,8 @@ ui_bck_msg	UI.c	/^file_t	ui_bck_msg;$/;"	v	typeref:typename:file_t
 ui_bck_msg_	UI.c	/^bool	ui_bck_msg_ = false;$/;"	v	typeref:typename:bool
 ui_bck_wifi	UI.c	/^file_t	ui_bck_wifi;$/;"	v	typeref:typename:file_t
 ui_bck_wifi_	UI.c	/^bool	ui_bck_wifi_ = false;$/;"	v	typeref:typename:bool
-wheel_event	wheel.c	/^void wheel_event(int event)$/;"	f	typeref:typename:void
 wheel_get_event	wheel.c	/^byte wheel_get_event(void) {$/;"	f	typeref:typename:byte
 wheel_get_event_timeout	wheel.c	/^byte wheel_get_event_timeout(size_t timeout) {	$/;"	f	typeref:typename:byte
-wheel_ignore_nxt	wheel.c	/^bool wheel_ignore_nxt = true;$/;"	v	typeref:typename:bool
 wheel_init	wheel.c	/^void wheel_init(void)$/;"	f	typeref:typename:void
 wheel_on_fire	wheel.h	/^bool wheel_on_fire = 0;$/;"	v	typeref:typename:bool
 wheel_pending_flush	wheel.c	/^void wheel_pending_flush(void) {$/;"	f	typeref:typename:void

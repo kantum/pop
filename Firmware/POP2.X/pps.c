@@ -18,8 +18,9 @@ void    pps_init()
     TRISBbits.TRISB15 = INPUT;
     INT4R = 0b0011;            // Set RPB15 to Interrupt 4    (SD Switch)
 
-	ANSELA =0;
+	ANSELA =0;				   // Disable Analog pins
 	ANSELB = 0;
+
     CFGCONbits.IOLOCK = 0;     // Unlock the pps
     /* SPI */
     RPB6R = 0b0011;            // Set RPB6 to SDO1

@@ -12,6 +12,8 @@ typedef struct	note_s
 	float		sil;
 }				note_t;
 
+#define PIEZO_TRIS	TRISBbits.TRISB3
+#define PIEZO_LAT	LATBbits.LATB3
 #define N_B0  31
 #define N_C1  33
 #define N_CS1 35
