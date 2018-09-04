@@ -47,8 +47,8 @@ void	play_note(uint16_t freq, uint16_t len)
 	PR2 = pr;
 	OC3CON = 0x0000;		 	// Turn OFF OC1
 	OC3CONbits.OCM = 0b110;	 	// PWM Mode Without Fault Pin
-	OC3R = PR2 / 2;			 	// Initialize Before Turning OC1 ON
-	OC3RS = PR2 / 2;		 	// Duty Cycle = OC1RS/(PR2 + 1) = 50%
+	OC3R = PR2;			 	// Initialize Before Turning OC1 ON
+	OC3RS = PR2;		 	// Duty Cycle = OC1RS/(PR2 + 1) = 50%
 	OC3CONbits.ON = 1;		 	// Set OC1 ON (equivalent is OC1CONSET = 0x8020)
 	T2CONbits.ON = 1;		 	// Turn on Timer2
 	IEC0bits.T1IE = 1;			// Interrupt Enable for timer 1
