@@ -6,6 +6,7 @@
 #include "wheel.h"
 #include "wifi.h"
 #include "settings.h"
+#include "translate.h"
 
 void device_sleep(void)
 {
@@ -13,6 +14,8 @@ void device_sleep(void)
     OLED_fill(0x00);
 	wifi_enable(false);
 	OLED_sleep();
+    led_rgb(0x000000);
+
 	
 	PR1 = PR_MS * 5000;
 
@@ -36,8 +39,8 @@ void device_sleep(void)
 }
 
 void device_unlock(void) {
-	while(!device_authorize("Enter Code to Unlock"))
-		UI_message("Wrong Code", UI_DISSMISSED_BY_ALL_EVENTS, 0);;
+	while(!device_authorize(tr(TR_CODE_TO_UNLOCK)))
+		UI_message(tr(TR_WRONG_CODE), UI_DISSMISSED_BY_ALL_EVENTS, 0);;
 }
 
 bool device_authorize(char *str) {

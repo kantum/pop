@@ -15,69 +15,64 @@
 #include "piezo.h"
 #include "translate.h"
 
-void init(void)
-{
-	pps_init();
-	delay_init();
-	shiftreg_init();
-	photo_init();
-	led_init();
-	piezo_init();
-	wheel_init();
-	SPI_init();
-	OLED_init();
-	OLED_fill(0x00);
+void init(void) {
+    pps_init();
+    delay_init();
+    shiftreg_init();
+    photo_init();
+    led_init();
+    piezo_init();
+    wheel_init();
+    SPI_init();
+    OLED_init();
+    OLED_fill(0x00);
 
-	if (!SD_init())
-	{
-		delay_ms(100);
-		UI_message(tr(TR_SD_MISSING), UI_IGNORE_EVENTS, 0);
-		while (1);	// TODO handle error or make
-	}
-	if (!FAT32_mount())
-	{
-		delay_ms(100);
-		UI_message(tr(TR_FAT32_CORRUPT), UI_IGNORE_EVENTS, 0);
-		while (1);
-	}
-	settings_load();
+    if (!SD_init()) {
+        delay_ms(100);
+        UI_message(tr(TR_SD_MISSING), UI_IGNORE_EVENTS, 0);
+        while (1); // TODO handle error or make
+    }
+    if (!FAT32_mount()) {
+        delay_ms(100);
+        UI_message(tr(TR_FAT32_CORRUPT), UI_IGNORE_EVENTS, 0);
+        while (1);
+    }
+    settings_load();
     settings_get_wifi_credentials();
 
-	OLED_set_contrast(settings_contrast);
+    OLED_set_contrast(settings_contrast);
 }
 
 uint32_t color;
 
-void main(void)
-{
-    
-	struct listItem itm;
-	byte i;
-	byte evnt;
-	char photo_buff[12];
-	uint16_t photo_dist;
+void main(void) {
 
-	init();
-	//play_note(440, 4000);
-	//play_song(tetris, 1000, 20);
-	device_unlock();
+    struct listItem itm;
+    byte i;
+    byte evnt;
+    char photo_buff[12];
+    uint16_t photo_dist;
 
-	UI_list_clear();
-	UI_message(tr(TR_LOOKING_WIFI), UI_IGNORE_EVENTS, 0);
-	wifi_init();
+    init();
+    //play_note(440, 4000);
+    //play_song(tetris, 1000, 20);
+    device_unlock();
 
-	UI_message(tr(TR_CONNECTING_WIFI), UI_IGNORE_EVENTS, 0);
-	if (!wifi_connect(wifi_ssid, wifi_pass))
-		; //UI_message("ERROR Connecting to Wi-Fi", UI_IGNORE_EVENTS, 0); while(1); //TODO Handle ERROR HERE
+    UI_list_clear();
+    UI_message(tr(TR_LOOKING_WIFI), UI_IGNORE_EVENTS, 0);
+    wifi_init();
 
-	UI_message(tr(TR_UPDATING_LIST), UI_IGNORE_EVENTS, 0);
-	if (!wifi_async_update())
-	{
-		UI_message(tr(TR_ERROR_UPDNG_LST), UI_IGNORE_EVENTS, 0);
-		while (1); //TODO Handle ERROR HERE
-	}
-//	pages_dummy_list();
-	pages_list();
-//	led_rgb(0xff00ff);
-	while (true);
+    UI_message(tr(TR_CONNECTING_WIFI), UI_IGNORE_EVENTS, 0);
+    if (!wifi_connect(wifi_ssid, wifi_pass))
+        ; //UI_message("ERROR Connecting to Wi-Fi", UI_IGNORE_EVENTS, 0); while(1); //TODO Handle ERROR HERE
+
+    UI_message(tr(TR_UPDATING_LIST), UI_IGNORE_EVENTS, 0);
+    if (!wifi_async_update()) {
+        UI_message(tr(TR_ERROR_UPDNG_LST), UI_IGNORE_EVENTS, 0);
+        while (1); //TODO Handle ERROR HERE
+    }
+    //	pages_dummy_list();
+    pages_list();
+    //	led_rgb(0xff00ff);
+    while (true);
 }

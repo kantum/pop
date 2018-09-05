@@ -196,7 +196,7 @@ void	OLED_putstr(byte *str, byte options, byte offset)
 	while (str[j] && j < chars_allowed)
     {
 		tmp = (str[j] - 32);
-		if (j == chars_allowed - 1) tmp = '\xB0' - 32; // Ellipsis
+		if (j == chars_allowed - 1) tmp = '\x7F' - 32; // Ellipsis
 		for(i = 0; i < 5; i++) {
 			merged = OLED_extend_char(OLED_characters2[tmp * 5 + i], options);
 			if (options & OLED_FONT_TRANSPARENT)

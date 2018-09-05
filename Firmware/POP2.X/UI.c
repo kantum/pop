@@ -176,7 +176,7 @@ char kb_str[20];
 char	*UI_keyboard(void) {
 	byte i = 0;
 	while (i < 20) kb_str[i++] = 0;
-	strcpy(kb_str, "\xB2");
+	strcpy(kb_str, "\x81");
 
 	byte len = 0;
 
@@ -204,12 +204,12 @@ char	*UI_keyboard(void) {
 			if (row == 0 && col == 12) { // Backspace
 				if (len > 0) {
 					kb_str[len--] = 0x00;
-					kb_str[len]   = '\xB2';
+					kb_str[len]   = '\x81';
 				}
 			} else {					 // Normal Letter
 				if (len < 18) {
 					kb_str[len++]   = sl;
-					kb_str[len]	 = '\xB2';
+					kb_str[len]	 = '\x81';
 					kb_str[len + 1] = 0x00;
 				}
 			}
@@ -258,17 +258,17 @@ byte	UI_keyboard_paint(char str[20], size_t row, size_t col, byte kb_, byte len)
 		kb[0] = "1234567890-=";
 		kb[1] = "qwertyuiop[]\\";
 		kb[2] = "asdfghjkl;' ^";
-		kb[3] = "zxcvbnm\xB3<>/~";
+		kb[3] = "zxcvbnm\x82<>/~";
 	} else if (kb_ == UI_KB_CAPS) {
 		kb[0] = "!@#$%^&*()_+";
 		kb[1] = "QWERTYUIOP{}|";
 		kb[2] = "ASDFGHJKL:\" ^";
-		kb[3] = "ZXCVBNM\xB3,.?`";
+		kb[3] = "ZXCVBNM\x82,.?`";
 	} else if (kb_ == UI_KB_SPECIAL) {
 		kb[0] = "\xAD\x9D\x9C\x9B\x7F\x7F\x7F\x7F\xA6\xA7\x7F\x7F";
 		kb[1] = "\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F";
 		kb[2] = "\x7F\x7F\x7F\x7F\x91\x7F\x7F\x7F\x7F\x7F\x7F ^";
-		kb[3] = "\x7F\x7F\x7F\x7F\x7F\x7F\x7F\xB3\x7F\x7F\x7F\x7F";
+		kb[3] = "\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x82\x7F\x7F\x7F\x7F";
 	}
 #define KB_SP	4
 
@@ -411,7 +411,7 @@ void UI_paint_pass(char *str, char *digits, byte selected, bool blinking)
 			break;
 		} else if (digits[i] == ' ') {
 			if (blinking && selected == i) {
-				str_pass[j++] = '\xB1';
+				str_pass[j++] = '\x80';
 			} else {
 				str_pass[j++] = '_';
 			}
@@ -420,7 +420,7 @@ void UI_paint_pass(char *str, char *digits, byte selected, bool blinking)
 				if (selected == i) str_pass[j++] = digits[i] + '0';
 				else str_pass[j++] = '*';
 			} else {
-				if (blinking && selected == i) str_pass[j++] = '\xB1';
+				if (blinking && selected == i) str_pass[j++] = '\x80';
 				else if (selected == i) str_pass[j++] = digits[i] + '0'; //'*';
 				else str_pass[j++] = '*';
 			}
@@ -585,7 +585,7 @@ void UI_animate_sleepy(void)
 		!UI_load_buff(UI_BUFF_3, "e_b2_F.dat") ||
 		!UI_load_buff(UI_BUFF_4, "e_b3_F.dat") ||
 		!UI_load_buff(UI_BUFF_5, "eye_C.dat")) {
-		UI_message("Animation Failed\xB0", UI_DISSMISSED_BY_ALL_EVENTS, 0);
+		UI_message("Animation Failed\x7F", UI_DISSMISSED_BY_ALL_EVENTS, 0);
 		return;
 	}
 	
@@ -638,7 +638,7 @@ void UI_animate_blink(byte step)
 		!UI_load_buff(UI_BUFF_2, "eye_C.dat") ||
 		!UI_load_buff(UI_BUFF_3, "e_b3_UL.dat") ||
 		!UI_load_buff(UI_BUFF_4, "eye_C.dat")) {
-		UI_message("Animation Failed\xB0", UI_DISSMISSED_BY_ALL_EVENTS, 0);
+		UI_message("Animation Failed\x7F", UI_DISSMISSED_BY_ALL_EVENTS, 0);
 		return;
 	}
 		

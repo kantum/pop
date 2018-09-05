@@ -50,7 +50,7 @@ void pages_list(void) {
 			UI_list_set(i, pages_list_buff[i]);
 			i++;
 		}
-		if (!i) UI_list_set(0, "(Empty List)");
+		if (!i) UI_list_set(0, tr(TR_EMPTY_LIST));
 		if (!pages_list_loaded) UI_list_set(i, tr(TR_LOADING));
 		UI_list_start();
 		UI_set_scroll(last_scr);
@@ -76,14 +76,14 @@ void pages_list(void) {
 				play_note(5000, 10);
 				size_t id = UI_selected_item();
 				last_scr = id;
-				if (settings_mode == 0x01 || UI_prompt("Confirm?") == UI_OK) {
+				if (settings_mode == 0x01 || UI_prompt(tr(TR_CONFIRM)) == UI_OK) {
 					if (!list_get_item(id, &itm)) {
-						UI_message("Error Reading", UI_DISSMISSED_BY_ALL_EVENTS, 0); break;
+						UI_message(tr(TR_ERROR_READING), UI_DISSMISSED_BY_ALL_EVENTS, 0); break;
 					}
 					if (!wifi_async_order(itm.id)) {
-						UI_message("Wi-Fi is Busy", UI_DISSMISSED_BY_ALL_EVENTS, 0);
+						UI_message(tr(TR_WIFI_BUSY), UI_DISSMISSED_BY_ALL_EVENTS, 0);
 					} else {
-						UI_message("Ordering\xB0", UI_DISSMISSED_BY_ALL_EVENTS, 1000);
+						UI_message(tr(TR_ORDERING), UI_DISSMISSED_BY_ALL_EVENTS, 1000);
 					}
 					break;
 				} else {
@@ -187,20 +187,20 @@ void pages_wifi_setup(void) {
 	char ssid[20];
 	char pass[20];
 	RESCAN: {
-		UI_message("Scanning networks\xB0", UI_IGNORE_EVENTS, 0);
+		UI_message(tr(TR_SCANNING_NETS), UI_IGNORE_EVENTS, 0);
 		if (!wifi_async_scan()) {
-			UI_message("Wi-Fi is Busy", UI_DISSMISSED_BY_ALL_EVENTS, 0);
+			UI_message(tr(TR_WIFI_BUSY), UI_DISSMISSED_BY_ALL_EVENTS, 0);
 			return;
 		}
 		while (!wifi_async_check());
 		if (wifi_async_status == WIFI_ERROR) {
-			UI_message("Scanning failed", UI_DISSMISSED_BY_ALL_EVENTS, 0);
+			UI_message(tr(TR_CONNECTION_FAIL), UI_DISSMISSED_BY_ALL_EVENTS, 0);
 			return;
 		}
 
 		UI_list_set(UI_list_size + 1, "");
-		UI_list_set(UI_list_size + 1, "Re-scan Networks");
-		UI_list_set(UI_list_size + 1, "Back");
+		UI_list_set(UI_list_size + 1, tr(TR_RESCAN_NETS));
+		UI_list_set(UI_list_size + 1, tr(TR_BACK));
 
 		UI_list_start();
 	}
@@ -228,18 +228,18 @@ void pages_wifi_setup(void) {
 				break;
 			}
 	}
-	UI_message("Connecting\xB0", UI_IGNORE_EVENTS, 0);
+	UI_message(tr(TR_TESTING_CONN), UI_IGNORE_EVENTS, 0);
 	byte rt = 5;
 	while (rt--) {
 		if (wifi_disconnect()) break;
 		if (rt == 0) {
-			UI_message("Connection Failed", UI_DISSMISSED_BY_ALL_EVENTS, 0);
+			UI_message(tr(TR_CONNECTION_FAIL), UI_DISSMISSED_BY_ALL_EVENTS, 0);
 			goto RESCAN;
 		}
 	}
 	
 	strcpy(pass, (char*)UI_keyboard());
-	UI_message("Testing Connection\xB0", UI_IGNORE_EVENTS, 0);
+	UI_message(tr(TR_TESTING_CONN), UI_IGNORE_EVENTS, 0);
 	bool conn_failed = false;
 	if (!wifi_connect(ssid, pass))
 		conn_failed = true;
@@ -250,9 +250,9 @@ void pages_wifi_setup(void) {
 	}
 	
 	if (wifi_async_status != WIFI_ERROR && !conn_failed)
-		UI_message("Connection Success!", UI_DISSMISSED_BY_ALL_EVENTS, 0);
+		UI_message(tr(TR_CONNECTION_SUCC), UI_DISSMISSED_BY_ALL_EVENTS, 0);
 	else 
-		UI_message("Connection Failed!", UI_DISSMISSED_BY_ALL_EVENTS, 0);
+		UI_message(tr(TR_CONNECTION_FAIL), UI_DISSMISSED_BY_ALL_EVENTS, 0);
 
 }
 
@@ -385,7 +385,7 @@ void pages_settings(void) {
 				}
 				if (i == 9) {	// Set Code
 					if (!device_authorize(tr(TR_ENTER_CURR_CODE))) {
-						UI_message("Wrong Code", UI_DISSMISSED_BY_ALL_EVENTS, 0);
+						UI_message(tr(TR_WRONG_CODE), UI_DISSMISSED_BY_ALL_EVENTS, 0);
 						break;
 					}
 					size_t code = UI_password(tr(TR_SET_NEW_CODE), 4);
@@ -464,8 +464,8 @@ size_t pages_setting(byte menu, size_t current) {
 		
 		if (menu == MENU_LANGUAGE) {
 			UI_list_set(0, "English");
-			UI_list_set(1, "Francais");
-			UI_list_set(2, "Espanol");
+			UI_list_set(1, "Français");
+			UI_list_set(2, "Español");
 			UI_list_start();
 			max = 2;
 		}

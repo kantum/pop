@@ -46,21 +46,30 @@
 #define TR_OK_SEL           39
 #define TR_CANCEL_SEL_OK    40
 #define TR_CANCEL_OK_SEL    41
-
+#define TR_EMPTY_LIST       42
+#define TR_CONFIRM          43
+#define TR_ERROR_READING    44
+#define TR_ORDERING         45
+#define TR_SCANNING_NETS    46
+#define TR_SCANNING_FAILED  47
+#define TR_RESCAN_NETS      48
+#define TR_CONNECTION_FAIL  49
+#define TR_TESTING_CONN     50
+#define TR_CONNECTION_SUCC  51
 
 char* tr(size_t str);
 
-static const unsigned char *translate_english[50] = {
+static const unsigned char *translate_english[52] = {
 	"Language: English",
-	"Loading\xB0",
-	"Back",
+	"Loading\x7F",
+	"Bacñk",
     "SD Missing or Non-Compatible",
     "File System Corrupted",
-    "Looking for Wi-Fi\xB0",
-    "Connecting to Wi-Fi\xB0",
-    "Updating List\xB0",
+    "Looking for Wi-Fi\x7F",
+    "Connecting to Wi-Fi\x7F",
+    "Updating List\x7F",
     "ERROR Updating List",
-    "Updating\x80",
+    "Updating\x7F",
     "Update List",
     "Mode: Fast",
     "Mode: Confirm",
@@ -92,21 +101,32 @@ static const unsigned char *translate_english[50] = {
     " OK ",
     ">OK<",
     ">CANCEL<       OK ",
-    " CANCEL       >OK<"
+    " CANCEL       >OK<",
+    "(Empty List)",
+    "Confirm?",
+    "Error Reading",
+    "Ordering\x7F",
+    "Scanning Networks\x7F",
+    "Scanning Failed",
+    "Re-scan Networks",
+    "Connection Failed",
+    "Testing Connection\x7F",
+    "Connection Success!"
+      
 };
 
 
-static const unsigned char *translate_french[50] = {
+static const unsigned char *translate_french[52] = {
 	"Language: Francais",
-	"Loading\xB0",
-	"Back",
+	"Loading\x7F",
+	"Bacñk",
     "SD Missing or Non-Compatible",
     "File System Corrupted",
-    "Looking for Wi-Fi\xB0",
-    "Connecting to Wi-Fi\xB0",
-    "Updating List\xB0",
+    "Looking for Wi-Fi\x7F",
+    "Connecting to Wi-Fi\x7F",
+    "Updating List\x7F",
     "ERROR Updating List",
-    "Updating\x80",
+    "Updating\x7F",
     "Update List",
     "Mode: Fast",
     "Mode: Confirm",
@@ -138,52 +158,72 @@ static const unsigned char *translate_french[50] = {
     " OK ",
     ">OK<",
     ">CANCEL<       OK ",
-    " CANCEL       >OK<"
+    " CANCEL       >OK<",
+    "(Empty List)",
+    "Confirm?",
+    "Error Reading",
+    "Ordering\x7F",
+    "Scanning Networks\x7F",
+    "Scanning Failed",
+    "Re-scan Networks",
+    "Connection Failed",
+    "Testing Connection\x7F",
+    "Connection Success!"
 };
 
-static const unsigned char *translate_spanish[50] = {
-	"Language: Espanol",
-	"Loading\xB0",
-	"Back",
-    "SD Missing or Non-Compatible",
-    "File System Corrupted",
-    "Looking for Wi-Fi\xB0",
-    "Connecting to Wi-Fi\xB0",
-    "Updating List\xB0",
-    "ERROR Updating List",
-    "Updating\x80",
-    "Update List",
-    "Mode: Fast",
-    "Mode: Confirm",
-    "Contrast",
-    "Set Wake Distance",
-    "Sound: Yes",
-    "Sound: No",
-    "Security: Code",
-    "Security: None",
-    "Set Code",
-    "Lock Device",
-    "Configure Wi-Fi",
-    "Wi-Fi is Busy",
-    "Enter current code:",
-    "Wrong Code",
-    "Set your new code:",
-    "Repeat your new code:",
-    "Code is set",
-    "Codes don't match",
-    "Confirm",
-    "Fast",
+static const unsigned char *translate_spanish[52] = {
+	"Idioma: Español",
+	"Cargando\x7F",
+	"Atrás",
+    "SD No Compatible",
+    "SD No Compatible",
+    "Buscando Wi-Fi\x7F",
+    "Conectándose al Wi-Fi\x7F",
+    "Actualizando Lista\x7F",
+    "Error Actualizando Lista",
+    "Actualizando\x7F",
+    "Actualizar Lista",
+    "Modo: Rápido",
+    "Modo: Confirmar",
+    "Contraste",
+    "Cambiar Distancia",
+    "Sonido: Sí",
+    "Sonido: No",
+    "Seguridad: Código",
+    "Seguridad: Ninguna",
+    "Cambiar Código",
+    "Bloquear Dispositivo",
+    "Configurar Wi-Fi",
+    "El Wi-Fi está ocupado",
+    "Código actual:",
+    "Código Erróneo",
+    "Nuevo código:",
+    "Repita de nuevo:",
+    "Código Cambiado",
+    "Los códigos no coinciden",
+    "Confirmar",
+    "Rápido",
     "No",
-    "Yes",
-    "None",
-    "4 Digit Code",
-    "Enter Code to Unlock",
-    "Wrong Code",
-    "Distance",
+    "Sí",
+    "Ninguna",
+    "Código de 4 cifras",
+    "Código de Desbloqueo",
+    "Código Erróneo",
+    "Distancia",
     " OK ",
     ">OK<",
-    ">CANCEL<       OK ",
-    " CANCEL       >OK<"
+    ">CANCELAR<     OK ",
+    " CANCELAR     >OK<",
+    "(Lista Vacía)",
+    "Confirmar?",
+    "Error en la Lectura",
+    "Pidiendo\x7F",
+    "Buscando Redes\x7F",
+    "La Búsqueda ha fallado",
+    "Escanear de nuevo",
+    "Conexión Fallida",
+    "Probando Conexión\x7F",
+    "Conexión Correcta!"
 };
 
 #endif	/* TRANSLATE_H */
