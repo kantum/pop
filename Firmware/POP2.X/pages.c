@@ -266,44 +266,51 @@ void pages_settings(void) {
 		settings_load();
 
 		UI_list_set(0, tr(TR_BACK));
+        UI_list_set(1, tr(TR_LOCK_DEVICE));
+
         
 		if (wifi_async_status == WIFI_BUSY && wifi_curr_op == WIFI_UPDATE) {
-			UI_list_set(1, tr(TR_UPDATING));
+			UI_list_set(2, tr(TR_UPDATING));
 		} else {
-			UI_list_set(1, tr(TR_UPDATE_LIST));
+			UI_list_set(2, tr(TR_UPDATE_LIST));
 		}
+        
+        OLED_set_contrast(settings_contrast);
+		UI_list_set(3, tr(TR_SET_CONTRAST));
 		
 		if (settings_mode == 0x01) {
-			UI_list_set(2, tr(TR_MODE_FAST));
+			UI_list_set(4, tr(TR_MODE_FAST));
 		} else {
-			UI_list_set(2, tr(TR_MODE_CONFIRM));
+			UI_list_set(4, tr(TR_MODE_CONFIRM));
 		}
-		
-		OLED_set_contrast(settings_contrast);
-		UI_list_set(3, tr(TR_SET_CONTRAST));
-		UI_list_set(4, tr(TR_SET_WKE_DISTANCE));
-		
-		if (settings_sound == 0x01) {
-			UI_list_set(5, tr(TR_SOUND_YES));
-		} else {
-			UI_list_set(5, tr(TR_SOUND_NO));
-		}
-		
-		UI_list_set(6, "----------");
-	
-		UI_list_set(7, "Animation: Sleepy");
+
+        UI_list_set(5, tr(TR_CONFIGURE_WIFI));
+
 		if (settings_security == 0x01) {
-			UI_list_set(8, tr(TR_SECURITY_CODE));
+			UI_list_set(6, tr(TR_SECURITY_CODE));
 		} else {
-			UI_list_set(8, tr(TR_SECURITY_NONE));
+			UI_list_set(6, tr(TR_SECURITY_NONE));
 		}
-		UI_list_set(9, tr(TR_SET_CODE));
-		UI_list_set(10, tr(TR_LOCK_DEVICE));
-		UI_list_set(11, tr(TR_CONFIGURE_WIFI));
-		UI_list_set(12, "Images Carrousel");
-		UI_list_set(13, "----------");
-		
-		UI_list_set(14, tr(TR_LANGUAGE));
+        
+        UI_list_set(7, tr(TR_LANGUAGE));
+
+
+//		UI_list_set(4, tr(TR_SET_WKE_DISTANCE));
+//		
+//		if (settings_sound == 0x01) {
+//			UI_list_set(5, tr(TR_SOUND_YES));
+//		} else {
+//			UI_list_set(5, tr(TR_SOUND_NO));
+//		}
+//		
+//		UI_list_set(6, "----------");
+//	
+//		UI_list_set(7, "Animation: Sleepy");
+//		
+//		UI_list_set(9, tr(TR_SET_CODE));
+//		UI_list_set(12, "Images Carrousel");
+//		UI_list_set(13, "----------");
+//		
 
 		UI_list_start();
 		if (last_scr == 0xFFFFFFFF)
@@ -332,75 +339,97 @@ void pages_settings(void) {
 			} else if (evnt == WHEEL_PRESS) {
 				size_t i = UI_selected_item();
 				last_scr = i;
-				if (i != 5) play_note(5000, 10);
+				//if (i != 5) play_note(5000, 10);
 				if (i == 0) { return; } // Back
-				if (i == 1) {	// Update List
+                if (i == 1) {	// Lock Device
+					device_sleep();
+					break;
+				}
+				if (i == 2) {	// Update List
 					//UI_message("Updating List\xB0", UI_IGNORE_EVENTS, 0);
 					if (!wifi_async_update())
 						UI_message(tr(TR_WIFI_BUSY), UI_DISSMISSED_BY_ALL_EVENTS, 0);
 					break;
 				}
-				if (i == 2) {	// Mode: Confirm
-					byte val = pages_setting(MENU_MODE, settings_mode);					
-					settings_set_setting(SETTING_MODE, &val);
-					break;
-				}
-				if (i == 3) {	// Contrast
+                if (i == 3) {	// Contrast
 					byte new_contrast = UI_number(tr(TR_SET_CONTRAST), settings_contrast, 0, 100, 5, &OLED_set_contrast);
 					settings_set_setting(SETTING_CONTRAST, &new_contrast);
 					break;
 				}
-				if (i == 4) {	// Set Wake Distance
-					uint16_t new_dist = UI_distance();
-					settings_set_setting(SETTING_DISTANCE, convert_short_to_arr(new_dist));
+				if (i == 4) {	// Mode: Confirm
+					byte val = pages_setting(MENU_MODE, settings_mode);					
+					settings_set_setting(SETTING_MODE, &val);
 					break;
 				}
-				if (i == 5) {	// Sound: Yes
-					byte val = pages_setting(MENU_SOUND, settings_sound);					
-					if (val == 0x01) {
-						settings_sound = 0x01;
-						play_note(5000, 50);
-						delay_ms(50);
-						play_note(5000, 200);
-						settings_sound = 0x00;
-					}
-					settings_set_setting(SETTING_SOUND, &val);
+				if (i == 5) {
+					pages_wifi_setup();
 					break;
 				}
-//				if (i == 6) {	// Test Distance [TST]
-//					UI_distance_test();
-//					break;
-//				}
-				if (i == 7) {	// Animation: Sleeping [TST]
-					UI_animate_looking();
-				}
-				if (i == 8) {	// Security: Code
+                if (i == 6) {	// Security: Code
 					if (!device_authorize(tr(TR_ENTER_CURR_CODE))) {
 						UI_message(tr(TR_WRONG_CODE), UI_DISSMISSED_BY_ALL_EVENTS, 0);
 						break;
 					}
 					byte val = pages_setting(MENU_SECURITY, settings_security);
-					settings_set_setting(SETTING_SECURITY, &val);
+                    if (val == 0x01) {
+                        size_t code = UI_password(tr(TR_SET_NEW_CODE), 4);
+                        if (code == UI_password(tr(TR_REPEAT_NEW_CODE), 4)) {
+                 			settings_set_setting(SETTING_SECURITY, &val);
+                            settings_set_setting(SETTING_PASSWORD, convert_long_to_arr(code));
+                            UI_message(tr(TR_CODE_SET), UI_DISSMISSED_BY_ALL_EVENTS, 0);
+                        } else {
+                            UI_message(tr(TR_CODE_NO_MATCH), UI_DISSMISSED_BY_ALL_EVENTS, 0);
+                        }
+                    } else {
+                        settings_set_setting(SETTING_SECURITY, &val);
+                    }
 					break;
 				}
-				if (i == 9) {	// Set Code
-					if (!device_authorize(tr(TR_ENTER_CURR_CODE))) {
-						UI_message(tr(TR_WRONG_CODE), UI_DISSMISSED_BY_ALL_EVENTS, 0);
-						break;
-					}
-					size_t code = UI_password(tr(TR_SET_NEW_CODE), 4);
-					if (code == UI_password(tr(TR_REPEAT_NEW_CODE), 4)) {
-						settings_set_setting(SETTING_PASSWORD, convert_long_to_arr(code));
-						UI_message(tr(TR_CODE_SET), UI_DISSMISSED_BY_ALL_EVENTS, 0);
-					} else {
-						UI_message(tr(TR_CODE_NO_MATCH), UI_DISSMISSED_BY_ALL_EVENTS, 0);
-					}
+                if (i == 7) {	// Language: English
+					byte val = pages_setting(MENU_LANGUAGE, settings_language);
+					settings_set_setting(SETTING_LANGUAGE, &val);
 					break;
 				}
-				if (i == 10) {	// Lock Device
-					device_sleep();
-					break;
-				}
+//				if (i == 4) {	// Set Wake Distance
+//					uint16_t new_dist = UI_distance();
+//					settings_set_setting(SETTING_DISTANCE, convert_short_to_arr(new_dist));
+//					break;
+//				}
+//				if (i == 5) {	// Sound: Yes
+//					byte val = pages_setting(MENU_SOUND, settings_sound);					
+//					if (val == 0x01) {
+//						settings_sound = 0x01;
+//						play_note(5000, 50);
+//						delay_ms(50);
+//						play_note(5000, 200);
+//						settings_sound = 0x00;
+//					}
+//					settings_set_setting(SETTING_SOUND, &val);
+//					break;
+//				}
+//				if (i == 6) {	// Test Distance [TST]
+//					UI_distance_test();
+//					break;
+//				}
+//				if (i == 7) {	// Animation: Sleeping [TST]
+//					UI_animate_looking();
+//				}
+				
+//				if (i == 9) {	// Set Code
+//					if (!device_authorize(tr(TR_ENTER_CURR_CODE))) {
+//						UI_message(tr(TR_WRONG_CODE), UI_DISSMISSED_BY_ALL_EVENTS, 0);
+//						break;
+//					}
+//					size_t code = UI_password(tr(TR_SET_NEW_CODE), 4);
+//					if (code == UI_password(tr(TR_REPEAT_NEW_CODE), 4)) {
+//						settings_set_setting(SETTING_PASSWORD, convert_long_to_arr(code));
+//						UI_message(tr(TR_CODE_SET), UI_DISSMISSED_BY_ALL_EVENTS, 0);
+//					} else {
+//						UI_message(tr(TR_CODE_NO_MATCH), UI_DISSMISSED_BY_ALL_EVENTS, 0);
+//					}
+//					break;
+//				}
+//				
 //				if (i == 11) { // Test Code [TST]
 //					size_t code = UI_password("Enter code to unlock:", 4);
 //					if (code == settings_password) {
@@ -410,24 +439,18 @@ void pages_settings(void) {
 //					}
 //					break;
 //				}
-				if (i == 11) {
-					pages_wifi_setup();
-					break;
-				}
-				if (i == 12) {	// Image Carrousel [TST]
-					img_carrousel();
-					break;
-				}
+				
+               
+//				if (i == 12) {	// Image Carrousel [TST]
+//					img_carrousel();
+//					break;
+//				}
 //				if (i == 13) {	// Keyboard [TST]
 //					UI_message(UI_keyboard(), UI_DISSMISSED_BY_ALL_EVENTS, 0);
 //					wheel_get_event();
 //					break;
 //				}
-				if (i == 14) {	// Language: English
-					byte val = pages_setting(MENU_LANGUAGE, settings_language);
-					settings_set_setting(SETTING_LANGUAGE, &val);
-					break;
-				}
+				
 			}
 		}
 	}
