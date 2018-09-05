@@ -135,7 +135,7 @@ void wifi_load_response(void)
 	while (UART_available() && wifi_async_i < 512)
 	{
 		UART_read(&rd);
-        if (wifi_curr_op == WIFI_UPDATE && wifi_rsp_ch++ % 2 == 1) continue;
+        if ((wifi_curr_op == WIFI_UPDATE || wifi_curr_op == WIFI_SCAN) && wifi_rsp_ch++ % 2 == 1) continue;
 		wifi_response[wifi_async_i++] = rd;
 		if (wifi_curr_op == WIFI_SCAN) {
 			if (rd == '\n' && wifi_response[wifi_async_i - 2] == '\n')
