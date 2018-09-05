@@ -1,4 +1,5 @@
 #include "UI.h"
+#include "translate.h"
 #include <string.h>
 
 int32_t	UI_list_scroll = 0;
@@ -157,14 +158,14 @@ uint16_t UI_distance(void)
 {
 	size_t val = check_photo();
 	UI_mode = UI_MSG;
-	UI_paint_number("Distance", val);
+	UI_paint_number(tr(TR_DISTANCE), val);
 	delay_ms(UI_PRESS_DELAY);
 	wheel_pending_flush();
     
 	byte evnt;
 	while (true) {
 		val = check_photo();
-		UI_paint_number("Distance", val);
+		UI_paint_number(tr(TR_DISTANCE), val);
 		evnt = wheel_get_event_timeout(100);
 		if (evnt == WHEEL_PRESS) { return (val); }
 	}
@@ -294,9 +295,9 @@ byte	UI_keyboard_paint(char str[20], size_t row, size_t col, byte kb_, byte len)
 	} else { OLED_keyboard_line(kb[3], KB_SP, 1, 0, r3of); }
 	OLED_putstr("", options, 0);
 	if (row == 4) {
-		UI_putstr_aligned(">OK<", options, 0, UI_CENTER);
+		UI_putstr_aligned(tr(TR_OK_SEL), options, 0, UI_CENTER);
 	} else {
-		UI_putstr_aligned(" OK ", options, 0, UI_CENTER);
+		UI_putstr_aligned(tr(TR_OK), options, 0, UI_CENTER);
 	}
 	if (row < 4)
 		return (kb[row][col]);
@@ -441,9 +442,9 @@ void UI_paint_pass(char *str, char *digits, byte selected, bool blinking)
 	UI_putstr_aligned(str_pass, options | OLED_FONT_IS_HALF, 0, UI_CENTER);	
 	OLED_putstr("", options, 0);
 	if (selected == i) {
-		UI_putstr_aligned(">OK<", options, 0, UI_CENTER);
+		UI_putstr_aligned(tr(TR_OK_SEL), options, 0, UI_CENTER);
 	} else {
-		UI_putstr_aligned(" OK ", options, 0, UI_CENTER);
+		UI_putstr_aligned(tr(TR_OK), options, 0, UI_CENTER);
 	}
 	OLED_putstr("", options, 0);
 }
@@ -693,9 +694,9 @@ void UI_paint_prompt(char *str, byte selected)
 	UI_putstr_aligned(str, options, 0, UI_CENTER);
 	OLED_putstr("", options, 0);
 	if (selected == UI_OK)
-		UI_putstr_aligned(" CANCEL       >OK<", options, 0, UI_CENTER);
+		UI_putstr_aligned(tr(TR_CANCEL_OK_SEL), options, 0, UI_CENTER);
 	else if (selected == UI_CANCEL)
-		UI_putstr_aligned(">CANCEL<       OK ", options, 0, UI_CENTER);
+		UI_putstr_aligned(tr(TR_CANCEL_SEL_OK), options, 0, UI_CENTER);
 }
 
 size_t UI_selected_item(void)

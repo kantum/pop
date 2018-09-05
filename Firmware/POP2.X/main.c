@@ -13,6 +13,7 @@
 #include "wheel.h"
 #include "UI.h"
 #include "piezo.h"
+#include "translate.h"
 
 void init(void)
 {
@@ -30,13 +31,13 @@ void init(void)
 	if (!SD_init())
 	{
 		delay_ms(100);
-		UI_message("SD Missing or Non-Compatible", UI_IGNORE_EVENTS, 0);
+		UI_message(tr(TR_SD_MISSING), UI_IGNORE_EVENTS, 0);
 		while (1);	// TODO handle error or make
 	}
 	if (!FAT32_mount())
 	{
 		delay_ms(100);
-		UI_message("File System Corrupted", UI_IGNORE_EVENTS, 0);
+		UI_message(tr(TR_FAT32_CORRUPT), UI_IGNORE_EVENTS, 0);
 		while (1);
 	}
 	settings_load();
@@ -62,17 +63,17 @@ void main(void)
 	device_unlock();
 
 	UI_list_clear();
-	UI_message("Looking for Wi-Fi\xB0", UI_IGNORE_EVENTS, 0);
+	UI_message(tr(TR_LOOKING_WIFI), UI_IGNORE_EVENTS, 0);
 	wifi_init();
 
-	UI_message("Connecting to Wi-Fi\xB0", UI_IGNORE_EVENTS, 0);
+	UI_message(tr(TR_CONNECTING_WIFI), UI_IGNORE_EVENTS, 0);
 	if (!wifi_connect(wifi_ssid, wifi_pass))
 		; //UI_message("ERROR Connecting to Wi-Fi", UI_IGNORE_EVENTS, 0); while(1); //TODO Handle ERROR HERE
 
-	UI_message("Updating List\xB0", UI_IGNORE_EVENTS, 0);
+	UI_message(tr(TR_UPDATING_LIST), UI_IGNORE_EVENTS, 0);
 	if (!wifi_async_update())
 	{
-		UI_message("ERROR Updating List", UI_IGNORE_EVENTS, 0);
+		UI_message(tr(TR_ERROR_UPDNG_LST), UI_IGNORE_EVENTS, 0);
 		while (1); //TODO Handle ERROR HERE
 	}
 //	pages_dummy_list();

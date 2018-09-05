@@ -268,38 +268,38 @@ void pages_settings(void) {
 		UI_list_set(0, tr(TR_BACK));
         
 		if (wifi_async_status == WIFI_BUSY && wifi_curr_op == WIFI_UPDATE) {
-			UI_list_set(1, "Updating\xB0");
+			UI_list_set(1, tr(TR_UPDATING));
 		} else {
-			UI_list_set(1, "Update List");
+			UI_list_set(1, tr(TR_UPDATE_LIST));
 		}
 		
 		if (settings_mode == 0x01) {
-			UI_list_set(2, "Mode: Fast");
+			UI_list_set(2, tr(TR_MODE_FAST));
 		} else {
-			UI_list_set(2, "Mode: Confirm");
+			UI_list_set(2, tr(TR_MODE_CONFIRM));
 		}
 		
 		OLED_set_contrast(settings_contrast);
-		UI_list_set(3, "Contrast");
-		UI_list_set(4, "Set Wake Distance");
+		UI_list_set(3, tr(TR_SET_CONTRAST));
+		UI_list_set(4, tr(TR_SET_WKE_DISTANCE));
 		
 		if (settings_sound == 0x01) {
-			UI_list_set(5, "Sound: Yes");
+			UI_list_set(5, tr(TR_SOUND_YES));
 		} else {
-			UI_list_set(5, "Sound: No");
+			UI_list_set(5, tr(TR_SOUND_NO));
 		}
 		
 		UI_list_set(6, "----------");
 	
 		UI_list_set(7, "Animation: Sleepy");
 		if (settings_security == 0x01) {
-			UI_list_set(8, "Security: Code");
+			UI_list_set(8, tr(TR_SECURITY_CODE));
 		} else {
-			UI_list_set(8, "Security: None");
+			UI_list_set(8, tr(TR_SECURITY_NONE));
 		}
-		UI_list_set(9, "Set Code");
-		UI_list_set(10, "Lock Device");
-		UI_list_set(11, "Configure Wi-Fi");
+		UI_list_set(9, tr(TR_SET_CODE));
+		UI_list_set(10, tr(TR_LOCK_DEVICE));
+		UI_list_set(11, tr(TR_CONFIGURE_WIFI));
 		UI_list_set(12, "Images Carrousel");
 		UI_list_set(13, "----------");
 		
@@ -337,7 +337,7 @@ void pages_settings(void) {
 				if (i == 1) {	// Update List
 					//UI_message("Updating List\xB0", UI_IGNORE_EVENTS, 0);
 					if (!wifi_async_update())
-						UI_message("Wi-Fi is Busy", UI_DISSMISSED_BY_ALL_EVENTS, 0);
+						UI_message(tr(TR_WIFI_BUSY), UI_DISSMISSED_BY_ALL_EVENTS, 0);
 					break;
 				}
 				if (i == 2) {	// Mode: Confirm
@@ -346,7 +346,7 @@ void pages_settings(void) {
 					break;
 				}
 				if (i == 3) {	// Contrast
-					byte new_contrast = UI_number("Contrast", settings_contrast, 0, 100, 5, &OLED_set_contrast);
+					byte new_contrast = UI_number(tr(TR_SET_CONTRAST), settings_contrast, 0, 100, 5, &OLED_set_contrast);
 					settings_set_setting(SETTING_CONTRAST, &new_contrast);
 					break;
 				}
@@ -375,8 +375,8 @@ void pages_settings(void) {
 					UI_animate_looking();
 				}
 				if (i == 8) {	// Security: Code
-					if (!device_authorize("Enter current code:")) {
-						UI_message("Wrong Code", UI_DISSMISSED_BY_ALL_EVENTS, 0);
+					if (!device_authorize(tr(TR_ENTER_CURR_CODE))) {
+						UI_message(tr(TR_WRONG_CODE), UI_DISSMISSED_BY_ALL_EVENTS, 0);
 						break;
 					}
 					byte val = pages_setting(MENU_SECURITY, settings_security);
@@ -384,16 +384,16 @@ void pages_settings(void) {
 					break;
 				}
 				if (i == 9) {	// Set Code
-					if (!device_authorize("Enter current code:")) {
+					if (!device_authorize(tr(TR_ENTER_CURR_CODE))) {
 						UI_message("Wrong Code", UI_DISSMISSED_BY_ALL_EVENTS, 0);
 						break;
 					}
-					size_t code = UI_password("Set your new code:", 4);
-					if (code == UI_password("Repeat your new code:", 4)) {
+					size_t code = UI_password(tr(TR_SET_NEW_CODE), 4);
+					if (code == UI_password(tr(TR_REPEAT_NEW_CODE), 4)) {
 						settings_set_setting(SETTING_PASSWORD, convert_long_to_arr(code));
-						UI_message("Code is set", UI_DISSMISSED_BY_ALL_EVENTS, 0);
+						UI_message(tr(TR_CODE_SET), UI_DISSMISSED_BY_ALL_EVENTS, 0);
 					} else {
-						UI_message("Codes don't match", UI_DISSMISSED_BY_ALL_EVENTS, 0);
+						UI_message(tr(TR_CODE_NO_MATCH), UI_DISSMISSED_BY_ALL_EVENTS, 0);
 					}
 					break;
 				}
@@ -442,22 +442,22 @@ size_t pages_setting(byte menu, size_t current) {
 		size_t max = 0;
 		
 		if (menu == MENU_MODE) {
-			UI_list_set(0, "Confirm");
-			UI_list_set(1, "Fast");
+			UI_list_set(0, tr(TR_CONFIRM));
+			UI_list_set(1, tr(TR_FAST));
 			UI_list_start();
 			max = 1;
 		}
 		
 		if (menu == MENU_SOUND) {
-			UI_list_set(0, "No");
-			UI_list_set(1, "Yes");
+			UI_list_set(0, tr(TR_NO));
+			UI_list_set(1, tr(TR_YES));
 			UI_list_start();
 			max = 1;
 		}
 		
 		if (menu == MENU_SECURITY) {
-			UI_list_set(0, "None");
-			UI_list_set(1, "4 Digit Code");
+			UI_list_set(0, tr(TR_NONE));
+			UI_list_set(1, tr(TR_FOUR_DIGIT_CODE));
 			UI_list_start();
 			max = 1;
 		}
