@@ -19,6 +19,8 @@
 #define LED_B_LAT   LATBbits.LATB13
 #define LED_B_TRIS  TRISBbits.TRISB13
 
+extern uint16_t	led_timeout;
+
 void led_init(void);
 void led_set(char status);
 

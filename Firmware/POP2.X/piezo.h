@@ -12,6 +12,10 @@ typedef struct	note_s
 	float		sil;
 }				note_t;
 
+extern uint16_t	note_len;
+extern uint32_t	freq;
+extern bool		buzz_on;
+
 #define PIEZO_TRIS	TRISBbits.TRISB3
 #define PIEZO_LAT	LATBbits.LATB3
 #define N_B0  31
