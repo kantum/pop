@@ -5,6 +5,7 @@ uint16_t	slp_ms = 0;
 uint16_t	slp_us = 0;
 uint16_t	note_len;
 uint16_t	led_timeout;
+uint16_t	led_random;
 uint32_t	freq;
 bool		buzz_on;
 size_t		global_millis = 0x00;

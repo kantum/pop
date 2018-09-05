@@ -19,9 +19,20 @@
 #define LED_B_LAT   LATBbits.LATB13
 #define LED_B_TRIS  TRISBbits.TRISB13
 
+#define	R			2
+#define	G			1
+#define	B			0
+
 extern uint16_t	led_timeout;
+extern bool		led_random;
 
 void led_init(void);
 void led_set(char status);
+
+typedef union	u_color
+{
+	uint32_t	hex;
+	char		col[4];
+}				t_color;
 
 #endif	/* LED_H */
