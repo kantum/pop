@@ -4,14 +4,11 @@
 #ifndef LED_H
 #define LED_H
 
-#define LED_OFF     0
-#define LED_RED     1
-#define LED_GREEN   2
-#define LED_BLUE    3
-#define LED_WHITE   4
-#define LED_YELLOW  5
-#define LED_PURPLE  6
-#define LED_AQUA  	7
+#define LED_YELLOW  0x3FF300
+#define LED_RED     0x220000
+#define LED_GREEN   0x002200
+#define LED_BLUE    0x000022
+
 
 #define LED_R_LAT   LATAbits.LATA0
 #define LED_R_TRIS  TRISAbits.TRISA0

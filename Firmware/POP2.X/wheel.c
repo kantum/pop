@@ -68,11 +68,11 @@ byte wheel_get_event_timeout(size_t timeout) {
             if (WHEEL_C_PORT)
                 button_en |= WHEEL_C_PORT;   
         }
-        if (timeout && !delay_async_status()) return (WHEEL_NONE);
         if (rsp) {
             last_evnt = millis();
             return (rsp);
         }
+        if (timeout && !delay_async_status()) return (WHEEL_NONE);
         if (millis() - last_evnt > 20000) {
             last_evnt = millis();
             device_sleep();

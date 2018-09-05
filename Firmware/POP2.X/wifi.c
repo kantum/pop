@@ -7,6 +7,7 @@
 #include "list.h"
 #include "pages.h"
 #include "shiftreg.h"
+#include "led.h"
 
 char wifi_response[512];
 size_t wifi_async_i = 0;
@@ -155,7 +156,8 @@ bool wifi_async_update(void) {
 	if (wifi_async_status != WIFI_IDLE) return (false);
 	wifi_flush_uart();
 	UART_send_str("!!!U");
-	wifi_async_status = WIFI_BUSY;
+    led_rgb(LED_YELLOW);
+    wifi_async_status = WIFI_BUSY;
 	wifi_async_i = 0;
     wifi_rsp_ch = 0;
 	wifi_curr_op = WIFI_UPDATE;
@@ -199,12 +201,14 @@ bool wifi_async_check(void) {
 			if (millis() - wifi_op_s_tmsp > 30000) {
 				UI_request_repaint();
 				wifi_async_status = WIFI_ERROR;
+                led_rgb(LED_RED);
 				return (true);
 			}
 		} else if (wifi_async_status == WIFI_BUSY &&
 				wifi_curr_op == WIFI_SCAN) {
 			if (millis() - wifi_op_s_tmsp > 10000) {
 				UI_request_repaint();
+                led_rgb(LED_RED);
 				wifi_async_status = WIFI_ERROR;
 				return (true);
 			}
@@ -216,6 +220,7 @@ bool wifi_async_check(void) {
 bool wifi_async_order(uint64_t id) {
 	if (wifi_async_status == WIFI_ERROR && !wifi_recover()) return (false);
 	if (wifi_async_status != WIFI_IDLE) { return (wifi_orders_set(id)); }
+    led_rgb(LED_BLUE);
 	wifi_flush_uart();
 	UART_send_str("!!!O?");
 	byte num[10];
@@ -274,8 +279,11 @@ bool wifi_rcv_order(void)
 	wifi_async_status = WIFI_IDLE;
 	wifi_curr_op = WIFI_IDLE;
 	byte r = wifi_response[0];
-	if (r == 'O')
-		return (true);
+	if (r == 'O') {
+        led_rgb(LED_GREEN);
+        return (true);
+    }
+    led_rgb(LED_RED);
 	return (false);
 }
 
@@ -285,6 +293,7 @@ bool wifi_rcv_update(void)
 		return (false);
 	wifi_async_status = WIFI_IDLE;
 	wifi_curr_op = WIFI_IDLE;
+    stop_led();
     char *rsp;
     if (*wifi_response == 'O')
     {
@@ -297,6 +306,7 @@ bool wifi_rcv_update(void)
     if (rsp[0] == 'N')
 		return (true);
 	if (rsp[0] == 'E')
+        
 		return (false);
 	if (rsp[0] == 'Y')
 	{
@@ -324,6 +334,7 @@ bool wifi_rcv_update(void)
 		}
 		itm.name[sz - 1] = 0x00;
 		itm.id = atol(num);
+        
 		pages_list_loaded = false;
 		if (!list_add_item(itm))
 			return (false);

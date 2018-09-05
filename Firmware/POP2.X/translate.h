@@ -47,7 +47,7 @@
 #define TR_CANCEL_SEL_OK    40
 #define TR_CANCEL_OK_SEL    41
 #define TR_EMPTY_LIST       42
-#define TR_CONFIRM          43
+#define TR_CONFIRMATION     43
 #define TR_ERROR_READING    44
 #define TR_ORDERING         45
 #define TR_SCANNING_NETS    46
@@ -60,7 +60,7 @@
 char* tr(size_t str);
 
 static const unsigned char *translate_english[52] = {
-	"Language: English",
+	"Language",
 	"Loading\x7F",
 	"Back",
     "SD Missing or Non-Compatible",
@@ -83,10 +83,10 @@ static const unsigned char *translate_english[52] = {
     "Lock Device",
     "Configure Wi-Fi",
     "Wi-Fi is Busy",
-    "Enter current code:",
+    "Enter current code",
     "Wrong Code",
-    "Set your new code:",
-    "Repeat your new code:",
+    "Set your new code",
+    "Repeat your new code",
     "Code is set",
     "Codes don't match",
     "Confirm",
@@ -117,7 +117,7 @@ static const unsigned char *translate_english[52] = {
 
 
 static const unsigned char *translate_french[52] = {
-	"Language: Francais",
+	"Langue",
 	"Chargement\x7F",
 	"Retour",
     "SD Manquante ou Incompatible",
@@ -127,7 +127,7 @@ static const unsigned char *translate_french[52] = {
     "Récupération de la Liste\x7F",
     "ERREUR de Mise à Jour",
     "Actualiser\x7F",
-    "Actualisation de la Liste",
+    "MàJ Liste",
     "Mode",
     "Mode",
     "Contraste",
@@ -140,9 +140,9 @@ static const unsigned char *translate_french[52] = {
     "Vérouillage",
     "Configuration Wi-Fi",
     "Wi-Fi",
-    "Entrer Code Actuel:",
+    "Entrer Code Actuel",
     "Mauvais Code",
-    "Entrer Nouveau Code:",
+    "Entrer Nouveau Code",
     "Encore :)",
     "Code Actualisé",
     "Codes Incompatibles",
@@ -172,7 +172,7 @@ static const unsigned char *translate_french[52] = {
 };
 
 static const unsigned char *translate_spanish[52] = {
-	"Idioma: Español",
+	"Idioma",
 	"Cargando\x7F",
 	"Atrás",
     "SD No Compatible",
@@ -195,10 +195,10 @@ static const unsigned char *translate_spanish[52] = {
     "Bloquear Dispositivo",
     "Configurar Wi-Fi",
     "El Wi-Fi está ocupado",
-    "Código actual:",
+    "Código actual",
     "Código Erróneo",
-    "Nuevo código:",
-    "Repita de nuevo:",
+    "Nuevo código",
+    "Repita de nuevo",
     "Código Cambiado",
     "Los códigos no coinciden",
     "Confirmar",

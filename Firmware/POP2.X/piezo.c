@@ -13,7 +13,7 @@ void    __ISR (_OUTPUT_COMPARE_3_VECTOR, IPL6AUTO) OC3_interrupt(void)
 
 void	stop_note(void)
 {
-	OC1CON = 0x0000;			// Turn OFF OC1
+	OC3CON = 0x0000;			// Turn OFF OC1
 	buzz_on = 0;
 }
 
@@ -31,6 +31,7 @@ void	piezo_init()
 
 void	play_note(uint16_t freq, uint16_t len)
 {
+    return;
 	uint16_t pr;
 	stop_note();
 	if (settings_sound != 0x01)

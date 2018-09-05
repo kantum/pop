@@ -13,5 +13,9 @@ void	photo_init(void)
 
 int	check_photo(void)
 {
-	return (PHOTO_PORT_PIN * 100);
+    shiftreg_set(PIN_PHOTODIODE, HIGH);
+    delay_ms(1);
+    int val = PHOTO_PORT_PIN * 100;
+    shiftreg_set(PIN_PHOTODIODE, LOW);
+	return (val);
 }

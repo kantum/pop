@@ -10,26 +10,31 @@
 
 void device_sleep(void)
 {
-    if (wifi_async_status == WIFI_BUSY) return;
     OLED_fill(0x00);
+    if (wifi_async_status == WIFI_BUSY) return;
 	wifi_enable(false);
 	OLED_sleep();
-    led_rgb(0x000000);
+    stop_led();
 
 	
 	PR1 = PR_MS * 5000;
 
 	size_t n;
+    byte a_ = WHEEL_A_PORT;
+    byte b_ = WHEEL_B_PORT;
+
 	while (true) {
-		n = 10;
+		n = 1;
 		while (n--) asm volatile("wait"); // put device in selected power-saving mode
-		if (check_photo() > settings_distance) break;
+		if (check_photo() > 0) break;
+        if (WHEEL_A_PORT != a_) break;
+        if (WHEEL_B_PORT != b_) break;
         if (!WHEEL_C_PORT) break;
 	}
 	
 	PR1 = PR_MS;
 	
-    led_rgb(0xFFFFFF);
+    led_rgb(0x222222);
 	//led_set(LED_BLUE);
 	OLED_wake();
 	wifi_enable(true);

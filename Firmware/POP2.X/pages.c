@@ -76,7 +76,7 @@ void pages_list(void) {
 				play_note(5000, 10);
 				size_t id = UI_selected_item();
 				last_scr = id;
-				if (settings_mode == 0x01 || UI_prompt(tr(TR_CONFIRM)) == UI_OK) {
+				if (settings_mode == 0x01 || UI_prompt(tr(TR_CONFIRMATION)) == UI_OK) {
 					if (!list_get_item(id, &itm)) {
 						UI_message(tr(TR_ERROR_READING), UI_DISSMISSED_BY_ALL_EVENTS, 0); break;
 					}
