@@ -59,6 +59,29 @@ void led_rgb(uint32_t color)
 	T1CONbits.ON  = 1;       // Turn on Timer1
 }
 
+void led_rgb_timeout(uint32_t color, uint16_t timeout)
+{
+	uint16_t pr;
+
+	stop_led();
+	led_timeout = timeout;
+	pr            = SYSCLOCK / 94117 - 1; // Period = Sysclock / freq - 1
+	IEC0bits.T1IE = 0;                      // Interrupt Disable for timer 1
+	PR1           = PR_MS;   // Set the PR1 to match 1 ms (1000hz)
+	TMR1          = 0;       // Clear counter
+	T2CONbits.ON  = 0;       // Turn OFF Timer2
+	T2CONbits.TCKPS = 0;     // Set Prescaler to 1
+	PR2             = pr;
+
+	led_r(color >> 16 & 0xFF);
+	led_g(color >> 8 & 0xFF);
+	led_b(color & 0xFF);
+
+	T2CONbits.ON  = 1;       // Turn on Timer2
+	IEC0bits.T1IE = 1;       // Interrupt Enable for timer 1
+	T1CONbits.ON  = 1;       // Turn on Timer1
+}
+
 void led_init(void)
 {
 	LED_R_TRIS = OUTPUT;

@@ -1,10 +1,6 @@
 #include "types.h"
 #include "piezo.h"
 
-extern uint16_t	note_len;
-extern uint32_t	freq;
-extern bool		buzz_on;
-
 void    __ISR (_OUTPUT_COMPARE_3_VECTOR, IPL6AUTO) OC3_interrupt(void)
 {
 	IFS0bits.OC3IF = 0;				// Timer 1 interrupt flag reset
