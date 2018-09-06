@@ -1,11 +1,11 @@
 #include "types.h"
 #include "delay.h"
+#include "led.h"
 
 uint16_t	slp_ms = 0;
 uint16_t	slp_us = 0;
 uint16_t	note_len;
 uint16_t	led_timeout;
-uint16_t	led_random;
 uint32_t	freq;
 bool		buzz_on;
 size_t		global_millis = 0x00;
@@ -24,8 +24,9 @@ void    __ISR (_TIMER_1_VECTOR, IPL7SOFT) T1_Interrupt(void)
 			--slp_ms;
 		if (note_len && ! --note_len)
 			stop_note();
-		if (led_timeout && ! --led_timeout)
-			stop_led();
+		if (led_timeout && ! --led_timeout) {
+            led_random = true;
+        }
 	}
 }
 

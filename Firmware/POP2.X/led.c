@@ -3,6 +3,7 @@
 
 uint16_t color_len;
 
+
 void stop_led()
 {
 	OC1CON = 0x0000; // Turn OFF OC1
@@ -41,6 +42,7 @@ void led_rgb(uint32_t color)
 {
 	uint16_t pr;
 
+    led_random = false;
 	stop_led();
 	pr            = SYSCLOCK / 94117 - 1; // Period = Sysclock / freq - 1
 	IEC0bits.T1IE = 0;                      // Interrupt Disable for timer 1
@@ -64,63 +66,19 @@ void led_rgb_timeout(uint32_t color, uint16_t timeout)
 	led_rgb(color);
 }
 
-void led_rgb_random(uint32_t color)
+void led_rgb_random(void)
 {
-	uint8_t			min;
-	uint8_t			max;
-	uint16_t		i;
-	t_color			color_rgb;
+	static rnd = 0;
+    if (!led_random) return;
+    rnd++;
+    if (rnd > 6 ) rnd = 0;
+    led_rgb(color_lookup[rnd]);
+    led_random = true;
+}
 
-	if (!led_random)
-		return;
-	min				= 85;
-	max				= 169;
-	i				= 255;
-	color_rgb.hex	= color;
-	if (color_rgb.col[R] > max)
-		color_rgb.col[R] = max;
-	if (color_rgb.col[G] > max)
-		color_rgb.col[G] = max;
-	if (color_rgb.col[B] > max)
-		color_rgb.col[B] = max;
-	if (color_rgb.col[R] < min)
-		color_rgb.col[R] = min;
-	if (color_rgb.col[G] < min)
-		color_rgb.col[G] = min;
-	if (color_rgb.col[B] < min)
-		color_rgb.col[B] = min;
-	if (color_rgb.col[R] == max &&
-		color_rgb.col[G] == max &&
-		color_rgb.col[B] == max ||
-		color_rgb.col[R] == min &&
-		color_rgb.col[G] == min &&
-		color_rgb.col[B] == min)
-	{
-		color_rgb.col[R] = min;
-		color_rgb.col[G] = max;
-		color_rgb.col[B] = min;
-	}
-	while (i)
-	{
-		if (color_rgb.col[R] == max && color_rgb.col[B] == min)
-			while (--i && color_rgb.col[G]++ < max);
-		else
-		if (color_rgb.col[G] == max && color_rgb.col[B] == min)
-			while (--i && color_rgb.col[G]-- > min);
-		else
-		if (color_rgb.col[G] == max && color_rgb.col[R] == min)
-			while (--i && color_rgb.col[B]++ < max);
-		else
-		if (color_rgb.col[B] == max && color_rgb.col[R] == min)
-			while (--i && color_rgb.col[G]-- > min);
-		else
-		if (color_rgb.col[B] == max && color_rgb.col[G] == min)
-			while (--i && color_rgb.col[R]++ < max);
-		else
-		if (color_rgb.col[R] == max && color_rgb.col[G] == min)
-			while (--i && color_rgb.col[B]-- > min);
-	}
-	led_rgb(color_rgb.hex);
+void led_start_random() {
+    led_random = true;
+    led_rgb_random();
 }
 
 void led_init(void)

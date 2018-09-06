@@ -35,13 +35,31 @@
 #define UI_KB_CAPS                  0x01
 #define UI_KB_SPECIAL               0x02
 
+char* UI_BUFF_TMP;
 char UI_BUFF_1[1024];
 char UI_BUFF_2[1024];
 char UI_BUFF_3[1024];
 char UI_BUFF_4[1024];
 char UI_BUFF_5[1024];
+char UI_BUFF_6[1024];
+char UI_BUFF_7[1024];
+char UI_BUFF_8[1024];
+char UI_BUFF_9[1024];
+char UI_BUFF_10[1024];
+char UI_BUFF_11[1024];
+char UI_BUFF_12[1024];
+char UI_BUFF_13[1024];
+char UI_BUFF_14[1024];
+char UI_BUFF_15[1024];
+char UI_BUFF_16[1024];
+char UI_BUFF_17[1024];
+char UI_BUFF_18[1024];
+char UI_BUFF_19[1024];
+char UI_BUFF_20[1024];
+char UI_BUFF_21[1024];
 
 size_t	UI_list_size = 0;
+bool    UI_sun_loaded = true;
 
 void     UI_init(void);
 void	 UI_paint_list(void);

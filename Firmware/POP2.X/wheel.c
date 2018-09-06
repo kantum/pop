@@ -74,9 +74,10 @@ byte wheel_get_event_timeout(size_t timeout) {
         }
         if (timeout && !delay_async_status()) return (WHEEL_NONE);
         if (millis() - last_evnt > 20000) {
-            last_evnt = millis();
             device_sleep();
             UI_request_repaint();
+            last_evnt = -1;
+            delay_ms(1);
             return (WHEEL_NONE);
         }
     }
@@ -94,21 +95,21 @@ void wheel_init(void)
 	/* Input / Output Configuration */
 
 	/* Rotate Right Interrupt Configuration */
-	IPC2bits.INT2IP = 6; // Ext. Interrupt 2 Priority
+	IPC2bits.INT2IP = 3; // Ext. Interrupt 2 Priority
 	IPC2bits.IC2IS = 0;
 	INTCONbits.INT2EP = RISING_EDGE;  // Set Ext. Interrupt 2 to Rising Edge
 	IFS0bits.INT2IF = 0; // External Interrupt 2 flag reset
 	IEC0bits.INT2IE = 1; // Interrupt Enable for Ext. Interrupt 2
 
 	/* Rotate Left Interrupt Configuration */
-	IPC3bits.INT3IP = 6; // Ext. Interrupt 1 Priority
+	IPC3bits.INT3IP = 3; // Ext. Interrupt 1 Priority
 	IPC3bits.IC3IS = 0;
 	INTCONbits.INT3EP = RISING_EDGE;  // Set Ext. Interrupt 1 to Rising Edge
 	IFS0bits.INT3IF = 0; // External Interrupt 1 flag reset
 	IEC0bits.INT3IE = 1; // Interrupt Enable for Ext. Interrupt 1
 
 	/* Press Interrupt Configuration */
-	IPC0bits.INT0IP = 6; // Ext. Interrupt 1 Priority
+	IPC0bits.INT0IP = 3; // Ext. Interrupt 1 Priority
 	IPC0bits.INT0IS = 0;
 	INTCONbits.INT0EP = FALLING_EDGE;  // Set Ext. Interrupt 0 to Falling Edge
 	IFS0bits.INT0IF = 0; // External Interrupt 0 flag reset
@@ -123,9 +124,10 @@ void wheel_init(void)
 bool int2_en = true;
 bool int3_en = true;
 
-void __ISR(_EXTERNAL_2_VECTOR, IPL7SOFT) encoderRight(void)
+void __ISR(_EXTERNAL_2_VECTOR, IPL3SOFT) encoderRight(void)
 {
 	IFS0bits.INT2IF = 0; // External Interrupt flag reset
+    led_rgb_random();
 	if (WHEEL_A_PORT == HIGH) {
 		// check channel A to see which way encoder is turning
 		if (WHEEL_B_PORT == LOW) {
@@ -143,9 +145,10 @@ void __ISR(_EXTERNAL_2_VECTOR, IPL7SOFT) encoderRight(void)
 	}
 }
 
-void __ISR(_EXTERNAL_3_VECTOR, IPL7SOFT) encoderLeft(void)
+void __ISR(_EXTERNAL_3_VECTOR, IPL3SOFT) encoderLeft(void)
 {	
 	IFS0bits.INT3IF = 0; // External Interrupt flag reset
+    led_rgb_random();
 	if (WHEEL_B_PORT == HIGH) {
 		// check channel A to see which way encoder is turning
 		if (WHEEL_A_PORT == LOW) {
@@ -163,7 +166,7 @@ void __ISR(_EXTERNAL_3_VECTOR, IPL7SOFT) encoderLeft(void)
 	}
 }
 
-void __ISR(_EXTERNAL_0_VECTOR, IPL7SOFT) encoderPress(void)
+void __ISR(_EXTERNAL_0_VECTOR, IPL3SOFT) encoderPress(void)
 {
 	IFS0bits.INT0IF = 0;		// External Interrupt flag reset
 }

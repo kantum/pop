@@ -40,9 +40,13 @@ bool pages_list_buffer(void) {
 
 void pages_list(void) {
 	uint32_t last_scr = 0;
+    bool     coming_from_order = false;
 	while (true) {
-		UI_message(tr(TR_LOADING), UI_IGNORE_EVENTS, 0);
-		while (pages_list_buffer());
+        if (!coming_from_order)
+            UI_message(tr(TR_LOADING), UI_IGNORE_EVENTS, 0);
+		else
+            coming_from_order = false;
+        while (pages_list_buffer());
 		UI_list_clear();
 		struct listItem itm;
 		byte i = 0;
@@ -50,6 +54,9 @@ void pages_list(void) {
 			UI_list_set(i, pages_list_buff[i]);
 			i++;
 		}
+        if (last_scr > pages_list_sz) {
+            last_scr = pages_list_sz;
+        }
 		if (!i) UI_list_set(0, tr(TR_EMPTY_LIST));
 		if (!pages_list_loaded) UI_list_set(i, tr(TR_LOADING));
 		UI_list_start();
@@ -84,6 +91,7 @@ void pages_list(void) {
 						UI_message(tr(TR_WIFI_BUSY), UI_DISSMISSED_BY_ALL_EVENTS, 0);
 					} else {
 						UI_message(tr(TR_ORDERING), UI_DISSMISSED_BY_ALL_EVENTS, 1000);
+                        coming_from_order = true;
 					}
 					break;
 				} else {
@@ -102,85 +110,113 @@ void pages_list(void) {
 }
 
 
-void img_carrousel(void) {
-#define IMG_SZ 64
-	char *img[IMG_SZ];
-
-	img[1]	= "sun00.dat";
-	img[2]	= "sun01.dat";
-	img[3]	= "sun02.dat";
-	img[4]	= "sun03.dat";
-	img[5]	= "sun04.dat";
-	img[6]	= "sun05.dat";
-	img[7]	= "sun06.dat";
-	img[8]	= "sun07.dat";
-	img[9]	= "sun08.dat";
-	img[10]	= "sun09.dat";
-	img[11]	= "sun10.dat";
-	img[12]	= "sun11.dat";
-	img[13]	= "sun12.dat";
-	img[14]	= "sun13.dat";
-	img[15]	= "sun14.dat";
-	img[16]	= "sun15.dat";
-	img[17]	= "sun16.dat";
-	img[18]	= "sun17.dat";
-	img[19]	= "sun18.dat";
-	img[20]	= "sun19.dat";
-	img[21]	= "sun20.dat";
-	img[22]	= "sun21.dat";
-	img[23]	= "sun22.dat";
-	img[24]	= "sun23.dat";
-	img[25]	= "sun24.dat";
-	img[26]	= "sun25.dat";
-	img[27]	= "sun26.dat";
-	img[28]	= "sun27.dat";
-	img[29]	= "sun28.dat";
-	img[30]	= "sun29.dat";
-	img[31]	= "sun30.dat";
-	img[32]	= "sun31.dat";
-	img[33]	= "sun32.dat";
-	img[34]	= "sun33.dat";
-	img[35]	= "choice0.dat";
-	img[36]	= "choice1.dat";
-	img[37]	= "choice2.dat";
-	img[38]	= "choice3.dat";
-	img[39]	= "bksp1.dat";
-	img[40]	= "bksp2.dat";
-	img[41]	= "bksp3.dat";
-	img[42]	= "more.dat";
-	img[43]	= "shift.dat";
-	img[44]	= "e_b4_UR.dat";
-	img[45]	= "eye_C.dat";
-	img[46]	= "frame0.dat";
-	img[47]	= "frame1.dat";
-	img[48]	= "frame2.dat";
-	img[49]	= "frame3.dat";
-	img[50]	= "frame4.dat";
-   	img[51]	= "frame5.dat";
-   	img[52]	= "frame6.dat";
-   	img[53]	= "frame7.dat";
-   	img[54]	= "frame8.dat";
-   	img[55]	= "frame9.dat";
-   	img[56]	= "sk0.dat";
-   	img[57]	= "sk1.dat";
-   	img[58]	= "test.dat";
-   	img[59]	= "wif0.dat";
-   	img[60]	= "wif1.dat";
-   	img[61]	= "wif2.dat";
-   	img[62]	= "wif3.dat";
-   	img[63]	= "wiferr.dat";
-
-	int32_t i = 0;
+uint8_t img_carrousel(void) {
+    
+    
+    byte selected = UI_OK;
+	
+	bool ui_bck_img_ = true;
+	if (!UI_load_buff(UI_BUFF_1, "sun00.dat") ||
+        !UI_load_buff(UI_BUFF_2, "sun02.dat") ||
+        !UI_load_buff(UI_BUFF_3, "sun03.dat") ||
+        !UI_load_buff(UI_BUFF_4, "sun04.dat"))
+            ui_bck_img_ = false;
+	
+	
+	UI_paint_prompt("XDDD", selected);
+	delay_ms(UI_PRESS_DELAY);
+	wheel_pending_flush();
+    
 	byte evnt;
 	while (true) {
-		UI_paint_img_old(img[i]);
+		UI_paint_prompt("XDD", selected);
 		evnt = wheel_get_event();
-		if (evnt == WHEEL_PRESS) return;
-		if (evnt == WHEEL_TURN_LEFT) i--;
-		if (evnt == WHEEL_TURN_RIGHT) i++;
-		if (i < 0) i = 0;
-		if (i > IMG_SZ - 1) i = IMG_SZ - 1;
+		if (evnt == WHEEL_PRESS) { return (selected); }
+		if (evnt == WHEEL_TURN_LEFT) { selected = UI_CANCEL; }
+		if (evnt == WHEEL_TURN_RIGHT) { selected = UI_OK; }
 	}
+	return (UI_EXPIRED_TMOUT);
+    
+    
+    
+//#define IMG_SZ 64
+//	char *img[IMG_SZ];
+//
+//	img[1]	= "sun00.dat";
+//	img[2]	= "sun01.dat";
+//	img[3]	= "sun02.dat";
+//	img[4]	= "sun03.dat";
+//	img[5]	= "sun04.dat";
+//	img[6]	= "sun05.dat";
+//	img[7]	= "sun06.dat";
+//	img[8]	= "sun07.dat";
+//	img[9]	= "sun08.dat";
+//	img[10]	= "sun09.dat";
+//	img[11]	= "sun10.dat";
+//	img[12]	= "sun11.dat";
+//	img[13]	= "sun12.dat";
+//	img[14]	= "sun13.dat";
+//	img[15]	= "sun14.dat";
+//	img[16]	= "sun15.dat";
+//	img[17]	= "sun16.dat";
+//	img[18]	= "sun17.dat";
+//	img[19]	= "sun18.dat";
+//	img[20]	= "sun19.dat";
+//	img[21]	= "sun20.dat";
+//	img[22]	= "sun21.dat";
+//	img[23]	= "sun22.dat";
+//	img[24]	= "sun23.dat";
+//	img[25]	= "sun24.dat";
+//	img[26]	= "sun25.dat";
+//	img[27]	= "sun26.dat";
+//	img[28]	= "sun27.dat";
+//	img[29]	= "sun28.dat";
+//	img[30]	= "sun29.dat";
+//	img[31]	= "sun30.dat";
+//	img[32]	= "sun31.dat";
+//	img[33]	= "sun32.dat";
+//	img[34]	= "sun33.dat";
+//	img[35]	= "choice0.dat";
+//	img[36]	= "choice1.dat";
+//	img[37]	= "choice2.dat";
+//	img[38]	= "choice3.dat";
+//	img[39]	= "bksp1.dat";
+//	img[40]	= "bksp2.dat";
+//	img[41]	= "bksp3.dat";
+//	img[42]	= "more.dat";
+//	img[43]	= "shift.dat";
+//	img[44]	= "e_b4_UR.dat";
+//	img[45]	= "eye_C.dat";
+//	img[46]	= "frame0.dat";
+//	img[47]	= "frame1.dat";
+//	img[48]	= "frame2.dat";
+//	img[49]	= "frame3.dat";
+//	img[50]	= "frame4.dat";
+//   	img[51]	= "frame5.dat";
+//   	img[52]	= "frame6.dat";
+//   	img[53]	= "frame7.dat";
+//   	img[54]	= "frame8.dat";
+//   	img[55]	= "frame9.dat";
+//   	img[56]	= "sk0.dat";
+//   	img[57]	= "sk1.dat";
+//   	img[58]	= "test.dat";
+//   	img[59]	= "wif0.dat";
+//   	img[60]	= "wif1.dat";
+//   	img[61]	= "wif2.dat";
+//   	img[62]	= "wif3.dat";
+//   	img[63]	= "wiferr.dat";
+//
+//	int32_t i = 0;
+//	byte evnt;
+//	while (true) {
+//		UI_paint_img_old(img[i]);
+//		evnt = wheel_get_event();
+//		if (evnt == WHEEL_PRESS) return;
+//		if (evnt == WHEEL_TURN_LEFT) i--;
+//		if (evnt == WHEEL_TURN_RIGHT) i++;
+//		if (i < 0) i = 0;
+//		if (i > IMG_SZ - 1) i = IMG_SZ - 1;
+//	}
 }
 
 void pages_wifi_setup(void) {
@@ -292,9 +328,10 @@ void pages_settings(void) {
 			UI_list_set(6, tr(TR_SECURITY_NONE));
 		}
         
-        UI_list_set(7, tr(TR_LANGUAGE));
-
-
+        UI_list_set(7, tr(TR_CLEAR_LIST));
+        UI_list_set(8, tr(TR_LANGUAGE));
+        
+        
 //		UI_list_set(4, tr(TR_SET_WKE_DISTANCE));
 //		
 //		if (settings_sound == 0x01) {
@@ -385,11 +422,23 @@ void pages_settings(void) {
                     }
 					break;
 				}
-                if (i == 7) {	// Language: English
+                
+                if (i == 7) {
+                    if (UI_prompt(tr(TR_CONFIRMATION)) == UI_OK) {
+                        list_clear();
+                        pages_list_loaded = false;
+                        pages_list_sz = 0;
+                    }
+                    return;
+                }
+                
+                if (i == 8) {	// Language: English
 					byte val = pages_setting(MENU_LANGUAGE, settings_language);
 					settings_set_setting(SETTING_LANGUAGE, &val);
 					break;
 				}
+             
+                
 //				if (i == 4) {	// Set Wake Distance
 //					uint16_t new_dist = UI_distance();
 //					settings_set_setting(SETTING_DISTANCE, convert_short_to_arr(new_dist));

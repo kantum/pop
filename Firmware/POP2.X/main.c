@@ -56,6 +56,7 @@ void main(void) {
     init();
     //play_note(440, 4000);
     //play_song(tetris, 1000, 20);
+    led_start_random();
     device_unlock();
 
     UI_list_clear();
@@ -71,7 +72,28 @@ void main(void) {
         UI_message(tr(TR_ERROR_UPDNG_LST), UI_IGNORE_EVENTS, 0);
         while (1); //TODO Handle ERROR HERE
     }
+    UI_message(tr(TR_LOADING), UI_IGNORE_EVENTS, 0);
+    
+        if (!UI_load_buff(UI_BUFF_5, "sun06.dat") ||
+        !UI_load_buff(UI_BUFF_6, "sun08.dat") ||
+        !UI_load_buff(UI_BUFF_7, "sun10.dat") ||
+        !UI_load_buff(UI_BUFF_8, "sun12.dat") ||
+        !UI_load_buff(UI_BUFF_9, "sun14.dat") ||
+        !UI_load_buff(UI_BUFF_10, "sun15.dat") ||
+        !UI_load_buff(UI_BUFF_11, "sun16.dat") ||
+        !UI_load_buff(UI_BUFF_12, "sun17.dat") ||
+        !UI_load_buff(UI_BUFF_13, "sun18.dat") ||
+        !UI_load_buff(UI_BUFF_14, "sun20.dat") ||
+        !UI_load_buff(UI_BUFF_15, "sun21.dat") ||
+        !UI_load_buff(UI_BUFF_16, "sun22.dat") ||
+        !UI_load_buff(UI_BUFF_17, "sun23.dat") ||
+        !UI_load_buff(UI_BUFF_18, "sun24.dat") ||
+        !UI_load_buff(UI_BUFF_19, "sun25.dat") ||
+        !UI_load_buff(UI_BUFF_20, "sun26.dat") ||
+        !UI_load_buff(UI_BUFF_21, "sun27.dat"))
+            UI_sun_loaded = false;
     //	pages_dummy_list();
+    
     pages_list();
     //	led_rgb(0xff00ff);
     while (true);

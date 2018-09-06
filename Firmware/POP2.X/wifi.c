@@ -280,7 +280,7 @@ bool wifi_rcv_order(void)
 	wifi_curr_op = WIFI_IDLE;
 	byte r = wifi_response[0];
 	if (r == 'O') {
-        led_rgb(LED_GREEN);
+        led_rgb_timeout(LED_GREEN, 3000);
         return (true);
     }
     led_rgb(LED_RED);
@@ -293,7 +293,7 @@ bool wifi_rcv_update(void)
 		return (false);
 	wifi_async_status = WIFI_IDLE;
 	wifi_curr_op = WIFI_IDLE;
-    stop_led();
+    led_start_random();
     char *rsp;
     if (*wifi_response == 'O')
     {

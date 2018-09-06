@@ -8,6 +8,8 @@
 #include "settings.h"
 #include "translate.h"
 
+bool is_unlocking = false;
+
 void device_sleep(void)
 {
     OLED_fill(0x00);
@@ -37,6 +39,7 @@ void device_sleep(void)
     led_rgb(0x222222);
 	//led_set(LED_BLUE);
 	OLED_wake();
+    led_start_random();
 	wifi_enable(true);
     if (!wifi_connect(wifi_ssid, wifi_pass))
         ; // TODO: Handle error shit
@@ -44,8 +47,11 @@ void device_sleep(void)
 }
 
 void device_unlock(void) {
+    if (is_unlocking) return;
+    is_unlocking = true;
 	while(!device_authorize(tr(TR_CODE_TO_UNLOCK)))
-		UI_message(tr(TR_WRONG_CODE), UI_DISSMISSED_BY_ALL_EVENTS, 0);;
+		UI_message(tr(TR_WRONG_CODE), UI_DISSMISSED_BY_ALL_EVENTS, 0);
+    is_unlocking = false;
 }
 
 bool device_authorize(char *str) {

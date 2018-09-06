@@ -85,17 +85,30 @@ byte UI_message(char *msg, byte settings, size_t timeout)
 	}
 }
 
+void UI_merge_buffs(char* BUF1, char* BUF2) {
+    int i = 0;
+    while (i < 1024) {
+        BUF1[i] = BUF1[i] | BUF2[i];
+        i++;
+    }
+}
+
 byte UI_prompt(char *msg)
 {
 	byte selected = UI_OK;
 	UI_mode = UI_MSG;
 	
 	ui_bck_img_ = true;
-	if (!UI_load_buff(UI_BUFF_1, "eye_DR.dat"))
+	if (!UI_load_buff(UI_BUFF_1, "eye_DR.dat") ||
+        !UI_load_buff(UI_BUFF_2, "eye_DL.dat") ||
+        !UI_load_buff(UI_BUFF_3, "choice1.dat") ||
+        !UI_load_buff(UI_BUFF_4, "choice2.dat"))
 		ui_bck_img_ = false;
-	if (!UI_load_buff(UI_BUFF_2, "eye_DL.dat"))
-		ui_bck_img_ = false;
-	
+    if (ui_bck_img_) {
+        //UI_merge_buffs(UI_BUFF_1, UI_BUFF_3);
+        //UI_merge_buffs(UI_BUFF_2, UI_BUFF_4);
+    }
+    
 	UI_paint_prompt(msg, selected);
 	delay_ms(UI_PRESS_DELAY);
 	wheel_pending_flush();
@@ -113,13 +126,64 @@ byte UI_prompt(char *msg)
 
 int32_t UI_number(char *msg, int32_t val, int32_t min, int32_t max, int32_t step, void (*callback)(byte))
 {
+    if (val == 0) UI_BUFF_TMP = UI_BUFF_1;
+        if (val == 5) UI_BUFF_TMP = UI_BUFF_2;
+        if (val == 10) UI_BUFF_TMP = UI_BUFF_3;
+        if (val == 15) UI_BUFF_TMP = UI_BUFF_4;
+        if (val == 20) UI_BUFF_TMP = UI_BUFF_5;
+        if (val == 25) UI_BUFF_TMP = UI_BUFF_6;
+        if (val == 30) UI_BUFF_TMP = UI_BUFF_7;
+        if (val == 35) UI_BUFF_TMP = UI_BUFF_8;
+        if (val == 40) UI_BUFF_TMP = UI_BUFF_9;
+        if (val == 45) UI_BUFF_TMP = UI_BUFF_10;
+        if (val == 50) UI_BUFF_TMP = UI_BUFF_11;
+        if (val == 55) UI_BUFF_TMP = UI_BUFF_12;
+        if (val == 60) UI_BUFF_TMP = UI_BUFF_13;
+        if (val == 65) UI_BUFF_TMP = UI_BUFF_14;
+        if (val == 70) UI_BUFF_TMP = UI_BUFF_15;
+        if (val == 75) UI_BUFF_TMP = UI_BUFF_16;
+        if (val == 80) UI_BUFF_TMP = UI_BUFF_17;
+        if (val == 85) UI_BUFF_TMP = UI_BUFF_18;
+        if (val == 90) UI_BUFF_TMP = UI_BUFF_19;
+        if (val == 95) UI_BUFF_TMP = UI_BUFF_20;
+        if (val == 100) UI_BUFF_TMP = UI_BUFF_21;
 	UI_mode = UI_MSG;
+    ui_bck_msg_ = UI_sun_loaded;
 	UI_paint_number(msg, val);
 	delay_ms(UI_PRESS_DELAY);
 	wheel_pending_flush();
     
+    if (!UI_load_buff(UI_BUFF_1, "sun00.dat") ||
+        !UI_load_buff(UI_BUFF_2, "sun02.dat") ||
+        !UI_load_buff(UI_BUFF_3, "sun03.dat") ||
+        !UI_load_buff(UI_BUFF_4, "sun04.dat"))
+            ui_bck_img_ = false;
+
+    
 	byte evnt;
 	while (true) {
+        if (val == 0) UI_BUFF_TMP = UI_BUFF_1;
+        if (val == 5) UI_BUFF_TMP = UI_BUFF_2;
+        if (val == 10) UI_BUFF_TMP = UI_BUFF_3;
+        if (val == 15) UI_BUFF_TMP = UI_BUFF_4;
+        if (val == 20) UI_BUFF_TMP = UI_BUFF_5;
+        if (val == 25) UI_BUFF_TMP = UI_BUFF_6;
+        if (val == 30) UI_BUFF_TMP = UI_BUFF_7;
+        if (val == 35) UI_BUFF_TMP = UI_BUFF_8;
+        if (val == 40) UI_BUFF_TMP = UI_BUFF_9;
+        if (val == 45) UI_BUFF_TMP = UI_BUFF_10;
+        if (val == 50) UI_BUFF_TMP = UI_BUFF_11;
+        if (val == 55) UI_BUFF_TMP = UI_BUFF_12;
+        if (val == 60) UI_BUFF_TMP = UI_BUFF_13;
+        if (val == 65) UI_BUFF_TMP = UI_BUFF_14;
+        if (val == 70) UI_BUFF_TMP = UI_BUFF_15;
+        if (val == 75) UI_BUFF_TMP = UI_BUFF_16;
+        if (val == 80) UI_BUFF_TMP = UI_BUFF_17;
+        if (val == 85) UI_BUFF_TMP = UI_BUFF_18;
+        if (val == 90) UI_BUFF_TMP = UI_BUFF_19;
+        if (val == 95) UI_BUFF_TMP = UI_BUFF_20;
+        if (val == 100) UI_BUFF_TMP = UI_BUFF_21;
+
 		UI_paint_number(msg, val);
 		evnt = wheel_get_event();
 		if (evnt == WHEEL_PRESS) { return (val); }
@@ -255,21 +319,21 @@ byte	UI_keyboard_paint(char str[20], size_t row, size_t col, byte kb_, byte len)
 
 	char *kb[4];
 	if (kb_ == UI_KB_REGULAR) {
-		kb[0] = "1234567890-=";
+		kb[0] = "1234567890-= \x9B";
 		kb[1] = "qwertyuiop[]\\";
 		kb[2] = "asdfghjkl;' ^";
 		kb[3] = "zxcvbnm\x82<>/~";
 	} else if (kb_ == UI_KB_CAPS) {
-		kb[0] = "!@#$%^&*()_+";
+		kb[0] = "!@#$%^&*()_+ \x9B";
 		kb[1] = "QWERTYUIOP{}|";
 		kb[2] = "ASDFGHJKL:\" ^";
 		kb[3] = "ZXCVBNM\x82,.?`";
 	} else if (kb_ == UI_KB_SPECIAL) {
-		kb[0] = "\xAD\x9D\x9C\x9B\x7F\x7F\x7F\x7F\xA6\xA7\x7F\x7F";
-		kb[1] = "\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F";
-		kb[2] = "\x7F\x7F\x7F\x7F\x91\x7F\x7F\x7F\x7F\x7F\x7F ^";
-		kb[3] = "\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x82\x7F\x7F\x7F\x7F";
-	}
+		kb[0] = "¿¡¬»… ÀÃÕŒœ∆ \x9B";
+		kb[1] = "Ÿ⁄€‹“”‘«—ºΩø°";
+		kb[2] = "‡·‚ËÈÍÎÏÌÓÔ ^";
+		kb[3] = "˘˙˚¸ÚÛÙ\x82ÁÒÊµ";
+   	}
 #define KB_SP	4
 
 	byte sel_s = (col * (5 + KB_SP)) - (KB_SP / 2);
@@ -460,15 +524,15 @@ void UI_paint_number(char *str, int32_t val)
 		options |= OLED_FONT_TRANSPARENT;
 	OLED_wake();
 	OLED_putstr_init();
-	
-	if (ui_bck_msg_) FAT32_fseek(&ui_bck_msg, 0);
-	if (ui_bck_msg_) FAT32_fgetb(&ui_bck_msg, FAT32_BUFFER);
+
+	if (ui_bck_msg_) memcpy(FAT32_BUFFER, UI_BUFF_TMP, 512);
 	OLED_putstr("", options, 0);
 	OLED_putstr("", options, 0);
-	OLED_putstr(str, options, 0);
+ 	OLED_putstr("", options, 0);
+	//OLED_putstr(str, options, 0);
 	UI_putstr_aligned(str_val, options | OLED_FONT_IS_HALF | OLED_FONT_TOP, 0, UI_CENTER);
 	
-	if (ui_bck_msg_) FAT32_fgetb(&ui_bck_msg, FAT32_BUFFER);
+	if (ui_bck_msg_) memcpy(FAT32_BUFFER, UI_BUFF_TMP + 512, 512);
 	UI_putstr_aligned(str_val, options | OLED_FONT_IS_HALF, 0, UI_CENTER);
 	OLED_putstr("", options, 0);
 	OLED_putstr("", options, 0);

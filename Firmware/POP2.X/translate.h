@@ -40,7 +40,7 @@
 #define TR_NONE             33
 #define TR_FOUR_DIGIT_CODE  34
 #define TR_CODE_TO_UNLOCK   35
-#define TR_WRONG_CODE       36
+#define TR_WRONG_CODE_ALT   36
 #define TR_DISTANCE         37
 #define TR_OK               38
 #define TR_OK_SEL           39
@@ -56,10 +56,11 @@
 #define TR_CONNECTION_FAIL  49
 #define TR_TESTING_CONN     50
 #define TR_CONNECTION_SUCC  51
+#define TR_CLEAR_LIST       52
 
 char* tr(size_t str);
 
-static const unsigned char *translate_english[52] = {
+static const unsigned char *translate_english[53] = {
 	"Language",
 	"Loading\x7F",
 	"Back",
@@ -71,8 +72,8 @@ static const unsigned char *translate_english[52] = {
     "ERROR Updating List",
     "Updating\x7F",
     "Update List",
-    "Mode",
-    "Mode",
+    "Order Mode",
+    "Order Mode",
     "Contrast",
     "Wireless Wake",
     "Sound",
@@ -111,12 +112,12 @@ static const unsigned char *translate_english[52] = {
     "Re-scan Networks",
     "Connection Failed",
     "Testing Connection\x7F",
-    "Connection Success!"
-      
+    "Connection Success!",
+    "Clear List"
 };
 
 
-static const unsigned char *translate_french[52] = {
+static const unsigned char *translate_french[53] = {
 	"Langue",
 	"Chargement\x7F",
 	"Retour",
@@ -128,8 +129,8 @@ static const unsigned char *translate_french[52] = {
     "ERREUR de Mise à Jour",
     "Actualiser\x7F",
     "MàJ Liste",
-    "Mode",
-    "Mode",
+    "Order Mode",
+    "Order Mode",
     "Contraste",
     "Activation Sans Fil",
     "Son",
@@ -137,7 +138,7 @@ static const unsigned char *translate_french[52] = {
     "Securité",
     "Securité",
     "Code",
-    "Vérouillage",
+    "Verrouillage",
     "Configuration Wi-Fi",
     "Wi-Fi",
     "Entrer Code Actuel",
@@ -168,10 +169,11 @@ static const unsigned char *translate_french[52] = {
     "Re-Scan Réseaux\x7F",
     "La Connexion a Échoué",
     "Test de la Connexion\x7F",
-    "Connecté !"
+    "Connecté!",
+    "Vide Liste"
 };
 
-static const unsigned char *translate_spanish[52] = {
+static const unsigned char *translate_spanish[53] = {
 	"Idioma",
 	"Cargando\x7F",
 	"Atrás",
@@ -223,7 +225,8 @@ static const unsigned char *translate_spanish[52] = {
     "Escanear de nuevo",
     "Conexión Fallida",
     "Probando Conexión\x7F",
-    "Conexión Correcta!"
+    "Conexión Correcta!",
+    "Vaciar Lista"
 };
 
 #endif	/* TRANSLATE_H */

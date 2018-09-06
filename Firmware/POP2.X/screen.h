@@ -412,7 +412,7 @@ const unsigned char OLED_characters2OOOOOLD[(255 - 32) * 5] =
     
 };
 
-const unsigned char OLED_characters2[(255 - 32) * 5] =
+const unsigned char OLED_characters2[(255 - 31) * 5] =
 {
 	0x00, 0x00, 0x00, 0x00, 0x00,	//  32 \u0020 space
 	0x00, 0x06, 0x5F, 0x06, 0x00,	//  33 \u0021 !
